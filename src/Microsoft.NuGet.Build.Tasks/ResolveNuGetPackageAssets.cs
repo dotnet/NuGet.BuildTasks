@@ -231,7 +231,7 @@ namespace Microsoft.NuGet.Build.Tasks
             var frameworkReferences = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var fileNamesOfRegularReferences = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (var package in GetPackagesFromTarget(target))
+            foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
                 foreach (var referenceItem in CreateItems(package, NuGetAssetTypeCompile))
                 {
@@ -242,7 +242,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 if (IncludeFrameworkReferences)
                 {
-                    var frameworkAssembliesArray = package.LockFileObject["frameworkAssemblies"] as JArray;
+                    var frameworkAssembliesArray = package.TargetObject["frameworkAssemblies"] as JArray;
                     if (frameworkAssembliesArray != null)
                     {
                         foreach (var frameworkAssembly in frameworkAssembliesArray.OfType<JToken>())
@@ -275,7 +275,7 @@ namespace Microsoft.NuGet.Build.Tasks
             HashSet<string> candidateNativeImplementations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             List<ITaskItem> runtimeWinMDItems = new List<ITaskItem>();
 
-            foreach (var package in GetPackagesFromTarget(target))
+            foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
                 foreach (var nativeItem in CreateItems(package, NuGetAssetTypeNative))
                 {
@@ -312,12 +312,9 @@ namespace Microsoft.NuGet.Build.Tasks
             // scenario where somebody has a library but on .NET Native might have some specific restrictions that need to be enforced.
             var target = GetTargetOrAttemptFallback(lockFile, needsRuntimeIdentifier: !string.IsNullOrEmpty(RuntimeIdentifier));
 
-            var libraries = (JObject)lockFile["libraries"];
-
-            foreach (var package in GetPackagesFromTarget(target))
+            foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
-                var packageMetadata = libraries[package.Id + "/" + package.Version];
-                foreach (var file in packageMetadata["files"].Children()
+                foreach (var file in package.LibraryObject["files"].Children()
                                     .Select(x => x.ToString())
                                     .Where(x => x.StartsWith("analyzers")))
                 {
@@ -485,9 +482,9 @@ namespace Microsoft.NuGet.Build.Tasks
             // For shared content, it does not depend upon the RID so we should ignore it
             var target = GetTargetOrAttemptFallback(lockFile, needsRuntimeIdentifier: false);
 
-            foreach (var package in GetPackagesFromTarget(target))
+            foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
-                var contentFiles = package.LockFileObject["contentFiles"] as JObject;
+                var contentFiles = package.TargetObject["contentFiles"] as JObject;
                 if (contentFiles != null)
                 {
                     // Is there an asset with our exact language? If so, we use that. Otherwise we'll simply collect "any" assets.
@@ -717,7 +714,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private IEnumerable<ITaskItem> CreateItems(NuGetPackageObject package, string key)
         {
-            var values = package.LockFileObject[key] as JObject;
+            var values = package.TargetObject[key] as JObject;
             var items = new List<ITaskItem>();
 
             if (values == null)
@@ -819,7 +816,7 @@ namespace Microsoft.NuGet.Build.Tasks
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
         }
 
-        private IEnumerable<NuGetPackageObject> GetPackagesFromTarget(JObject target)
+        private IEnumerable<NuGetPackageObject> GetPackagesFromTarget(JObject lockFile, JObject target)
         {
             foreach (var package in target)
             {
@@ -829,7 +826,9 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 var fullPackagePath = GetNuGetPackagePath(id, version);
 
-                yield return new NuGetPackageObject(id, version, fullPackagePath, (JObject)package.Value);
+                var libraryObject = (JObject)lockFile["libraries"][package.Key];
+
+                yield return new NuGetPackageObject(id, version, fullPackagePath, (JObject)package.Value, libraryObject);
             }
         }
         

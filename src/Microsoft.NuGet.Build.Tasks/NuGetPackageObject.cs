@@ -16,18 +16,28 @@ namespace Microsoft.NuGet.Build.Tasks
     /// </summary>
     internal sealed class NuGetPackageObject
     {
-        public NuGetPackageObject(string id, string version, string fullPackagePath, JObject lockFileObject)
+        public NuGetPackageObject(string id, string version, string fullPackagePath, JObject targetObject, JObject libraryObject)
         {
             Id = id;
             Version = version;
             FullPackagePath = fullPackagePath;
-            LockFileObject = lockFileObject;
+            TargetObject = targetObject;
+            LibraryObject = libraryObject;
         }
 
         public string Id { get; }
         public string Version { get; }
         public string FullPackagePath { get; }
-        public JObject LockFileObject { get; }
+        
+        /// <summary>
+        /// The JSON object from the "targets" section in the project.lock.json for this package.
+        /// </summary>
+        public JObject TargetObject { get; }
+
+        /// <summary>
+        /// The JSON object from the "libraries" section in the project.lock.json for this package.
+        /// </summary>
+        public JObject LibraryObject { get; }
 
         public string GetFullPathToFile(string relativePath)
         {
