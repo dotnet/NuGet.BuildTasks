@@ -245,15 +245,11 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void NativeWinMDSetsMetadata()
         {
             string imageRuntimeVersion = "WindowsRuntime 1.3";
-            DirectoryExists directoryExists = p => true;
-            FileExists fileExists = p => true;
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                 Default.GetString(Json.Json.nativeWinMD),
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
-                directoryExists: directoryExists,
-                fileExists:fileExists,
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
             
             var winmd = result.CopyLocalItems.FirstOrDefault(c => 
@@ -271,15 +267,11 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void ManagedWinMDDoesNotSetsMetadata()
         {
             string imageRuntimeVersion = "WindowsRuntime 1.4;CLR v4.0.30319";
-            DirectoryExists directoryExists = p => true;
-            FileExists fileExists = p => true;
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                 Default.GetString(Json.Json.nativeWinMD),
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
-                directoryExists: directoryExists,
-                fileExists:fileExists,
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
             
             var winmd = result.CopyLocalItems.FirstOrDefault(c => 
@@ -296,15 +288,11 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void BogusWinMDDoesNotSetImplementation()
         {
             string imageRuntimeVersion = "BogusRuntime 1.4;C1R v4.0.30319";
-            DirectoryExists directoryExists = p => true;
-            FileExists fileExists = p => true;
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                 Default.GetString(Json.Json.nativeWinMD),
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
-                directoryExists: directoryExists,
-                fileExists:fileExists,
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
 
             var winmd = result.CopyLocalItems.FirstOrDefault(c => 
