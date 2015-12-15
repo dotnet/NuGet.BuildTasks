@@ -229,8 +229,6 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var package in GetPackagesFromTarget(target))
             {
-                Log.LogMessageFromResources(MessageImportance.Low, nameof(Strings.ResolvedReferencesFromPackage), package.Id);
-
                 foreach (var referenceItem in CreateItems(package, NuGetAssetTypeCompile))
                 {
                     _references.Add(referenceItem);
@@ -273,8 +271,6 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var package in GetPackagesFromTarget(target))
             {
-                Log.LogMessageFromResources(MessageImportance.Low, nameof(Strings.ResolvedReferencesFromPackage), package.Id);
-
                 foreach(var nativeItem in CreateItems(package, NuGetAssetTypeNative))
                 {
                     if (Path.GetExtension(nativeItem.ItemSpec).Equals(".dll", StringComparison.OrdinalIgnoreCase))

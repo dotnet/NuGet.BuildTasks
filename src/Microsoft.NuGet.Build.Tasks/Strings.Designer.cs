@@ -133,15 +133,6 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resolved references from {0}:.
-        /// </summary>
-        internal static string ResolvedReferencesFromPackage {
-            get {
-                return ResourceManager.GetString("ResolvedReferencesFromPackage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The token &apos;{0}&apos; is unrecognized..
         /// </summary>
         internal static string UnspecifiedToken {

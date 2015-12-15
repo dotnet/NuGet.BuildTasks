@@ -141,9 +141,6 @@
   <data name="PreprocessedDirectoryNotSet" xml:space="preserve">
     <value>The {0} property must be set in order to consume preprocessed content.</value>
   </data>
-  <data name="ResolvedReferencesFromPackage" xml:space="preserve">
-    <value>Resolved references from {0}:</value>
-  </data>
   <data name="UnspecifiedToken" xml:space="preserve">
     <value>The token '{0}' is unrecognized.</value>
   </data>
