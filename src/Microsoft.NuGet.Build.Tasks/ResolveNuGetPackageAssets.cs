@@ -271,7 +271,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var package in GetPackagesFromTarget(target))
             {
-                foreach(var nativeItem in CreateItems(package, NuGetAssetTypeNative))
+                foreach (var nativeItem in CreateItems(package, NuGetAssetTypeNative))
                 {
                     if (Path.GetExtension(nativeItem.ItemSpec).Equals(".dll", StringComparison.OrdinalIgnoreCase))
                     {
@@ -334,7 +334,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private void SetWinMDMetadata(IEnumerable<ITaskItem> runtimeWinMDs, ICollection<string> candidateImplementations)
         {
-            foreach(var winMD in runtimeWinMDs.Where(w => _fileExists(w.ItemSpec)))
+            foreach (var winMD in runtimeWinMDs.Where(w => _fileExists(w.ItemSpec)))
             {
                 string imageRuntimeVersion = _tryGetRuntimeVersion(winMD.ItemSpec);
 
