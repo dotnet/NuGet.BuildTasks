@@ -343,21 +343,26 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
-                foreach (var file in package.LibraryObject["files"].Children()
-                                    .Select(x => x.ToString())
-                                    .Where(x => x.StartsWith("analyzers")))
+                var files = package.LibraryObject["files"];
+
+                if (files != null)
                 {
-                    if (Path.GetExtension(file).Equals(".dll", StringComparison.OrdinalIgnoreCase))
+                    foreach (var file in files.Children()
+                                        .Select(x => x.ToString())
+                                        .Where(x => x.StartsWith("analyzers")))
                     {
-                        string path;
-                        if (TryGetFile(package.Id, package.Version, file, out path))
+                        if (Path.GetExtension(file).Equals(".dll", StringComparison.OrdinalIgnoreCase))
                         {
-                            var analyzer = new TaskItem(path);
+                            string path;
+                            if (TryGetFile(package.Id, package.Version, file, out path))
+                            {
+                                var analyzer = new TaskItem(path);
 
-                            analyzer.SetMetadata(NuGetPackageIdMetadata, package.Id);
-                            analyzer.SetMetadata(NuGetPackageVersionMetadata, package.Version);
+                                analyzer.SetMetadata(NuGetPackageIdMetadata, package.Id);
+                                analyzer.SetMetadata(NuGetPackageVersionMetadata, package.Version);
 
-                            _analyzers.Add(analyzer);
+                                _analyzers.Add(analyzer);
+                            }
                         }
                     }
                 }
