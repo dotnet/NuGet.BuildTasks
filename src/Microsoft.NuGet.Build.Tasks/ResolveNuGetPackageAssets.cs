@@ -40,6 +40,8 @@ namespace Microsoft.NuGet.Build.Tasks
         private readonly List<ITaskItem> _contentItems = new List<ITaskItem>();
         private readonly List<ITaskItem> _fileWrites = new List<ITaskItem>();
 
+        private readonly Dictionary<string, string> _projectReferencesToOutputBasePaths = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
         #region UnitTestSupport
         private readonly DirectoryExists _directoryExists = new DirectoryExists(Directory.Exists);
         private readonly FileExists _fileExists = new FileExists(File.Exists);
@@ -134,6 +136,15 @@ namespace Microsoft.NuGet.Build.Tasks
         }
 
         /// <summary>
+        /// A list of project references that are creating packages as listed in the lock file. The OutputPath metadata should
+        /// set on each of these items, which is used by the task to construct full output paths to assets.
+        /// </summary>
+        public ITaskItem[] ProjectReferencesCreatingPackages
+        {
+            get; set;
+        }
+
+        /// <summary>
         /// The base output directory where the temporary, preprocessed files should be written to.
         /// </summary>
         public string ContentPreprocessorOutputDirectory
@@ -217,12 +228,30 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 lockFile = JObject.Load(new JsonTextReader(streamReader));
             }
-            
+
+            PopulateProjectReferenceMaps();
             GetReferences(lockFile);
             GetCopyLocalItems(lockFile);
             GetAnalyzers(lockFile);
             GetReferencedPackages(lockFile);
             ProduceContentAssets(lockFile);
+        }
+
+        private void PopulateProjectReferenceMaps()
+        {
+            foreach (var projectReference in ProjectReferencesCreatingPackages ?? new ITaskItem[] { })
+            {
+                var fullPath = GetAbsolutePathFromProjectRelativePath(projectReference.ItemSpec);
+                if (_projectReferencesToOutputBasePaths.ContainsKey(fullPath))
+                {
+                    Log.LogWarningFromResources(nameof(Strings.DuplicateProjectReference), fullPath, nameof(ProjectReferencesCreatingPackages));
+                }
+                else
+                {
+                    var outputPath = projectReference.GetMetadata("OutputBasePath");
+                    _projectReferencesToOutputBasePaths.Add(fullPath, outputPath);
+                }
+            }
         }
 
         private void GetReferences(JObject lockFile)
@@ -831,7 +860,12 @@ namespace Microsoft.NuGet.Build.Tasks
                 yield return new NuGetPackageObject(id, version, fullPackagePath, (JObject)package.Value, libraryObject);
             }
         }
-        
+
+        private string GetAbsolutePathFromProjectRelativePath(string path)
+        {
+            return Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetFullPath(ProjectLockFile)), path));
+        }
+
         /// <summary>
         /// Parse the imageRuntimeVersion from COR header
         /// </summary>
