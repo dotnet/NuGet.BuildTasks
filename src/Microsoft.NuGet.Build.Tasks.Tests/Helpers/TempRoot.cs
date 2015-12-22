@@ -13,16 +13,9 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Helpers
         private readonly List<IDisposable> _temps = new List<IDisposable>();
         public readonly string Root;
 
-        public TempRoot(string rootPath = null)
+        public TempRoot()
         {
-            if (rootPath == null)
-            {
-                Root = Path.Combine(Path.GetTempPath(), "NugetBuildTests");
-            }
-            else
-            {
-                Root = rootPath;
-            }
+            Root = Path.Combine(Path.GetTempPath(), "NuGetBuildTests", Guid.NewGuid().ToString());
 
             Directory.CreateDirectory(Root);
         }
