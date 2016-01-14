@@ -41,7 +41,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CultureStringUtilities.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="ExceptionFromResource.cs" />
     <Compile Include="InternalsVisibleTo.cs" />

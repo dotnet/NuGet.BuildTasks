@@ -719,17 +719,22 @@ namespace Microsoft.NuGet.Build.Tasks
                 return items;
             }
 
-            foreach (string file in values.Properties().Select(p => p.Name))
+            foreach (var file in values.Properties())
             {
-                if (Path.GetFileName(file) == "_._")
+                if (Path.GetFileName(file.Name) == "_._")
                 {
                     continue;
                 }
 
-                var sanitizedFile = file.Replace('/', '\\');
-                string targetPath = TryGetTargetPath(sanitizedFile);
+                string targetPath = null;
+                string culture = file.Value["locale"]?.ToString();
 
-                var item = CreateItem(package, package.GetFullPathToFile(file), targetPath);
+                if (culture != null)
+                {
+                    targetPath = Path.Combine(culture, Path.GetFileName(file.Name));
+                }
+                
+                var item = CreateItem(package, package.GetFullPathToFile(file.Name), targetPath);
 
                 item.SetMetadata("Private", "false");
 
@@ -759,22 +764,6 @@ namespace Microsoft.NuGet.Build.Tasks
             }
 
             return item;
-        }
-
-        private static string TryGetTargetPath(string file)
-        {
-            var foldersAndFile = file.Split('\\').ToArray();
-
-            for (int i = foldersAndFile.Length - 1; i > -1; i--)
-            {
-                if (CultureStringUtilities.IsValidCultureString(foldersAndFile[i]))
-                {
-                    return Path.Combine(foldersAndFile.Skip(i).ToArray());
-                }
-            }
-
-            // There is no culture-specific directory, so it'll go in the root
-            return null;
         }
 
         private void GetReferencedPackages(JObject lockFile)
