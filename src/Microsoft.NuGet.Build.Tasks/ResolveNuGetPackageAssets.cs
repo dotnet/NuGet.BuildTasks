@@ -21,6 +21,7 @@ namespace Microsoft.NuGet.Build.Tasks
     {
         internal const string NuGetPackageIdMetadata = "NuGetPackageId";
         internal const string NuGetPackageVersionMetadata = "NuGetPackageVersion";
+        internal const string NuGetIsFrameworkReference = "NuGetIsFrameworkReference";
         internal const string ReferenceImplementationMetadata = "Implementation";
         internal const string ReferenceImageRuntimeMetadata = "ImageRuntime";
         internal const string ReferenceWinMDFileMetadata = "WinMDFile";
@@ -254,7 +255,9 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var frameworkReference in frameworkReferences.Except(fileNamesOfRegularReferences, StringComparer.OrdinalIgnoreCase))
             {
-                _references.Add(new TaskItem(frameworkReference));
+                var item = new TaskItem(frameworkReference);
+                item.SetMetadata(NuGetIsFrameworkReference, "true");
+                _references.Add(item);
             }
         }
 
@@ -740,6 +743,7 @@ namespace Microsoft.NuGet.Build.Tasks
                 var item = CreateItem(package, package.GetFullPathToFile(file.Name), targetPath);
 
                 item.SetMetadata("Private", "false");
+                item.SetMetadata(NuGetIsFrameworkReference, "false");
 
                 items.Add(item);
             }
