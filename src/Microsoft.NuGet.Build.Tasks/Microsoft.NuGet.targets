@@ -140,14 +140,15 @@ Copyright (c) .NET Foundation. All rights reserved.
       <!-- Remove exact references, such as if a package had a framework reference to 'System' that we already have -->
       <Reference Remove="@(_ReferencesFromNuGetPackages)" />
 
-      <!-- Remove simple name references if we're directly providing a reference assembly to the compiler. For example,
-           consider a project with an Reference Include="System", and some NuGet package is providing System.dll -->
-      <Reference Remove="%(_ReferencesFromNuGetPackages.FileName)" />
-
       <!-- Remove simple name references that are already implicitly added -->
       <_ReferencesFromNuGetPackages Remove="%(ReferencePath.FileName)" Condition="'%(ReferencePath.ResolvedFrom)' == 'ImplicitlyExpandTargetFramework'" />
 
+      <!-- Include NuGet references -->
       <Reference Include="@(_ReferencesFromNuGetPackages)" />
+
+      <!-- Remove simple name references if we're directly providing a reference assembly to the compiler. For example,
+           consider a project with an Reference Include="System", and some NuGet package is providing System.dll -->
+      <Reference Remove="%(_ReferencesFromNuGetPackages.FileName)" Condition="'%(_ReferencesFromNuGetPackages.NuGetIsFrameworkReference)' == 'false'"/>
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(AutoUnifyAssemblyReferences)' == 'true' ">
