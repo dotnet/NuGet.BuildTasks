@@ -21,17 +21,28 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             ITaskItem[] analyzers,
             ITaskItem[] copyLocalItems,
             ITaskItem[] references,
-            ITaskItem[] referencedPackages)
+            ITaskItem[] referencedPackages,
+            string referenceTemporaryPath)
         {
             Analyzers = analyzers ?? new ITaskItem[] { };
             CopyLocalItems = copyLocalItems ?? new ITaskItem[] { };
             References = references ?? new ITaskItem[] { };
             ReferencedPackages = referencedPackages ?? new ITaskItem[] { };
+            ReferenceTemporaryPath = referenceTemporaryPath;
         }
 
         public ITaskItem[] Analyzers { get; }
         public ITaskItem[] CopyLocalItems { get; }
         public ITaskItem[] References { get; }
         public ITaskItem[] ReferencedPackages { get; }
+
+
+        /// <summary>
+        /// Gets the temporary path created during testing process
+        /// </summary>
+        /// <remarks>
+        /// You must assume this path no longer exists on disk, and can only be used to form absolute paths that match items in this object from relative paths
+        /// </remarks>
+        public string ReferenceTemporaryPath { get; }
     }
 }

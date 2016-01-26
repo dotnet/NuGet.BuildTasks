@@ -67,7 +67,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 var references = task.ResolvedReferences;
                 var referencedPackages = task.ReferencedPackages;
 
-                return new ResolvePackagesResult(analyzers, copyLocalItems, references, referencedPackages);
+                return new ResolvePackagesResult(analyzers, copyLocalItems, references, referencedPackages, rootDirectory.Root);
             }
         }
     }

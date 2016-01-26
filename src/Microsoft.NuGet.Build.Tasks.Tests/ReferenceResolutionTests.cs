@@ -233,6 +233,48 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         }
 
         [Fact]
+        public static void AllNuGetReferencesHaveValidIsFrameworkReferenceProperty()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Default.GetString(Json.Json.FluentAssertions),
+                targetMoniker: ".NETFramework,Version=v4.5.2",
+                runtimeIdentifier: "");
+
+            var key = ResolveNuGetPackageAssets.NuGetIsFrameworkReference;
+            var values = result.References.Select(r => r.GetMetadata(key));
+            
+            Assert.All(result.References, r => Assert.Contains(key, r.MetadataNames.Cast<string>()));
+            Assert.All(values, v => Assert.Contains(v, new [] { "true", "false" }));
+        }
+
+        [Fact]
+        public static void AllReferencesHaveCorrectIsFrameworkReferenceProperty()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Default.GetString(Json.Json.FluentAssertions),
+                targetMoniker: ".NETFramework,Version=v4.5.2",
+                runtimeIdentifier: "");
+
+            var references = result.References.ToDictionary(
+                r => r.ItemSpec,
+                r => r.GetMetadata(ResolveNuGetPackageAssets.NuGetIsFrameworkReference)
+            );
+            
+            Assert.Equal(4, references.Count);
+
+            var corePath = Path.Combine(result.ReferenceTemporaryPath, @"FluentAssertions\3.4.1\lib\net45\FluentAssertions.Core.dll");
+            Assert.True(references.ContainsKey(corePath));
+            Assert.Equal("false", references[corePath]);
+
+            var mainPath = Path.Combine(result.ReferenceTemporaryPath, @"FluentAssertions\3.4.1\lib\net45\FluentAssertions.dll");
+            Assert.True(references.ContainsKey(mainPath));
+            Assert.Equal("false", references[mainPath]);
+
+            Assert.Equal("true", references["System.Xml"]);
+            Assert.Equal("true", references["System.Xml.Linq"]);
+        }
+
+        [Fact]
         public static void NativeWinMDSetsMetadata()
         {
             string imageRuntimeVersion = "WindowsRuntime 1.3";
