@@ -16,9 +16,9 @@ namespace Microsoft.NuGet.Build.Tasks
     internal sealed class ExceptionFromResource : Exception
     {
         public string ResourceName { get; private set; }
-        public object[] MessageArgs { get; private set; }
+        public string[] MessageArgs { get; private set; }
 
-        public ExceptionFromResource(string resourceName, params object[] messageArgs)
+        public ExceptionFromResource(string resourceName, params string[] messageArgs)
         {
             ResourceName = resourceName;
             MessageArgs = messageArgs;

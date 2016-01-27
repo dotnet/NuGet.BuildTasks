@@ -636,7 +636,7 @@ namespace Microsoft.NuGet.Build.Tasks
             }
             else
             {
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingFramework), TargetMonikers.First());
+                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingFramework), TargetMonikers.First().ItemSpec);
             }
 
             // If we're still here, that means we're allowing fallback, so let's try
@@ -691,7 +691,7 @@ namespace Microsoft.NuGet.Build.Tasks
             }
         }
 
-        private void ThrowExceptionIfNotAllowingFallback(string resourceName, params object[] messageArgs)
+        private void ThrowExceptionIfNotAllowingFallback(string resourceName, params string[] messageArgs)
         {
             if (!AllowFallbackOnTargetSelection)
             {
