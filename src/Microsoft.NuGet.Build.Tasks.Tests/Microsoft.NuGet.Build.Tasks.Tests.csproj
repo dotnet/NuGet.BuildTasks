@@ -54,7 +54,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Json.resx</DependentUpon>
     </Compile>
-    <Compile Include="NugetTestHelpers.cs" />
+    <Compile Include="NuGetTestHelpers.cs" />
     <Compile Include="PreprocessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceResolutionTests.cs" />
