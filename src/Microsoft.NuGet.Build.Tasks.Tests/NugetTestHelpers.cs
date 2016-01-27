@@ -58,10 +58,9 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 task.ProjectLanguage = projectLanguage;
                 task.TargetMonikers = new ITaskItem[] { new TaskItem(targetMoniker) };
 
-                if (!task.Execute())
-                {
-                    throw new PackageResolutionTestException(sw.ToString());
-                }
+                // When we create the task for unit-testing purposes, the constructor sets an internal bit which should always
+                // cause task.Execute to throw.
+                Assert.True(task.Execute());
 
                 var analyzers = task.ResolvedAnalyzers;
                 var copyLocalItems = task.ResolvedCopyLocalItems;

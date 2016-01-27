@@ -82,24 +82,21 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         [Fact]
         public static void TestReferenceResolutionWithMissingRuntimeIDAndNoFallback()
         {
-            var exception = Assert.Throws<PackageResolutionTestException>(() =>
+            var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                     Default.GetString(Json.Json.Win10),
                     targetMoniker: ".NETCore,Version=v5.0",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
 
-            var expected =
-                string.Format(Strings.MissingRuntimeInRuntimesSection,
-                    "missing-runtime-identifier", "\"missing-runtime-identifier\": { }");
-
-            Assert.Contains(expected, exception.Message);
+            Assert.Equal(nameof(Strings.MissingRuntimeInRuntimesSection), exception.ResourceName);
+            Assert.Equal(new[] { "missing-runtime-identifier", "\"missing-runtime-identifier\": { }" }, exception.MessageArgs);
         }
 
         [Fact]
         public static void TestReferenceResolutionWithMissingRuntimeIDAndNoFallbackAndNoRuntimesSection()
         {
-            var exception = Assert.Throws<PackageResolutionTestException>(() =>
+            var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                     Default.GetString(Json.Json.Win10),
                     targetMoniker: ".NETCore,Version=v5.0",
@@ -107,28 +104,22 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     allowFallbackOnTargetSelection: false,
                     projectJsonFileContents: "{ }"));
 
-            var expected =
-                string.Format(Strings.MissingRuntimesSection,
-                    "\"runtimes\": { \"missing-runtime-identifier\": { } }");
-
-            Assert.Contains(expected, exception.Message);
+            Assert.Equal(nameof(Strings.MissingRuntimesSection), exception.ResourceName);
+            Assert.Equal(new[] { "\"runtimes\": { \"missing-runtime-identifier\": { } }" }, exception.MessageArgs);
         }
 
         [Fact]
         public static void TestReferenceResolutionWithMissingTargetMonikerAndNoFallback()
         {
-            var exception = Assert.Throws<PackageResolutionTestException>(() =>
+            var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                     Default.GetString(Json.Json.Win10),
                     targetMoniker: "Missing,Version=1.0",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
 
-            var expected =
-                string.Format(Strings.MissingFramework,
-                    "Missing,Version=1.0");
-
-            Assert.Contains(expected, exception.Message);
+            Assert.Equal(nameof(Strings.MissingFramework), exception.ResourceName);
+            Assert.Equal(new[] { "Missing,Version=1.0" }, exception.MessageArgs);
         }
 
         [Fact]

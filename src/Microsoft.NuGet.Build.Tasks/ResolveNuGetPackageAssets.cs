@@ -43,6 +43,7 @@ namespace Microsoft.NuGet.Build.Tasks
         private readonly DirectoryExists _directoryExists = new DirectoryExists(Directory.Exists);
         private readonly FileExists _fileExists = new FileExists(File.Exists);
         private readonly TryGetRuntimeVersion _tryGetRuntimeVersion = new TryGetRuntimeVersion(TryGetRuntimeVersion);
+        private readonly bool _reportExceptionsToMSBuildLogger = true;
 
         internal ResolveNuGetPackageAssets(DirectoryExists directoryExists, FileExists fileExists, TryGetRuntimeVersion tryGetRuntimeVersion)
             : this()
@@ -61,6 +62,8 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 _tryGetRuntimeVersion = tryGetRuntimeVersion;
             }
+
+            _reportExceptionsToMSBuildLogger = false;
         }
         #endregion
 
@@ -187,12 +190,12 @@ namespace Microsoft.NuGet.Build.Tasks
                 ExecuteCore();
                 return true;
             }
-            catch (ExceptionFromResource e)
+            catch (ExceptionFromResource e) when (_reportExceptionsToMSBuildLogger)
             {
                 Log.LogErrorFromResources(e.ResourceName, e.MessageArgs);
                 return false;
             }
-            catch (Exception e)
+            catch (Exception e) when (_reportExceptionsToMSBuildLogger)
             {
                 // Any user-visible exceptions we throw should be ExceptionFromResource, so here we should dump stacks because
                 // something went very wrong.
