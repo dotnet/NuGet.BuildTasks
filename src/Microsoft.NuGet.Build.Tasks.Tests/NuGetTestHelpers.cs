@@ -25,7 +25,8 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             bool allowFallbackOnTargetSelection = false,
             TryGetRuntimeVersion tryGetRuntimeVersion = null,
             bool includeFrameworkReferences = true,
-            string projectJsonFileContents = null)
+            string projectJsonFileContents = null,
+            IEnumerable<ITaskItem> projectReferencesCreatingPackages = null)
         {
             var rootDirectory = new TempRoot();
             using (rootDirectory)
@@ -54,6 +55,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 task.IncludeFrameworkReferences = includeFrameworkReferences;
                 task.NuGetPackagesDirectory = packagesDirectory.Path;
                 task.RuntimeIdentifier = runtimeIdentifier;
+                task.ProjectReferencesCreatingPackages = (projectReferencesCreatingPackages ?? Enumerable.Empty<ITaskItem>()).ToArray();
                 task.ProjectLockFile = projectLockJsonFile.Path;
                 task.ProjectLanguage = projectLanguage;
                 task.TargetMonikers = new ITaskItem[] { new TaskItem(targetMoniker) };

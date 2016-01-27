@@ -117,37 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DuplicatePreprocessorToken" xml:space="preserve">
-    <value>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LockFileWithCSProjReference" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>lockfilewithcsprojreference.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="DuplicateProjectReference" xml:space="preserve">
-    <value>The project '{0}' was referenced more than once in the {1} property. Ignoring all but the first.</value>
-  </data>
-  <data name="LockFileNotFound" xml:space="preserve">
-    <value>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</value>
-  </data>
-  <data name="MissingFramework" xml:space="preserve">
-    <value>Your project is not referencing the "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json, and then re-run NuGet restore.</value>
-  </data>
-  <data name="MissingProjectReference" xml:space="preserve">
-    <value>The project.json is referencing the project '{0}', but an output path was not specified on an item in the {1} property.</value>
-  </data>
-  <data name="MissingRuntimeInRuntimesSection" xml:space="preserve">
-    <value>Your project.json doesn't list '{0}' as a targeted runtime. You should add '{1}' inside your "runtimes" section in your project.json, and then re-run NuGet restore.</value>
-  </data>
-  <data name="MissingRuntimesSection" xml:space="preserve">
-    <value>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</value>
-  </data>
-  <data name="NoTargetsInLockFile" xml:space="preserve">
-    <value>No targets could be found in the lock file. Make sure you have a supports or runtimes section i your project.json file.</value>
-  </data>
-  <data name="PackageFolderNotFound" xml:space="preserve">
-    <value>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</value>
-  </data>
-  <data name="PreprocessedDirectoryNotSet" xml:space="preserve">
-    <value>The {0} property must be set in order to consume preprocessed content.</value>
-  </data>
-  <data name="UnspecifiedToken" xml:space="preserve">
-    <value>The token '{0}' is unrecognized.</value>
+  <data name="LockFileWithXProjReference" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>lockfilewithxprojreference.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

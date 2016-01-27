@@ -97,6 +97,15 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The project.json is referencing the project &apos;{0}&apos;, but an output path was not specified on an item in the {1} property..
+        /// </summary>
+        internal static string MissingProjectReference {
+            get {
+                return ResourceManager.GetString("MissingProjectReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your project.json doesn&apos;t list &apos;{0}&apos; as a targeted runtime. You should add &apos;{1}&apos; inside your &quot;runtimes&quot; section in your project.json, and then re-run NuGet restore..
         /// </summary>
         internal static string MissingRuntimeInRuntimesSection {

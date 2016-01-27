@@ -858,11 +858,31 @@ namespace Microsoft.NuGet.Build.Tasks
                 var id = nameParts[0];
                 var version = nameParts[1];
 
-                var fullPackagePath = GetNuGetPackagePath(id, version);
-
                 var libraryObject = (JObject)lockFile["libraries"][package.Key];
 
-                yield return new NuGetPackageObject(id, version, fullPackagePath, (JObject)package.Value, libraryObject);
+                Func<string> fullPackagePathGenerator;
+
+                // If this is a project then we need to figure out it's relative output path
+                if ((string)libraryObject["type"] == "project")
+                {
+                    fullPackagePathGenerator = () =>
+                    {
+                        var absoluteMSBuildProjectPath = GetAbsolutePathFromProjectRelativePath((string)libraryObject["msbuildProject"]);
+                        string fullPackagePath;
+                        if (!_projectReferencesToOutputBasePaths.TryGetValue(absoluteMSBuildProjectPath, out fullPackagePath))
+                        {
+                            throw new ExceptionFromResource(nameof(Strings.MissingProjectReference), absoluteMSBuildProjectPath, nameof(ProjectReferencesCreatingPackages));
+                        }
+
+                        return fullPackagePath;
+                    };
+                }
+                else
+                { 
+                    fullPackagePathGenerator = () => GetNuGetPackagePath(id, version);
+                }
+
+                yield return new NuGetPackageObject(id, version, fullPackagePathGenerator, (JObject)package.Value, libraryObject);
             }
         }
 

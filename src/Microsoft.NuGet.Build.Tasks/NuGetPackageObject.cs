@@ -16,18 +16,24 @@ namespace Microsoft.NuGet.Build.Tasks
     /// </summary>
     internal sealed class NuGetPackageObject
     {
-        public NuGetPackageObject(string id, string version, string fullPackagePath, JObject targetObject, JObject libraryObject)
+        /// <summary>
+        /// A Lazy to get the full path to the package. In some cases we want to represent packages where we don't actually have
+        /// a path to it, but we don't care about that fact until we try getting assets to it. Thus we won't force us to have
+        /// a package path until we actually need it.
+        /// </summary>
+        private readonly Lazy<string> _fullPackagePath;
+
+        public NuGetPackageObject(string id, string version, Func<string> fullPackagePathGenerator, JObject targetObject, JObject libraryObject)
         {
             Id = id;
             Version = version;
-            FullPackagePath = fullPackagePath;
+            _fullPackagePath = new Lazy<string>(fullPackagePathGenerator);
             TargetObject = targetObject;
             LibraryObject = libraryObject;
         }
 
         public string Id { get; }
         public string Version { get; }
-        public string FullPackagePath { get; }
         
         /// <summary>
         /// The JSON object from the "targets" section in the project.lock.json for this package.
@@ -42,7 +48,7 @@ namespace Microsoft.NuGet.Build.Tasks
         public string GetFullPathToFile(string relativePath)
         {
             relativePath = relativePath.Replace('/', '\\');
-            return Path.Combine(FullPackagePath, relativePath);
+            return Path.Combine(_fullPackagePath.Value, relativePath);
         }
     }
 }

@@ -20,6 +20,20 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 $"Expected {expectedCount} items, but actually got {items.Count()} items:" + Environment.NewLine + string.Join(Environment.NewLine, items.Select(i => i.ItemSpec)));
         }
 
+        /// <summary>
+        /// Asserts that the expected path ends with our actual path. "Ends with" in this case is defined by path
+        /// components, so "Directory\File" doesn't end with "ile", to prevent any bugs where path components get mangled.
+        /// </summary>
+        public static void PathEndsWith(string expectedPath, string actualPath)
+        {
+            if (expectedPath != actualPath)
+            {
+                // This means it must be a subfolder, so we have to prefix with a path component to ensure
+                // we are matching full components
+                Assert.EndsWith("\\" + expectedPath, actualPath);
+            }
+        }
+
         public static void AssertNoTargetPaths(IEnumerable<ITaskItem> items)
         {
             foreach (var item in items)
