@@ -214,9 +214,10 @@ Copyright (c) .NET Foundation. All rights reserved.
   <PropertyGroup>
     <NuGetTargetFrameworkMonikerToInject Condition="'$(NuGetTargetFrameworkMonikerToInject)' == ''">.NETCore,Version=v5.0</NuGetTargetFrameworkMonikerToInject>
     <NuGetTargetMonikerToInject Condition="'$(NuGetTargetMonikerToInject)' == ''">.NETCore,Version=v5.0</NuGetTargetMonikerToInject>
+    <_ComputeNetCoreFrameworkInjectionParametersBeforeTargets Condition="'$(AppxPackage)' == 'true' and '$(TargetPlatformIdentifier)' == 'UAP'">BeforeGenerateProjectPriFile</_ComputeNetCoreFrameworkInjectionParametersBeforeTargets>
   </PropertyGroup>
 
-  <Target Name="ComputeNetCoreFrameworkInjectionParameters" BeforeTargets="BeforeGenerateProjectPriFile" DependsOnTargets="_AddUnionWinmd" Condition="'$(AppxPackage)' == 'true' and '$(TargetPlatformIdentifier)' == 'UAP'">
+  <Target Name="ComputeNetCoreFrameworkInjectionParameters" BeforeTargets="$(_ComputeNetCoreFrameworkInjectionParametersBeforeTargets)" DependsOnTargets="_AddUnionWinmd" Condition="'$(_ComputeNetCoreFrameworkInjectionParametersBeforeTargets)' != ''">
     <PropertyGroup>
       <_PackagingOutputsIncludesFramework Condition="'%(PackagingOutputs.FileName)%(PackagingOutputs.Extension)' == 'System.Runtime.dll'">true</_PackagingOutputsIncludesFramework>
       <_AppContainsManagedCodeForInjection Condition="'%(PackagingOutputs.Identity)' == '$(_TargetPlatformSdkDir)UnionMetadata\Windows.winmd'">true</_AppContainsManagedCodeForInjection>
