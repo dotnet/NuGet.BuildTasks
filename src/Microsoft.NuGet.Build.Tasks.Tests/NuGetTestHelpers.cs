@@ -43,9 +43,13 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     projectJsonFile.WriteAllText(projectJsonFileContents);
                 }
 
+                var filesInPackages = new HashSet<string>(
+                    GetFakeFileNamesFromPackages(projectLockJsonFileContents, packagesDirectory.Path),
+                    StringComparer.OrdinalIgnoreCase);
+
                 // Don't require the packages be restored on the machine
                 DirectoryExists directoryExists = path => path.StartsWith(packagesDirectory.Path) || Directory.Exists(path);
-                FileExists fileExists = path => path.StartsWith(packagesDirectory.Path) || File.Exists(path);
+                FileExists fileExists = path => filesInPackages.Contains(path) || File.Exists(path);
 
                 ResolveNuGetPackageAssets task = new ResolveNuGetPackageAssets(directoryExists, fileExists, tryGetRuntimeVersion);
                 var sw = new StringWriter();
@@ -70,6 +74,27 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 var referencedPackages = task.ReferencedPackages;
 
                 return new ResolvePackagesResult(analyzers, copyLocalItems, references, referencedPackages, rootDirectory.Root);
+            }
+        }
+
+        /// <summary>
+        /// Given the contents of a project.lock.json, figures out all the "fake" full paths that are in those packages as if
+        /// those packages are restored on disk.
+        /// </summary>
+        private static IEnumerable<string> GetFakeFileNamesFromPackages(string projectJsonContents, string packagesDirectory)
+        {
+            var lockFile = JObject.Parse(projectJsonContents);
+
+            foreach (JProperty library in lockFile["libraries"])
+            {
+                var files = library.Value["files"] as JArray;
+                if (files != null)
+                {
+                    foreach (string file in files)
+                    {
+                        yield return Path.Combine(packagesDirectory, library.Name, file).Replace('/', '\\');
+                    }
+                }
             }
         }
     }
