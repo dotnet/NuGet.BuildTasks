@@ -26,12 +26,26 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         /// </summary>
         public static void PathEndsWith(string expectedPath, string actualPath)
         {
-            if (expectedPath != actualPath)
+            // We could implement this with a simple Assert.True(...EndsWithPath),
+            // but that results in less user-friendly output from the test than a smarter call to
+            // Assert.EndsWith
+            if (!actualPath.EndsWithPath(expectedPath))
             {
-                // This means it must be a subfolder, so we have to prefix with a path component to ensure
-                // we are matching full components
                 Assert.EndsWith("\\" + expectedPath, actualPath);
+
+                // If we get out of sync with this function or EndsWithPath, that Assert might not
+                // fail. In that case, fail the test.
+                throw new Exception("The Assert.EndsWith in the previous line should have failed.");
             }
+        }
+
+        /// <summary>
+        /// Returns that the expected path ends with our actual path. "Ends with" in this case is defined by path
+        /// components, so "Directory\File" doesn't end with "ile", to prevent any bugs where path components get mangled.
+        /// </summary>
+        public static bool EndsWithPath(this string path, string suffix)
+        {
+            return path == suffix || path.EndsWith("\\" + suffix);
         }
 
         public static void AssertNoTargetPaths(IEnumerable<ITaskItem> items)

@@ -262,7 +262,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
             foreach (var package in GetPackagesFromTarget(lockFile, target))
             {
-                foreach (var referenceItem in CreateItems(package, NuGetAssetTypeCompile))
+                foreach (var referenceItem in CreateItems(package, NuGetAssetTypeCompile, includePdbs: false))
                 {
                     _references.Add(referenceItem);
 
@@ -746,7 +746,7 @@ namespace Microsoft.NuGet.Build.Tasks
             return needsRuntimeIdentifier ? preferredTargetMoniker.ItemSpec + "/" + RuntimeIdentifier : preferredTargetMoniker.ItemSpec;
         }
 
-        private IEnumerable<ITaskItem> CreateItems(NuGetPackageObject package, string key)
+        private IEnumerable<ITaskItem> CreateItems(NuGetPackageObject package, string key, bool includePdbs = true)
         {
             var values = package.TargetObject[key] as JObject;
             var items = new List<ITaskItem>();
@@ -777,6 +777,22 @@ namespace Microsoft.NuGet.Build.Tasks
                 item.SetMetadata(NuGetIsFrameworkReference, "false");
 
                 items.Add(item);
+
+                // If there's a PDB alongside the implementation, we should copy that as well
+                if (includePdbs)
+                {
+                    var pdbFileName = Path.ChangeExtension(item.ItemSpec, ".pdb");
+
+                    if (_fileExists(pdbFileName))
+                    {
+                        var pdbItem = new TaskItem(pdbFileName);
+
+                        // CopyMetadataTo also includes an OriginalItemSpec that will point to our original item, as we want
+                        item.CopyMetadataTo(pdbItem);
+
+                        items.Add(pdbItem);
+                    }
+                }
             }
 
             return items;

@@ -219,6 +219,21 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         }
 
         [Fact]
+        public static void CopyLocalContentsIncludePdbsIfAvailable()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Default.GetString(Json.Json.FluentAssertionsAndWin10),
+                targetMoniker: "UAP,Version=v10.0",
+                runtimeIdentifier: "win10-x86",
+                includeFrameworkReferences: true);
+
+            Assert.Single(result.CopyLocalItems, r => r.ItemSpec.EndsWithPath("FluentAssertions.dll"));
+            Assert.Single(result.CopyLocalItems, r => r.ItemSpec.EndsWithPath("FluentAssertions.pdb"));
+            Assert.Single(result.CopyLocalItems, r => r.ItemSpec.EndsWithPath("FluentAssertions.Core.dll"));
+            Assert.Single(result.CopyLocalItems, r => r.ItemSpec.EndsWithPath("FluentAssertions.Core.pdb"));
+        }
+
+        [Fact]
         public static void FrameworkReferencesAreNotProvidedIfAlreadyProvidedByAnotherPackage()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
