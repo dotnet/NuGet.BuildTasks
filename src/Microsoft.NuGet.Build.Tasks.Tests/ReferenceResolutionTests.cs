@@ -259,8 +259,8 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 r => r.ItemSpec,
                 r => r.GetMetadata(ResolveNuGetPackageAssets.NuGetIsFrameworkReference)
             );
-            
-            Assert.Equal(4, references.Count);
+
+            AssertHelpers.AssertCountOf(4, result.References);
 
             var corePath = Path.Combine(result.ReferenceTemporaryPath, @"FluentAssertions\3.4.1\lib\net45\FluentAssertions.Core.dll");
             Assert.True(references.ContainsKey(corePath));
