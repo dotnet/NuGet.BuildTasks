@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.NuGet.Build.Tasks;
 using Xunit;
-using static System.Text.Encoding;
 
 namespace Microsoft.NuGet.Build.Tasks.Tests
 {
@@ -16,7 +15,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithRuntimeIDWin10X86()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86");
 
@@ -29,7 +28,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithRuntimeIDWin10X64()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x64");
 
@@ -42,7 +41,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithRuntimeIDWin10X86Aot()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86-aot");
 
@@ -55,7 +54,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithRuntimeIDWin10X64Aot()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x64-aot");
 
@@ -68,7 +67,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithMissingRuntimeIDAndFallback()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "missing-runtime-identifier",
                 allowFallbackOnTargetSelection: true);
@@ -84,7 +83,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         {
             var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                    Default.GetString(Json.Json.Win10),
+                    Json.Json.Win10,
                     targetMoniker: ".NETCore,Version=v5.0",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
@@ -98,7 +97,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         {
             var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                    Default.GetString(Json.Json.Win10),
+                    Json.Json.Win10,
                     targetMoniker: ".NETCore,Version=v5.0",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false,
@@ -113,7 +112,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         {
             var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                    Default.GetString(Json.Json.Win10),
+                    Json.Json.Win10,
                     targetMoniker: "Missing,Version=1.0",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
@@ -126,7 +125,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithMissingTargetFrameworkAndFallback()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: "MissingFrameworkMoniker,Version=v42.0",
                 runtimeIdentifier: "",
                 allowFallbackOnTargetSelection: true);
@@ -140,7 +139,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestReferenceResolutionWithNoRuntimeID()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "");
 
@@ -153,7 +152,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void PackagesHaveMetadataWithPackageIdAndVersion()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86");
 
@@ -168,7 +167,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void ReferencedPackagesCorrectlyParsed()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10),
+                Json.Json.Win10,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "");
 
@@ -184,7 +183,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void ExcludingFrameworkReferencesActuallyExcludesFrameworkReferences()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertions),
+                Json.Json.FluentAssertions,
                 targetMoniker: ".NETFramework,Version=v4.5.2",
                 runtimeIdentifier: "",
                 includeFrameworkReferences: false);
@@ -202,7 +201,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void IncludingFrameworkReferencesActuallyIncludesFrameworkReferences()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertions),
+                Json.Json.FluentAssertions,
                 targetMoniker: ".NETFramework,Version=v4.5.2",
                 runtimeIdentifier: "",
                 includeFrameworkReferences: true);
@@ -222,7 +221,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void CopyLocalContentsIncludePdbsIfAvailable()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertionsAndWin10),
+                Json.Json.FluentAssertionsAndWin10,
                 targetMoniker: "UAP,Version=v10.0",
                 runtimeIdentifier: "win10-x86",
                 includeFrameworkReferences: true);
@@ -237,7 +236,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void FrameworkReferencesAreNotProvidedIfAlreadyProvidedByAnotherPackage()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertionsAndWin10),
+                Json.Json.FluentAssertionsAndWin10,
                 targetMoniker: "UAP,Version=v10.0",
                 runtimeIdentifier: "",
                 includeFrameworkReferences: true);
@@ -251,7 +250,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void AllNuGetReferencesHaveValidIsFrameworkReferenceProperty()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertions),
+                Json.Json.FluentAssertions,
                 targetMoniker: ".NETFramework,Version=v4.5.2",
                 runtimeIdentifier: "");
 
@@ -266,7 +265,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void AllReferencesHaveCorrectIsFrameworkReferenceProperty()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.FluentAssertions),
+                Json.Json.FluentAssertions,
                 targetMoniker: ".NETFramework,Version=v4.5.2",
                 runtimeIdentifier: "");
 
@@ -295,7 +294,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             string imageRuntimeVersion = "WindowsRuntime 1.3";
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.nativeWinMD),
+                Json.Json.nativeWinMD,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
@@ -317,7 +316,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             string imageRuntimeVersion = "WindowsRuntime 1.4;CLR v4.0.30319";
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.nativeWinMD),
+                Json.Json.nativeWinMD,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
@@ -338,7 +337,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             string imageRuntimeVersion = "BogusRuntime 1.4;C1R v4.0.30319";
             TryGetRuntimeVersion tryGetRuntimeVersion = p => imageRuntimeVersion;
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.nativeWinMD),
+                Json.Json.nativeWinMD,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
@@ -357,7 +356,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestTargetPathCollisionsFound()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10_Edm),
+                Json.Json.Win10_Edm,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86");
 
@@ -368,7 +367,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestTargetPathCollisionsFound2()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.Win10_xunit),
+                Json.Json.Win10_xunit,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86");
 

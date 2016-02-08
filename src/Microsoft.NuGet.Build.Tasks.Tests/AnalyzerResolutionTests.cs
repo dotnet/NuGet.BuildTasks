@@ -3,7 +3,6 @@
 
 using System.Linq;
 using Xunit;
-using static System.Text.Encoding;
 
 namespace Microsoft.NuGet.Build.Tasks.Tests
 {
@@ -13,7 +12,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestAnalyzerResolutionCSharp()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.analyzers),
+                Json.Json.analyzers,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "",
                 projectLanguage: "C#");
@@ -25,7 +24,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public static void TestAnalyzerResolutionVisualBasic()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Default.GetString(Json.Json.analyzers),
+                Json.Json.analyzers,
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "",
                 projectLanguage: "vb");

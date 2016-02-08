@@ -61,72 +61,184 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: -9996,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETCore,Version=v5.0&quot;: {
+        ///      &quot;Microsoft.AnalyzerPowerPack/1.0.0&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System&quot;
+        ///        ]
+        ///    },
+        ///      &quot;Microsoft.CodeAnalysis.Analyzers/1.0.0&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System&quot;
+        ///        ]
+        ///},
+        ///      &quot;System.Runtime.Analyzers/1.0.0&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System&quot;
+        ///        ]
+        ///      },
+        ///      &quot;System.Runtime.InteropServices.Analyzers/1.0.0&quot;: {
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] analyzers {
+        internal static string analyzers {
             get {
-                object obj = ResourceManager.GetObject("analyzers", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("analyzers", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 1,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5.2&quot;: {
+        ///      &quot;FluentAssertions/3.4.1&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System.Xml&quot;,
+        ///          &quot;System.Xml.Linq&quot;
+        ///        ],
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/FluentAssertions.Core.dll&quot;: {},
+        ///          &quot;lib/net45/FluentAssertions.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/FluentAssertions.Core.dll&quot;: {},
+        ///          &quot;lib/net45/FluentAssertions.dll&quot;: {}
+        ///        }
+        ///      }
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] FluentAssertions {
+        internal static string FluentAssertions {
             get {
-                object obj = ResourceManager.GetObject("FluentAssertions", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("FluentAssertions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 1,
+        ///  &quot;targets&quot;: {
+        ///    &quot;UAP,Version=v10.0&quot;: {
+        ///      &quot;FluentAssertions/3.4.1&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System.Xml&quot;,
+        ///          &quot;System.Xml.Linq&quot;
+        ///        ],
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/win8/FluentAssertions.Core.dll&quot;: {},
+        ///          &quot;lib/win8/FluentAssertions.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/win8/FluentAssertions.Core.dll&quot;: {},
+        ///          &quot;lib/win8/FluentAssertions.dll&quot;: {}
+        ///        }
+        ///      },
+        ///      &quot;Microsoft [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] FluentAssertionsAndWin10 {
+        internal static string FluentAssertionsAndWin10 {
             get {
-                object obj = ResourceManager.GetObject("FluentAssertionsAndWin10", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("FluentAssertionsAndWin10", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 1,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETCore,Version=v5.0&quot;: {
+        ///      &quot;Microsoft.NETCore.Platforms/1.0.0&quot;: {},
+        ///      &quot;Win2D/0.0.23-local&quot;: {
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/netcore50/Microsoft.Graphics.Canvas.winmd&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/netcore50/Microsoft.Graphics.Canvas.winmd&quot;: {}
+        ///        }
+        ///      }
+        ///    },
+        ///    &quot;.NETCore,Version=v5.0/win10-arm&quot;: {
+        ///      &quot;Microsoft.NETCore.Platforms/1.0.0&quot;: {},
+        ///      &quot;Win2D/0.0.23-local&quot;: {
+        ///        &quot;compi [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] nativeWinMD {
+        internal static string nativeWinMD {
             get {
-                object obj = ResourceManager.GetObject("nativeWinMD", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("nativeWinMD", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: -9996,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETCore,Version=v5.0&quot;: {
+        ///      &quot;Microsoft.ApplicationInsights/0.17.0&quot;: {
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll&quot;: {}
+        ///        }
+        ///      },
+        ///      &quot;Microsoft.ApplicationInsights.PersistenceChannel/0.17.0&quot;: {
+        ///        &quot;dependencies&quot;: {
+        ///          &quot;Microsoft.ApplicationInsights&quot;: &quot;0.1 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] Win10 {
+        internal static string Win10 {
             get {
-                object obj = ResourceManager.GetObject("Win10", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Win10", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 1,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETCore,Version=v5.0&quot;: {
+        ///      &quot;Microsoft.ApplicationInsights/1.0.0&quot;: {
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll&quot;: {}
+        ///        }
+        ///      },
+        ///      &quot;Microsoft.ApplicationInsights.PersistenceChannel/1.0.0&quot;: {
+        ///        &quot;dependencies&quot;: {
+        ///          &quot;Microsoft.ApplicationInsights&quot;: &quot;[1.0.0, ) [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] Win10_Edm {
+        internal static string Win10_Edm {
             get {
-                object obj = ResourceManager.GetObject("Win10_Edm", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Win10_Edm", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 1,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETCore,Version=v5.0&quot;: {
+        ///      &quot;Microsoft.CSharp/4.0.0-beta-23106&quot;: {
+        ///        &quot;dependencies&quot;: {
+        ///          &quot;System.Runtime&quot;: &quot;[4.0.20-beta-23106, )&quot;,
+        ///          &quot;System.Runtime.InteropServices&quot;: &quot;[4.0.20-beta-23106, )&quot;,
+        ///          &quot;System.Resources.ResourceManager&quot;: &quot;[4.0.0-beta-23106, )&quot;,
+        ///          &quot;System.Dynamic.Runtime&quot;: &quot;[4.0.0-beta-23106, )&quot;,
+        ///          &quot;System.Linq.Expressions&quot;: &quot;[4.0.0-beta-23106, )&quot;,
+        ///          &quot;System.Linq&quot;: &quot;[4.0.0- [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] Win10_xunit {
+        internal static string Win10_xunit {
             get {
-                object obj = ResourceManager.GetObject("Win10_xunit", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Win10_xunit", resourceCulture);
             }
         }
     }
