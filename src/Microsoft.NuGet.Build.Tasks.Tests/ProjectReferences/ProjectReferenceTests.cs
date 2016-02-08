@@ -21,6 +21,16 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences
         }
 
         [Fact]
+        public void ProjectReferenceToProjectWithNoMSBuildProjectFailsGracefully()
+        {
+            var exception = Assert.Throws<ExceptionFromResource>(
+                () => NuGetTestHelpers.ResolvePackagesWithJsonFileContents(Resources.LockFileMissingMSBuildProjectThatProvidesAssets, ".NETFramework,Version=v4.5.2", "win"));
+
+            Assert.Equal(nameof(Strings.MissingMSBuildPathInProjectPackage), exception.ResourceName);
+            Assert.Equal(@"XProjClassLib", exception.MessageArgs[0]);
+        }
+
+        [Fact]
         public void ProjectReferenceToXProjWithAssetsAndPathSucceeds()
         {
             var referenceToXProj = new TaskItem(@"..\XProjClassLib\XProjClassLib.xproj");

@@ -66,6 +66,34 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences {
         ///  &quot;version&quot;: 2,
         ///  &quot;targets&quot;: {
         ///    &quot;.NETFramework,Version=v4.5.2&quot;: {
+        ///      &quot;XProjClassLib/1.0.0&quot;: {
+        ///        &quot;type&quot;: &quot;project&quot;,
+        ///        &quot;framework&quot;: &quot;.NETFramework,Version=v4.5.2&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;net452/XProjClassLib.dll&quot;: { }
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;net452/XProjClassLib.dll&quot;: { }
+        ///        }
+        ///      }
+        ///    },
+        ///    &quot;.NETFramework,Version=v4.5.2/win&quot;: {
+        ///      &quot;XProjClassLib/1.0.0&quot;: {
+        ///        &quot;type&quot;: &quot;project&quot;,
+        ///        &quot;framework&quot;: &quot;.NETFram [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LockFileMissingMSBuildProjectThatProvidesAssets {
+            get {
+                return ResourceManager.GetString("LockFileMissingMSBuildProjectThatProvidesAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5.2&quot;: {
         ///      &quot;ClassLibrary2/1.0.0&quot;: {
         ///        &quot;type&quot;: &quot;project&quot;,
         ///        &quot;framework&quot;: &quot;.NETFramework,Version=v4.5.2&quot;

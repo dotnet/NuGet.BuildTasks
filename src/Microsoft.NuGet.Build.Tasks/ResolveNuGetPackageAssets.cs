@@ -867,7 +867,14 @@ namespace Microsoft.NuGet.Build.Tasks
                 {
                     fullPackagePathGenerator = () =>
                     {
-                        var absoluteMSBuildProjectPath = GetAbsolutePathFromProjectRelativePath((string)libraryObject["msbuildProject"]);
+                        var relativeMSBuildProjectPath = (string)libraryObject["msbuildProject"];
+
+                        if (string.IsNullOrEmpty(relativeMSBuildProjectPath))
+                        {
+                            throw new ExceptionFromResource(nameof(Strings.MissingMSBuildPathInProjectPackage), id);
+                        }
+
+                        var absoluteMSBuildProjectPath = GetAbsolutePathFromProjectRelativePath(relativeMSBuildProjectPath);
                         string fullPackagePath;
                         if (!_projectReferencesToOutputBasePaths.TryGetValue(absoluteMSBuildProjectPath, out fullPackagePath))
                         {

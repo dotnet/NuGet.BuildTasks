@@ -129,6 +129,9 @@
   <data name="MissingFramework" xml:space="preserve">
     <value>Your project is not referencing the "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json, and then re-run NuGet restore.</value>
   </data>
+  <data name="MissingMSBuildPathInProjectPackage" xml:space="preserve">
+    <value>Your project is consuming assets from the project '{0}' but no MSBuild project is found in the project.lock.json. Check the project references in your project file, and re-run NuGet restore.</value>
+  </data>
   <data name="MissingProjectReference" xml:space="preserve">
     <value>The project.json is referencing the project '{0}', but an output path was not specified on an item in the {1} property.</value>
   </data>

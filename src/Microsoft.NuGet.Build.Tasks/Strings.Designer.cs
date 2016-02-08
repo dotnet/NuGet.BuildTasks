@@ -97,6 +97,15 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your project is consuming assets from the project &apos;{0}&apos; but no MSBuild project is found in the project.lock.json. Check the project references in your project file, and re-run NuGet restore..
+        /// </summary>
+        internal static string MissingMSBuildPathInProjectPackage {
+            get {
+                return ResourceManager.GetString("MissingMSBuildPathInProjectPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The project.json is referencing the project &apos;{0}&apos;, but an output path was not specified on an item in the {1} property..
         /// </summary>
         internal static string MissingProjectReference {
