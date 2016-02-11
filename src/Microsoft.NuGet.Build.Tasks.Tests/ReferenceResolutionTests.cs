@@ -218,6 +218,20 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         }
 
         [Fact]
+        public static void AllPackageReferencesAreMarkedAsSuch()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Json.Json.FluentAssertions,
+                targetMoniker: ".NETFramework,Version=v4.5.2",
+                runtimeIdentifier: "",
+                includeFrameworkReferences: true);
+
+            // We should have references to the package itself plus framework packages
+            AssertHelpers.AssertCountOf(4, result.References);
+            Assert.All(result.References, r => Assert.Equal(ResolveNuGetPackageAssets.NuGetSourceType_Package, r.GetMetadata(ResolveNuGetPackageAssets.NuGetSourceType)));
+        }
+
+        [Fact]
         public static void CopyLocalContentsIncludePdbsIfAvailable()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(

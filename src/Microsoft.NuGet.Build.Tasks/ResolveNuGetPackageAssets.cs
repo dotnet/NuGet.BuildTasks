@@ -22,6 +22,10 @@ namespace Microsoft.NuGet.Build.Tasks
         internal const string NuGetPackageIdMetadata = "NuGetPackageId";
         internal const string NuGetPackageVersionMetadata = "NuGetPackageVersion";
         internal const string NuGetIsFrameworkReference = "NuGetIsFrameworkReference";
+        internal const string NuGetSourceType = "NuGetSourceType";
+        internal const string NuGetSourceType_Project = "Project";
+        internal const string NuGetSourceType_Package = "Package";
+
         internal const string ReferenceImplementationMetadata = "Implementation";
         internal const string ReferenceImageRuntimeMetadata = "ImageRuntime";
         internal const string ReferenceWinMDFileMetadata = "WinMDFile";
@@ -286,6 +290,7 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 var item = new TaskItem(frameworkReference);
                 item.SetMetadata(NuGetIsFrameworkReference, "true");
+                item.SetMetadata(NuGetSourceType, NuGetSourceType_Package);
                 _references.Add(item);
             }
         }
@@ -775,6 +780,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 item.SetMetadata("Private", "false");
                 item.SetMetadata(NuGetIsFrameworkReference, "false");
+                item.SetMetadata(NuGetSourceType, package.IsProject ? NuGetSourceType_Project : NuGetSourceType_Package);
 
                 items.Add(item);
 
@@ -873,6 +879,7 @@ namespace Microsoft.NuGet.Build.Tasks
                 var nameParts = package.Key.Split('/');
                 var id = nameParts[0];
                 var version = nameParts[1];
+                bool isProject = false;
 
                 var libraryObject = (JObject)lockFile["libraries"][package.Key];
 
@@ -881,6 +888,8 @@ namespace Microsoft.NuGet.Build.Tasks
                 // If this is a project then we need to figure out it's relative output path
                 if ((string)libraryObject["type"] == "project")
                 {
+                    isProject = true;
+
                     fullPackagePathGenerator = () =>
                     {
                         var relativeMSBuildProjectPath = (string)libraryObject["msbuildProject"];
@@ -905,7 +914,7 @@ namespace Microsoft.NuGet.Build.Tasks
                     fullPackagePathGenerator = () => GetNuGetPackagePath(id, version);
                 }
 
-                yield return new NuGetPackageObject(id, version, fullPackagePathGenerator, (JObject)package.Value, libraryObject);
+                yield return new NuGetPackageObject(id, version, isProject, fullPackagePathGenerator, (JObject)package.Value, libraryObject);
             }
         }
 

@@ -45,6 +45,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences
             Assert.Empty(result.Analyzers);
             AssertHelpers.PathEndsWith(@"XProjOutputDirectory\net452\XProjClassLib.dll", result.CopyLocalItems.Single().ItemSpec);
             AssertHelpers.PathEndsWith(@"XProjOutputDirectory\net452\XProjClassLib.dll", result.References.Single().ItemSpec);
+            Assert.All(result.References, r => Assert.Equal(ResolveNuGetPackageAssets.NuGetSourceType_Project, r.GetMetadata(ResolveNuGetPackageAssets.NuGetSourceType)));
             Assert.Empty(result.ReferencedPackages);
         }
 
