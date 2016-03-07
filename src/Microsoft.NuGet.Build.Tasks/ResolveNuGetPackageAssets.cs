@@ -11,6 +11,8 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace Microsoft.NuGet.Build.Tasks
 {
@@ -231,7 +233,8 @@ namespace Microsoft.NuGet.Build.Tasks
             }
 
             JObject lockFile;
-            using (var streamReader = new StreamReader(ProjectLockFile))
+            using (var fs = new FileStream(ProjectLockFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var streamReader = new StreamReader(fs, Encoding.UTF8))
             {
                 lockFile = JObject.Load(new JsonTextReader(streamReader));
             }
@@ -276,8 +279,48 @@ namespace Microsoft.NuGet.Build.Tasks
                 }
                 else
                 {
-                    _packageFolders.Add(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages"));
+                    _packageFolders.Add(GetHomeDir());
                 }
+            }
+        }
+
+        private static string GetHomeDir()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var envvar = Environment.GetEnvironmentVariable("USERPROFILE");
+                if (!string.IsNullOrEmpty(envvar))
+                {
+                    return envvar;
+                }
+
+                var drive = Environment.GetEnvironmentVariable("HOMEDRIVE");
+                if (!string.IsNullOrEmpty(drive))
+                {
+                    var path = Environment.GetEnvironmentVariable("HOMEPATH");
+
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        return Path.Combine(drive, path);
+                    }
+                }
+
+                // Last ditch attempt -- if we're running on Desktop, we may
+                // have access to more APIs
+
+                // Environment.SpecialFolder.UserProfile
+                const int UserProfile = 0x0028;
+
+                var getFolderPath = typeof(Environment)
+                    .GetTypeInfo()
+                    .GetDeclaredMethod("GetFolderPath");
+
+                return (string)getFolderPath
+                    ?.Invoke(null, new object[] { UserProfile });
+            }
+            else
+            {
+                return Environment.GetEnvironmentVariable("HOME");
             }
         }
 
@@ -634,8 +677,10 @@ namespace Microsoft.NuGet.Build.Tasks
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(pathToFinalAsset));
 
-                    using (var input = new StreamReader(package.GetFullPathToFile(sharedAsset.Name), detectEncodingFromByteOrderMarks: true))
-                    using (var output = new StreamWriter(pathToFinalAsset, append: false, encoding: input.CurrentEncoding))
+                    using (var inFile = new FileStream(package.GetFullPathToFile(sharedAsset.Name), FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (var input = new StreamReader(inFile, detectEncodingFromByteOrderMarks: true))
+                    using (var outFile = new FileStream(pathToFinalAsset, FileMode.Create, FileAccess.Write))
+                    using (var output = new StreamWriter(outFile, encoding: input.CurrentEncoding))
                     {
                         Preprocessor.Preprocess(input, output, preprocessorValues);
                     }
@@ -750,7 +795,8 @@ namespace Microsoft.NuGet.Build.Tasks
             bool hasRuntimesSection;
             try
             {
-                using (var streamReader = new StreamReader(ProjectLockFile.Replace(".lock.json", ".json")))
+                using (var fs = new FileStream(ProjectLockFile.Replace(".lock.json", ".json"), FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var streamReader = new StreamReader(fs, Encoding.UTF8))
                 {
                     var jsonFile = JObject.Load(new JsonTextReader(streamReader));
                     hasRuntimesSection = jsonFile["runtimes"] != null;
@@ -898,6 +944,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
             throw new ExceptionFromResource(nameof(Strings.PackageFolderNotFound), packageId, packageVersion, string.Join(", ", _packageFolders));
         }
+        
 
         private IEnumerable<NuGetPackageObject> GetPackagesFromTarget(JObject lockFile, JObject target)
         {
