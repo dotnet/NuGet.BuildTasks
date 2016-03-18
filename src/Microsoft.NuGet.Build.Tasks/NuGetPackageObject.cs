@@ -49,7 +49,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
         public string GetFullPathToFile(string relativePath)
         {
-            relativePath = relativePath.Replace('/', '\\');
+            relativePath = relativePath.Replace('/', Path.DirectorySeparatorChar);
             return Path.Combine(_fullPackagePath.Value, relativePath);
         }
     }

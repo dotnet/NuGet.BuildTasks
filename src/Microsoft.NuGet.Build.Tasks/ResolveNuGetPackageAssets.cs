@@ -461,7 +461,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private string GetPath(string packageName, string packageVersion, string file)
         {
-            return Path.Combine(GetNuGetPackagePath(packageName, packageVersion), file.Replace('/', '\\'));
+            return Path.Combine(GetNuGetPackagePath(packageName, packageVersion), file.Replace('/', Path.DirectorySeparatorChar));
         }
 
         /// <summary>
@@ -819,7 +819,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 if (!string.IsNullOrEmpty(destinationSubDirectory))
                 {
-                    item.SetMetadata("DestinationSubDirectory", destinationSubDirectory + "\\");
+                    item.SetMetadata("DestinationSubDirectory", destinationSubDirectory + Path.DirectorySeparatorChar);
                 }
             }
 
