@@ -132,6 +132,9 @@
   <data name="MissingMSBuildPathInProjectPackage" xml:space="preserve">
     <value>Your project is consuming assets from the project '{0}' but no MSBuild project is found in the project.lock.json. Check the project references in your project file, and re-run NuGet restore.</value>
   </data>
+  <data name="MissingPackageInTargetsSection" xml:space="preserve">
+    <value>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</value>
+  </data>
   <data name="MissingProjectReference" xml:space="preserve">
     <value>The project.json is referencing the project '{0}', but an output path was not specified on an item in the {1} property.</value>
   </data>

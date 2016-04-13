@@ -106,6 +106,15 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The package &apos;{0}&apos; could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted..
+        /// </summary>
+        internal static string MissingPackageInTargetsSection {
+            get {
+                return ResourceManager.GetString("MissingPackageInTargetsSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The project.json is referencing the project &apos;{0}&apos;, but an output path was not specified on an item in the {1} property..
         /// </summary>
         internal static string MissingProjectReference {

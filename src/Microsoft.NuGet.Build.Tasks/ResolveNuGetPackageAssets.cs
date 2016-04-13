@@ -885,6 +885,11 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 Func<string> fullPackagePathGenerator;
 
+                if (libraryObject == null)
+                {
+                    throw new ExceptionFromResource(nameof(Strings.MissingPackageInTargetsSection), package.Key);
+                }
+
                 // If this is a project then we need to figure out it's relative output path
                 if ((string)libraryObject["type"] == "project")
                 {
