@@ -73,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Json\analyzers.json" />
     <None Include="Json\FluentAssertions.lock.json" />
     <None Include="Json\FluentAssertionsAndWin10.lock.json" />
