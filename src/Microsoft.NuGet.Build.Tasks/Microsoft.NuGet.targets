@@ -117,7 +117,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <ResolveNuGetPackageAssetsDependsOn Condition="'$(ImplicitlyExpandTargetFramework)' == 'true'">$(ResolveNuGetPackageAssetsDependsOn);ImplicitlyExpandTargetFramework</ResolveNuGetPackageAssetsDependsOn>
   </PropertyGroup>
 
-  <Target Name="ResolveNuGetPackageAssets" DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)" Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')">
+  <Target Name="ResolveNuGetPackageAssets" DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)" Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')" Returns="@(ReferenceCopyLocalPaths);@(_ReferencesFromNuGetPackages)">
     <!-- We need to figure out the output path of any dependent xproj projects -->
     <MSBuild
       Projects="@(_MSBuildProjectReferenceExistent)"
