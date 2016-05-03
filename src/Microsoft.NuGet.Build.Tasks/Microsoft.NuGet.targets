@@ -117,7 +117,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <ResolveNuGetPackageAssetsDependsOn Condition="'$(ImplicitlyExpandTargetFramework)' == 'true'">$(ResolveNuGetPackageAssetsDependsOn);ImplicitlyExpandTargetFramework</ResolveNuGetPackageAssetsDependsOn>
   </PropertyGroup>
 
-  <Target Name="ResolveNuGetPackageAssets" DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)" Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')" Returns="@(ReferenceCopyLocalPaths);@(_ReferencesFromNuGetPackages)">
+  <Target Name="ResolveNuGetPackageAssets" DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)" Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')" Returns="@(_ReferenceCopyLocalPathsFromNuGetPackages);@(_ReferencesFromNuGetPackages)">
     <!-- We need to figure out the output path of any dependent xproj projects -->
     <MSBuild
       Projects="@(_MSBuildProjectReferenceExistent)"
@@ -150,7 +150,7 @@ Copyright (c) .NET Foundation. All rights reserved.
                                TargetMonikers="$(NuGetTargetMoniker);$(_NuGetTargetFallbackMoniker)">
 
       <Output TaskParameter="ResolvedAnalyzers" ItemName="Analyzer" />
-      <Output TaskParameter="ResolvedCopyLocalItems" ItemName="ReferenceCopyLocalPaths" />
+      <Output TaskParameter="ResolvedCopyLocalItems" ItemName="_ReferenceCopyLocalPathsFromNuGetPackages" />
       <Output TaskParameter="ResolvedReferences" ItemName="_ReferencesFromNuGetPackages" />
       <Output TaskParameter="ReferencedPackages" ItemName="ReferencedNuGetPackages" />
       <Output TaskParameter="ContentItems" ItemName="_NuGetContentItems" />
@@ -173,6 +173,10 @@ Copyright (c) .NET Foundation. All rights reserved.
       <!-- Remove simple name references if we're directly providing a reference assembly to the compiler. For example,
            consider a project with an Reference Include="System", and some NuGet package is providing System.dll -->
       <Reference Remove="%(_ReferencesFromNuGetPackages.FileName)" Condition="'%(_ReferencesFromNuGetPackages.NuGetIsFrameworkReference)' == 'false'"/>
+
+      <!-- Append paths to NuGet dependencies files that should be copied to the local directory to proper group -->
+      <ReferenceCopyLocalPaths Include="@(_ReferenceCopyLocalPathsFromNuGetPackages)" />
+
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(AutoUnifyAssemblyReferences)' == 'true' ">
