@@ -618,7 +618,10 @@ namespace Microsoft.NuGet.Build.Tasks
             string buildAction = (string)sharedAsset.Value["buildAction"];
             if (!string.Equals(buildAction, "none", StringComparison.OrdinalIgnoreCase))
             {
-                var item = CreateItem(package, pathToFinalAsset);
+                // We'll compute the relative path relative to the root of the content/TFM directory, which
+                // is always three components
+                var relativePath = string.Join("\\", sharedAsset.Name.Split('/', '\\').Skip(3));
+                var item = CreateItem(package, pathToFinalAsset, targetPath: relativePath);
 
                 // We'll put additional metadata on the item so we can convert it back to the real item group in our targets
                 item.SetMetadata("NuGetItemType", buildAction);

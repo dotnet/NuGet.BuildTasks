@@ -43,6 +43,12 @@
   <ItemGroup>
     <Compile Include="AnalyzerResolutionTests.cs" />
     <Compile Include="AssertHelpers.cs" />
+    <Compile Include="Content\ContentTests.cs" />
+    <Compile Include="Content\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DisposableDirectory.cs" />
     <Compile Include="Helpers\DisposableFile.cs" />
     <Compile Include="Helpers\MockBuildEngine.cs" />
@@ -74,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Content\LockFileWithBuildActionForCSharp.json" />
     <None Include="Json\analyzers.json" />
     <None Include="Json\FluentAssertions.lock.json" />
     <None Include="Json\FluentAssertionsAndWin10.lock.json" />
@@ -87,6 +94,11 @@
     <None Include="ProjectReferences\LockFileWithCSProjReference.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Json\Json.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Json.Designer.cs</LastGenOutput>

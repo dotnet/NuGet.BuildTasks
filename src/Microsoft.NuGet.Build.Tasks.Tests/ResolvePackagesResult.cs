@@ -19,12 +19,14 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
     {
         public ResolvePackagesResult(
             ITaskItem[] analyzers,
+            ITaskItem[] contentItems,
             ITaskItem[] copyLocalItems,
             ITaskItem[] references,
             ITaskItem[] referencedPackages,
             string referenceTemporaryPath)
         {
             Analyzers = analyzers ?? new ITaskItem[] { };
+            ContentItems = contentItems ?? new ITaskItem[] { };
             CopyLocalItems = copyLocalItems ?? new ITaskItem[] { };
             References = references ?? new ITaskItem[] { };
             ReferencedPackages = referencedPackages ?? new ITaskItem[] { };
@@ -32,6 +34,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         }
 
         public ITaskItem[] Analyzers { get; }
+        public ITaskItem[] ContentItems { get; }
         public ITaskItem[] CopyLocalItems { get; }
         public ITaskItem[] References { get; }
         public ITaskItem[] ReferencedPackages { get; }

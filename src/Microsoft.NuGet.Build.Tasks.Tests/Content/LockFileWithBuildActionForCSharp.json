@@ -1,0 +1,35 @@
+{
+  "locked": false,
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.5.2": {
+      "TestPackage/1.0.0": {
+        "type": "package",
+        "contentFiles": {
+          "contentFiles/cs/net45/ContentFolder/Content.txt": {
+            "buildAction": "Content",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TestPackage/1.0.0": {
+      "sha512": "4vvAtzBLtRb7vQOXlqu101Ea3uveI6vOoPz9WG88G3IJEWyKByTdch91Q/lHWZDQzyHTGRzeiNcgh7d3aT1E7w==",
+      "type": "package",
+      "files": [
+        "TestPackage.1.0.0.nupkg.sha512",
+        "TestPackage.nuspec",
+        "contentFiles/cs/net45/ContentFolder/Content.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "TestPackage >= 1.0.0"
+    ],
+    ".NETFramework,Version=v4.5.2": []
+  }
+}
