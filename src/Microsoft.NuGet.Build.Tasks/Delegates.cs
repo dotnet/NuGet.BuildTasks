@@ -3,7 +3,6 @@
 
 namespace Microsoft.NuGet.Build.Tasks
 {
-    internal delegate bool DirectoryExists(string path);
     internal delegate bool FileExists(string path);
     internal delegate string TryGetRuntimeVersion(string path);
 }

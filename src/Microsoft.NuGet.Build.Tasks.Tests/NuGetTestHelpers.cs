@@ -55,13 +55,23 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                         filesInPackages.Add(fileInPackage);
                     }
                 }
+                else
+                {
+                    // We will assume there is a location in the lock file we're using
+                    var lockFile = JObject.Parse(projectLockJsonFileContents);
+                    var firstLocation = ((JObject)lockFile["packageFolders"]).Properties().First().Name;
+
+                    foreach (var fileInPackage in GetFakeFileNamesFromPackages(projectLockJsonFileContents, firstLocation))
+                    {
+                        filesInPackages.Add(fileInPackage);
+                    }
+                }
 
                 // Don't require the packages be restored on the machine
                 ResolveNuGetPackageAssets task = null;
-                DirectoryExists directoryExists = path => task.GetPackageFolders().Any(l => path.StartsWith(l)) || Directory.Exists(path);
                 FileExists fileExists = path => filesInPackages.Contains(path) || File.Exists(path);
 
-                task = new ResolveNuGetPackageAssets(directoryExists, fileExists, tryGetRuntimeVersion);
+                task = new ResolveNuGetPackageAssets(fileExists, tryGetRuntimeVersion);
                 var sw = new StringWriter();
                 task.BuildEngine = new MockBuildEngine(sw);
 
@@ -105,6 +115,10 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                         yield return Path.Combine(packagesDirectory, library.Name, file).Replace('/', '\\');
                     }
                 }
+
+                // Some earlier versions of NuGet didn't include the hash file in the file list, so fake that
+                // in here.
+                yield return Path.Combine(packagesDirectory, library.Name.Replace('/', '\\'), library.Name.Replace('/', '.') + ".nupkg.sha512");
             }
         }
     }
