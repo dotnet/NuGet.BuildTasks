@@ -26,13 +26,13 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             TryGetRuntimeVersion tryGetRuntimeVersion = null,
             bool includeFrameworkReferences = true,
             string projectJsonFileContents = null,
-            IEnumerable<ITaskItem> projectReferencesCreatingPackages = null)
+            IEnumerable<ITaskItem> projectReferencesCreatingPackages = null,
+            bool createTemporaryFolderForPackages = true)
         {
             var rootDirectory = new TempRoot();
             using (rootDirectory)
             {
                 var projectDirectory = rootDirectory.CreateDirectory();
-                var packagesDirectory = rootDirectory.CreateDirectory();
 
                 var projectLockJsonFile = projectDirectory.CreateFile("project.lock.json");
                 projectLockJsonFile.WriteAllText(projectLockJsonFileContents);
@@ -43,21 +43,31 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     projectJsonFile.WriteAllText(projectJsonFileContents);
                 }
 
-                var filesInPackages = new HashSet<string>(
-                    GetFakeFileNamesFromPackages(projectLockJsonFileContents, packagesDirectory.Path),
-                    StringComparer.OrdinalIgnoreCase);
+                var filesInPackages = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                DisposableDirectory packagesDirectory = null;
+
+                if (createTemporaryFolderForPackages)
+                {
+                    packagesDirectory = rootDirectory.CreateDirectory();
+
+                    foreach (var fileInPackage in GetFakeFileNamesFromPackages(projectLockJsonFileContents, packagesDirectory.Path))
+                    {
+                        filesInPackages.Add(fileInPackage);
+                    }
+                }
 
                 // Don't require the packages be restored on the machine
-                DirectoryExists directoryExists = path => path.StartsWith(packagesDirectory.Path) || Directory.Exists(path);
+                ResolveNuGetPackageAssets task = null;
+                DirectoryExists directoryExists = path => task.GetPackageFolders().Any(l => path.StartsWith(l)) || Directory.Exists(path);
                 FileExists fileExists = path => filesInPackages.Contains(path) || File.Exists(path);
 
-                ResolveNuGetPackageAssets task = new ResolveNuGetPackageAssets(directoryExists, fileExists, tryGetRuntimeVersion);
+                task = new ResolveNuGetPackageAssets(directoryExists, fileExists, tryGetRuntimeVersion);
                 var sw = new StringWriter();
                 task.BuildEngine = new MockBuildEngine(sw);
 
                 task.AllowFallbackOnTargetSelection = allowFallbackOnTargetSelection;
                 task.IncludeFrameworkReferences = includeFrameworkReferences;
-                task.NuGetPackagesDirectory = packagesDirectory.Path;
+                task.NuGetPackagesDirectory = packagesDirectory?.Path;
                 task.RuntimeIdentifier = runtimeIdentifier;
                 task.ProjectReferencesCreatingPackages = (projectReferencesCreatingPackages ?? Enumerable.Empty<ITaskItem>()).ToArray();
                 task.ProjectLockFile = projectLockJsonFile.Path;

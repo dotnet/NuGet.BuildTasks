@@ -149,6 +149,34 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         /// <summary>
         ///   Looks up a localized string similar to {
         ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5&quot;: {
+        ///      &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        }
+        ///      }
+        ///    }
+        ///  },
+        ///  &quot;libraries&quot;: {
+        ///    &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///      &quot;sha512&quot;: &quot;KGsYQdS2zLH+H8x2cZaSI7e+YZ4SFIbyy1YJQYl6GYBWjf5o4H1A68nxyq+WTyVSOJQ4GqS/DiPE+UseUizgMg==&quot;,
+        ///      &quot;type&quot;: &quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LockFileWithWithSpecifiedPackageFolders {
+            get {
+                return ResourceManager.GetString("LockFileWithWithSpecifiedPackageFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
         ///  &quot;version&quot;: 1,
         ///  &quot;targets&quot;: {
         ///    &quot;.NETCore,Version=v5.0&quot;: {

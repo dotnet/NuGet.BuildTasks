@@ -55,6 +55,7 @@
       <DependentUpon>Json.resx</DependentUpon>
     </Compile>
     <Compile Include="NuGetTestHelpers.cs" />
+    <Compile Include="PackageFolderTests.cs" />
     <Compile Include="PreprocessorTests.cs" />
     <Compile Include="ProjectReferences\ProjectReferenceTests.cs" />
     <Compile Include="ProjectReferences\Resources.Designer.cs">
@@ -78,6 +79,7 @@
     <None Include="Json\FluentAssertions.lock.json" />
     <None Include="Json\FluentAssertionsAndWin10.lock.json" />
     <None Include="Json\nativeWinMD.json" />
+    <None Include="Json\LockFileWithWithSpecifiedPackageFolders.json" />
     <None Include="Json\Win10.Edm.json" />
     <None Include="Json\Win10.json" />
     <None Include="Json\Win10.xunit.json" />
