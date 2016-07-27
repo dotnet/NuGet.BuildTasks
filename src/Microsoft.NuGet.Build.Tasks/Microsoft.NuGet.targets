@@ -28,7 +28,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' == 'true'">$(TargetPlatformIdentifier),Version=v$([System.Version]::Parse('$(TargetPlatformMinVersion)').ToString(3))</NuGetTargetMoniker>
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' != 'true'">$(TargetFrameworkMoniker)</NuGetTargetMoniker>
 
-    <CopyNuGetImplementations Condition="'$(CopyNuGetImplementations)' == '' and (('$(OutputType)' != 'library' and ('$(OutputType)' != 'winmdobj' or '$(AppxPackage)' == 'true')) or '$(TargetFrameworkIdentifier)' == '.NETFramework')">true</CopyNuGetImplementations>
+    <CopyNuGetImplementations Condition="'$(CopyNuGetImplementations)' == '' and (('$(OutputType)' != 'library' and '$(OutputType)' != 'winmdobj') or ('$(AppxPackage)' == 'true') or '$(TargetFrameworkIdentifier)' == '.NETFramework')">true</CopyNuGetImplementations>
     <IncludeFrameworkReferencesFromNuGet Condition="'$(IncludeFrameworkReferencesFromNuGet)' == ''">true</IncludeFrameworkReferencesFromNuGet>
 
     <_NuGetRuntimeIdentifierPlatformTargetSuffix Condition="'$(PlatformTarget)' != '' and '$(PlatformTarget)' != 'AnyCPU'">-$(PlatformTarget.ToLower())</_NuGetRuntimeIdentifierPlatformTargetSuffix>
