@@ -14,8 +14,8 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <PropertyGroup Condition="'$(ProjectLockFile)' == ''">
     <_ProjectSpecificProjectJsonFile>$(MSBuildProjectName).project.json</_ProjectSpecificProjectJsonFile>
-    <ProjectLockFile Condition="Exists('$(_ProjectSpecificProjectJsonFile)')">$(MSBuildProjectName).project.lock.json</ProjectLockFile>
-    <ProjectLockFile Condition="!Exists('$(_ProjectSpecificProjectJsonFile)')">project.lock.json</ProjectLockFile>
+    <ProjectLockFile Condition="Exists('$(_ProjectSpecificProjectJsonFile)')">$(MSBuildProjectDirectory)/$(MSBuildProjectName).project.lock.json</ProjectLockFile>
+    <ProjectLockFile Condition="!Exists('$(_ProjectSpecificProjectJsonFile)')">$(MSBuildProjectDirectory)/project.lock.json</ProjectLockFile>
   </PropertyGroup>
 
   <PropertyGroup>
