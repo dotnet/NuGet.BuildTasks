@@ -268,4 +268,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   </Target>
 
   <Import Project="$(MSBuildProjectDirectory)\$(MSBuildProjectName).nuget.targets" Condition="Exists('$(MSBuildProjectDirectory)\$(MSBuildProjectName).nuget.targets') AND '$(IncludeNuGetImports)' != 'false'" />
+  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\$(MSBuildProjectName).nuget.targets') AND '$(IncludeNuGetImports)' != 'false'">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectDirectory)\$(MSBuildProjectName).nuget.targets</MSBuildAllProjects>
+  </PropertyGroup>
 </Project>
