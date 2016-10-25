@@ -12,11 +12,33 @@ Copyright (c) .NET Foundation. All rights reserved.
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="Microsoft.NuGet.Build.Tasks.ResolveNuGetPackageAssets" AssemblyFile="Microsoft.NuGet.Build.Tasks.dll" />
 
-  <PropertyGroup Condition="'$(ProjectLockFile)' == ''">
-    <_ProjectSpecificProjectJsonFile>$(MSBuildProjectName).project.json</_ProjectSpecificProjectJsonFile>
-    <ProjectLockFile Condition="Exists('$(_ProjectSpecificProjectJsonFile)')">$(MSBuildProjectName).project.lock.json</ProjectLockFile>
-    <ProjectLockFile Condition="!Exists('$(_ProjectSpecificProjectJsonFile)')">project.lock.json</ProjectLockFile>
-  </PropertyGroup>
+  <!-- Identify the assets file. -->
+  <Choose>
+    <When Condition="'$(ProjectLockFile)' != ''">
+      <!-- The ProjectLockFile has been specified; don't compute it. -->
+    </When>
+
+    <When Condition="Exists('$(MSBuildProjectName).project.json')">
+      <!-- There's a MyProj.project.json file, so use MyProj.project.lock.json. -->
+      <PropertyGroup>
+        <ProjectLockFile>$(MSBuildProjectName).project.lock.json</ProjectLockFile>
+      </PropertyGroup>
+    </When>
+
+    <When Condition="Exists('project.json')">
+      <!-- There's a project.json file, so use project.lock.json. -->
+      <PropertyGroup>
+        <ProjectLockFile>project.lock.json</ProjectLockFile>
+      </PropertyGroup>
+    </When>
+
+    <Otherwise>
+      <!-- No project.json provided at all, so try to use the generated project.assets.json file.-->
+      <PropertyGroup>
+        <ProjectLockFile>$(BaseIntermediateOutputPath)project.assets.json</ProjectLockFile>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
 
   <PropertyGroup>
     <ResolveNuGetPackages Condition="'$(ResolveNuGetPackages)' == '' and '$(MSBuildProjectExtension)' != '.xproj'">true</ResolveNuGetPackages>
