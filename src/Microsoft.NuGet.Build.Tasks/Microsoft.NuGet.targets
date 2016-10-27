@@ -15,27 +15,38 @@ Copyright (c) .NET Foundation. All rights reserved.
   <!-- Identify the assets file. -->
   <Choose>
     <When Condition="'$(ProjectLockFile)' != ''">
-      <!-- The ProjectLockFile has been specified; don't compute it. -->
+      <!-- The ProjectLockFile has been specified; don't compute it.
+           Create items for content files specified in the lock file. -->
+      <PropertyGroup>
+        <_CreateItemsForContentFiles>true</_CreateItemsForContentFiles>
+      </PropertyGroup>
     </When>
 
     <When Condition="Exists('$(MSBuildProjectName).project.json')">
-      <!-- There's a MyProj.project.json file, so use MyProj.project.lock.json. -->
+      <!-- There's a MyProj.project.json file, so use MyProj.project.lock.json.
+           Create items for content files specified in the MyProj.project.lock.json. -->
       <PropertyGroup>
         <ProjectLockFile>$(MSBuildProjectName).project.lock.json</ProjectLockFile>
+        <_CreateItemsForContentFiles>true</_CreateItemsForContentFiles>
       </PropertyGroup>
     </When>
 
     <When Condition="Exists('project.json')">
-      <!-- There's a project.json file, so use project.lock.json. -->
+      <!-- There's a project.json file, so use project.lock.json.
+           Create items for content files specified in the project.lock.json. -->
       <PropertyGroup>
         <ProjectLockFile>project.lock.json</ProjectLockFile>
+        <_CreateItemsForContentFiles>true</_CreateItemsForContentFiles>
       </PropertyGroup>
     </When>
 
     <Otherwise>
-      <!-- No project.json provided at all, so try to use the generated project.assets.json file.-->
+      <!-- No project.json provided at all, so try to use the generated project.assets.json file.
+           Don't create items for content files specified in project.assets.json. Package restore
+           will have already generated them into a .props file, so we shouldn't do it here. -->
       <PropertyGroup>
         <ProjectLockFile>$(BaseIntermediateOutputPath)project.assets.json</ProjectLockFile>
+        <_CreateItemsForContentFiles>false</_CreateItemsForContentFiles>
       </PropertyGroup>
     </Otherwise>
   </Choose>
@@ -205,7 +216,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
     <!-- The items in _NuGetContentItems need to go into the appropriately-named item group, but the names depend upon the items
          themselves. Split it apart. -->
-    <CreateItem Include="@(_NuGetContentItems)" Condition="'@(_NuGetContentItems)' != ''">
+    <CreateItem Include="@(_NuGetContentItems)" Condition="'@(_NuGetContentItems)' != '' and '$(_CreateItemsForContentFiles)' == 'true'">
       <Output TaskParameter="Include" ItemName="%(_NuGetContentItems.NuGetItemType)" />
     </CreateItem>
   </Target>
