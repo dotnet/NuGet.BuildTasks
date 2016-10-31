@@ -868,10 +868,42 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private void GetReferencedPackages(JObject lockFile)
         {
-            var projectFileDependencyGroups = (JObject)lockFile["projectFileDependencyGroups"];
-            var projectFileDependencies = (JArray)projectFileDependencyGroups[""];
+            var targets = (JObject)lockFile["targets"];
 
-            foreach (var packageDependency in projectFileDependencies.Select(v => (string)v))
+            string targetMoniker = null;
+            foreach (var preferredTargetMoniker in TargetMonikers)
+            {
+                var preferredTargetMonikerWithOptionalRuntimeIdentifier = GetTargetMonikerWithOptionalRuntimeIdentifier(preferredTargetMoniker, needsRuntimeIdentifier: false);
+                var target = (JObject)targets[preferredTargetMonikerWithOptionalRuntimeIdentifier];
+
+                if (target != null)
+                {
+                    targetMoniker = preferredTargetMonikerWithOptionalRuntimeIdentifier;
+                    break;
+                }
+            }
+
+            var projectFileDependencyGroups = (JObject)lockFile["projectFileDependencyGroups"];
+
+            if (targetMoniker != null)
+            {
+                var targetSpecificDependencies = (JArray)projectFileDependencyGroups[targetMoniker];
+                if (targetSpecificDependencies != null)
+                {
+                    AddReferencedPackages(targetSpecificDependencies);
+                }
+            }
+
+            var universalDependencies = (JArray)projectFileDependencyGroups[""];
+            if (universalDependencies != null)
+            {
+                AddReferencedPackages(universalDependencies);
+            }
+        }
+
+        private void AddReferencedPackages(JArray packageDependencies)
+        {
+            foreach (var packageDependency in packageDependencies.Select(v => (string)v))
             {
                 int firstSpace = packageDependency.IndexOf(' ');
 

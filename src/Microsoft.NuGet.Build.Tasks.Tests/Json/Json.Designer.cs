@@ -177,6 +177,36 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         /// <summary>
         ///   Looks up a localized string similar to {
         ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5&quot;: {
+        ///      &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        }
+        ///      }
+        ///    },
+        ///    &quot;.NETFramework,Version=v4.6&quot;: {
+        ///      &quot;FluentAssertions/3.4.1&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System.Xml&quot;,
+        ///          &quot;System.Xml.Linq&quot;
+        ///        ],
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MultipleProjectFileDependencyGroups {
+            get {
+                return ResourceManager.GetString("MultipleProjectFileDependencyGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
         ///  &quot;version&quot;: 1,
         ///  &quot;targets&quot;: {
         ///    &quot;.NETCore,Version=v5.0&quot;: {
