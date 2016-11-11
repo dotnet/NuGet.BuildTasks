@@ -905,12 +905,13 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             foreach (var packageDependency in packageDependencies.Select(v => (string)v))
             {
+                // Strip the version, if any, from the dependency.
                 int firstSpace = packageDependency.IndexOf(' ');
+                string packageName = firstSpace > -1
+                    ? packageDependency.Substring(0, firstSpace)
+                    : packageDependency;
 
-                if (firstSpace > -1)
-                {
-                    _referencedPackages.Add(new TaskItem(packageDependency.Substring(0, firstSpace)));
-                }
+                _referencedPackages.Add(new TaskItem(packageName));
             }
         }
 
