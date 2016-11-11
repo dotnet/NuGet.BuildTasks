@@ -397,17 +397,15 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 runtimeIdentifier: "win",
                 allowFallbackOnTargetSelection: true);
 
-            AssertHelpers.AssertCountOf(1, resultFor45.ReferencedPackages);
-
             var packageNames = resultFor45.ReferencedPackages.Select(t => t.ItemSpec);
 
-            Assert.Contains("Newtonsoft.Json", packageNames);
+            Assert.Equal("Newtonsoft.Json", packageNames.Single());
 
             var resultFor46 = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
                 Json.Json.MultipleProjectFileDependencyGroups,
                 targetMoniker: ".NETFramework,Version=v4.6",
                 runtimeIdentifier: "win",
-                allowFallbackOnTargetSelection:true);
+                allowFallbackOnTargetSelection: true);
 
             AssertHelpers.AssertCountOf(1, resultFor46.ReferencedPackages);
 
