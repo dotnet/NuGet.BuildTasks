@@ -63,6 +63,11 @@ Copyright (c) .NET Foundation. All rights reserved.
     <NuGetRuntimeIdentifier Condition="'$(UseDotNetNativeToolchain)' == 'true'">$(_NuGetRuntimeIdentifierWithoutAot)-aot</NuGetRuntimeIdentifier>
   </PropertyGroup>
 
+  <!-- If RuntimeIdentifiers weren't already specified for non-UAP projects, then generate it -->
+  <PropertyGroup Condition="'$(BaseNuGetRuntimeIdentifier)' == 'win' and '$(NuGetRuntimeIdentifier)' != '' and '$(RuntimeIdentifiers)' == '' and '$(RuntimeIdentifier)' == ''">
+    <RuntimeIdentifiers>win;win-x86;win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- If we are resolving from project.lock.json, we need to consider any edit to it as something that forces a rebuild -->
     <CustomAdditionalCompileInputs Include="$(ProjectLockFile)" Condition="'$(ResolveNuGetPackages)' == 'true' and Exists('$(ProjectLockFile)')" />
