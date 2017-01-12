@@ -29,6 +29,13 @@ Copyright (c) .NET Foundation. All rights reserved.
       </PropertyGroup>
     </When>
 
+    <When Condition="'$(RestoreProjectStyle)' == 'PackageReference'">
+      <!-- The RestoreProjectStyle property has been specified to PackageReference, so use that. -->
+      <PropertyGroup>
+        <ProjectLockFile>$(BaseIntermediateOutputPath)project.assets.json</ProjectLockFile>
+      </PropertyGroup>
+    </When>
+
     <When Condition="'$(ProjectLockFile)' != ''">
       <!-- The ProjectLockFile has been specified; don't compute it. -->
     </When>
@@ -46,6 +53,13 @@ Copyright (c) .NET Foundation. All rights reserved.
         <ProjectLockFile>project.lock.json</ProjectLockFile>
       </PropertyGroup>
     </When>
+
+    <Otherwise>
+      <!-- No assets or lock file provided at all, so fallback to project.assets.json file.-->
+      <PropertyGroup>
+        <ProjectLockFile>$(BaseIntermediateOutputPath)project.assets.json</ProjectLockFile>
+      </PropertyGroup>
+    </Otherwise>
   </Choose>
 
   <!-- Add to MSBuildAllProjects in order to better support incremental builds. -->
