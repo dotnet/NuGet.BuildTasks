@@ -13,5 +13,5 @@ Copyright (c) .NET Foundation. All rights reserved.
   <PropertyGroup>
     <NuGetProps Condition="'$(NuGetProps)'==''">$(MSBuildExtensionsPath)\Microsoft\NuGet\$(VisualStudioVersion)\Microsoft.NuGet.props</NuGetProps>
   </PropertyGroup>
-  <Import Condition="Exists('$(NuGetProps)')" Project="$(NuGetProps)" />
+  <Import Condition="Exists('$(NuGetProps)') and '$(SkipImportNuGetProps)' != 'true'" Project="$(NuGetProps)" />
 </Project>

@@ -13,7 +13,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   <PropertyGroup>
     <NuGetTargets Condition="'$(NuGetTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\NuGet\$(VisualStudioVersion)\Microsoft.NuGet.targets</NuGetTargets>
   </PropertyGroup>
-  <Import Condition="Exists('$(NuGetTargets)')" Project="$(NuGetTargets)" />
+  <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' != 'true'" Project="$(NuGetTargets)" />
 
   <!-- Import NuGet.targets for Restore -->
   <PropertyGroup>
