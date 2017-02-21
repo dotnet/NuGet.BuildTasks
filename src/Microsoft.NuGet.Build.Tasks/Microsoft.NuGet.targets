@@ -175,25 +175,6 @@ Copyright (c) .NET Foundation. All rights reserved.
           DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)"
           Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')">
 
-    <!-- We need to figure out the output path of any dependent xproj projects -->
-    <MSBuild
-      Projects="@(_MSBuildProjectReferenceExistent)"
-      Targets="GetTargetDir"
-      BuildInParallel="$(BuildInParallel)"
-      Properties="%(_MSBuildProjectReferenceExistent.SetConfiguration); %(_MSBuildProjectReferenceExistent.SetPlatform)"
-      RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)"
-      Condition="'%(_MSBuildProjectReferenceExistent.Extension)' == '.xproj'">
-
-      <Output TaskParameter="TargetOutputs" ItemName="_XProjTargetDirs" />
-    </MSBuild>
-
-    <!-- The items in _XProjTargetDirs have the target directories as the main itemspecs and the originating project as metadata; reverse them -->
-    <ItemGroup>
-      <ProjectReferenceCreatingPackage Include="%(_XProjTargetDirs.OriginalItemSpec)">
-        <OutputBasePath>%(_XProjTargetDirs.Identity)</OutputBasePath>
-      </ProjectReferenceCreatingPackage>
-    </ItemGroup>
-
     <ResolveNuGetPackageAssets AllowFallbackOnTargetSelection="$(DesignTimeBuild)"
                                ContinueOnError="$(ContinueOnError)"
                                IncludeFrameworkReferences="$(IncludeFrameworkReferencesFromNuGet)"
@@ -201,7 +182,6 @@ Copyright (c) .NET Foundation. All rights reserved.
                                RuntimeIdentifier="$(NuGetRuntimeIdentifier)"
                                ProjectLanguage="$(Language)"
                                ProjectLockFile="$(ProjectLockFile)"
-                               ProjectReferencesCreatingPackages="@(ProjectReferenceCreatingPackage)"
                                ContentPreprocessorValues="@(NuGetPreprocessorValue)"
                                ContentPreprocessorOutputDirectory="$(IntermediateOutputPath)\NuGet"
                                TargetMonikers="$(NuGetTargetMoniker);$(_NuGetTargetFallbackMoniker)">

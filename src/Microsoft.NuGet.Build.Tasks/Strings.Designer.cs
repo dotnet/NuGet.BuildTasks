@@ -70,15 +70,6 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The project &apos;{0}&apos; was referenced more than once in the {1} property. Ignoring all but the first..
-        /// </summary>
-        internal static string DuplicateProjectReference {
-            get {
-                return ResourceManager.GetString("DuplicateProjectReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Lock file {0} couldn&apos;t be found. Run a NuGet package restore to generate this file..
         /// </summary>
         internal static string LockFileNotFound {

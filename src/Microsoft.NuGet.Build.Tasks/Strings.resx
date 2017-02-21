@@ -120,9 +120,6 @@
   <data name="DuplicatePreprocessorToken" xml:space="preserve">
     <value>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</value>
   </data>
-  <data name="DuplicateProjectReference" xml:space="preserve">
-    <value>The project '{0}' was referenced more than once in the {1} property. Ignoring all but the first.</value>
-  </data>
   <data name="LockFileNotFound" xml:space="preserve">
     <value>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</value>
   </data>

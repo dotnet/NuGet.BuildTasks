@@ -23,11 +23,10 @@ namespace Microsoft.NuGet.Build.Tasks
         /// </summary>
         private readonly Lazy<string> _fullPackagePath;
 
-        public NuGetPackageObject(string id, string version, bool isProject, Func<string> fullPackagePathGenerator, JObject targetObject, JObject libraryObject)
+        public NuGetPackageObject(string id, string version, Func<string> fullPackagePathGenerator, JObject targetObject, JObject libraryObject)
         {
             Id = id;
             Version = version;
-            IsProject = isProject;
             _fullPackagePath = new Lazy<string>(fullPackagePathGenerator);
             TargetObject = targetObject;
             LibraryObject = libraryObject;
@@ -35,7 +34,6 @@ namespace Microsoft.NuGet.Build.Tasks
 
         public string Id { get; }
         public string Version { get; }
-        public bool IsProject { get; }
         
         /// <summary>
         /// The JSON object from the "targets" section in the project.lock.json for this package.
