@@ -11,45 +11,6 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences
     public class ProjectReferenceTests
     {
         [Fact]
-        public void ProjectReferenceToXProjWithAssetsButNotWithAPathFails()
-        {
-            var exception = Assert.Throws<ExceptionFromResource>(
-                () => NuGetTestHelpers.ResolvePackagesWithJsonFileContents(Resources.LockFileWithXProjReference, ".NETFramework,Version=v4.5.2", "win"));
-
-            Assert.Equal(nameof(Strings.MissingProjectReference), exception.ResourceName);
-            AssertHelpers.PathEndsWith(@"XProjClassLib\XProjClassLib.xproj", exception.MessageArgs[0]);
-        }
-
-        [Fact]
-        public void ProjectReferenceToProjectWithNoMSBuildProjectFailsGracefully()
-        {
-            var exception = Assert.Throws<ExceptionFromResource>(
-                () => NuGetTestHelpers.ResolvePackagesWithJsonFileContents(Resources.LockFileMissingMSBuildProjectThatProvidesAssets, ".NETFramework,Version=v4.5.2", "win"));
-
-            Assert.Equal(nameof(Strings.MissingMSBuildPathInProjectPackage), exception.ResourceName);
-            Assert.Equal(@"XProjClassLib", exception.MessageArgs[0]);
-        }
-
-        [Fact]
-        public void ProjectReferenceToXProjWithAssetsAndPathSucceeds()
-        {
-            var referenceToXProj = new TaskItem(@"..\XProjClassLib\XProjClassLib.xproj");
-            referenceToXProj.SetMetadata("OutputBasePath", "XProjOutputDirectory");
-
-            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                Resources.LockFileWithXProjReference,
-                ".NETFramework,Version=v4.5.2",
-                "win",
-                projectReferencesCreatingPackages: new[] { referenceToXProj });
-
-            Assert.Empty(result.Analyzers);
-            AssertHelpers.PathEndsWith(@"XProjOutputDirectory\net452\XProjClassLib.dll", result.CopyLocalItems.Single().ItemSpec);
-            AssertHelpers.PathEndsWith(@"XProjOutputDirectory\net452\XProjClassLib.dll", result.References.Single().ItemSpec);
-            Assert.All(result.References, r => Assert.Equal(ResolveNuGetPackageAssets.NuGetSourceType_Project, r.GetMetadata(ResolveNuGetPackageAssets.NuGetSourceType)));
-            Assert.Empty(result.ReferencedPackages);
-        }
-
-        [Fact]
         public void ProjectReferenceToCSProjWithoutAssetsAndNoPathSucceeds()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(Resources.LockFileWithCSProjReference, ".NETFramework,Version=v4.5.2", "win");

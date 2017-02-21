@@ -26,7 +26,6 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             TryGetRuntimeVersion tryGetRuntimeVersion = null,
             bool includeFrameworkReferences = true,
             string projectJsonFileContents = null,
-            IEnumerable<ITaskItem> projectReferencesCreatingPackages = null,
             bool createTemporaryFolderForPackages = true)
         {
             var rootDirectory = new TempRoot();
@@ -79,7 +78,6 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 task.IncludeFrameworkReferences = includeFrameworkReferences;
                 task.NuGetPackagesDirectory = packagesDirectory?.Path;
                 task.RuntimeIdentifier = runtimeIdentifier;
-                task.ProjectReferencesCreatingPackages = (projectReferencesCreatingPackages ?? Enumerable.Empty<ITaskItem>()).ToArray();
                 task.ProjectLockFile = projectLockJsonFile.Path;
                 task.ProjectLanguage = projectLanguage;
                 task.TargetMonikers = new ITaskItem[] { new TaskItem(targetMoniker) };

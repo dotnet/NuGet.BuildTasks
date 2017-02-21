@@ -124,7 +124,4 @@
   <data name="LockFileWithCSProjReference" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>lockfilewithcsprojreference.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="LockFileWithXProjReference" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>lockfilewithxprojreference.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
 </root>
