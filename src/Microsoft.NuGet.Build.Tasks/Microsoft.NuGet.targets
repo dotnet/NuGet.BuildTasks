@@ -70,6 +70,12 @@ Copyright (c) .NET Foundation. All rights reserved.
   <PropertyGroup>
     <ResolveNuGetPackages Condition="'$(ResolveNuGetPackages)' == '' and '$(MSBuildProjectExtension)' != '.xproj'">true</ResolveNuGetPackages>
 
+    <!-- 
+    if BaseNuGetRuntimeIdentifier is defined then simply use it as RuntimeIdentifier, otherwise
+    we'll set RuntimeIdentifiers to default value later on.
+    -->
+    <RuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' != ''">$(BaseNuGetRuntimeIdentifier)</RuntimeIdentifier>
+
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == '' and '$(TargetPlatformIdentifier)' == 'UAP'">win10</BaseNuGetRuntimeIdentifier>
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == ''">win</BaseNuGetRuntimeIdentifier>
 
