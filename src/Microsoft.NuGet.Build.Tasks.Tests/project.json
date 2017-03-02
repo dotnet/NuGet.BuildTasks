@@ -3,6 +3,10 @@
     "xunit": "2.1.0",
     "xunit.runner.visualstudio": "2.1.0"
   },
-  "frameworks": { "net45": { } },
-  "runtimes": { "win": { } }
+  "frameworks": {
+    "net46": { }
+  },
+  "runtimes": {
+    "win": { }
+  }
 }
