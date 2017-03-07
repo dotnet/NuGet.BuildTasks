@@ -62,6 +62,31 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5.2&quot;: {
+        ///      &quot;EntityFramework/6.1.3&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System.ComponentModel.DataAnnotations&quot;
+        ///        ],
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/EntityFramework.SqlServer.dll&quot;: { },
+        ///          &quot;lib/net45/EntityFramework.dll&quot;: { }
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/EntityFramework.SqlServer.dll&quot;: { },
+        ///          &quot;lib/net45/EntityFramework.dll&quot;: { }
+        ///         [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AssetsFileWithCSProjReference {
+            get {
+                return ResourceManager.GetString("AssetsFileWithCSProjReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///  &quot;locked&quot;: false,
         ///  &quot;version&quot;: 2,
         ///  &quot;targets&quot;: {

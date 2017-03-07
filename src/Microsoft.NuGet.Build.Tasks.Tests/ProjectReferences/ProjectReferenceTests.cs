@@ -21,5 +21,15 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.ProjectReferences
             Assert.Empty(result.References);
             Assert.Empty(result.ReferencedPackages);
         }
+
+        [Fact]
+        public void ProjectReferenceToCSProjWithAssetFile()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(Resources.AssetsFileWithCSProjReference, ".NETFramework,Version=v4.5.2", "win");
+
+            Assert.Empty(result.Analyzers);
+            Assert.Equal(5, result.CopyLocalItems.Count());
+            Assert.Equal(6, result.References.Count());
+        }
     }
 }
