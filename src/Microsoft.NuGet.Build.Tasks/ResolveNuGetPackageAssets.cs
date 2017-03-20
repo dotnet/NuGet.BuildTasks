@@ -854,24 +854,54 @@ namespace Microsoft.NuGet.Build.Tasks
             }
 
             var projectFileDependencyGroups = (JObject)lockFile["projectFileDependencyGroups"];
+            var allPackageNames = GetAllPackageNames(lockFile);
 
             if (targetMoniker != null)
             {
                 var targetSpecificDependencies = (JArray)projectFileDependencyGroups[targetMoniker];
                 if (targetSpecificDependencies != null)
                 {
-                    AddReferencedPackages(targetSpecificDependencies);
+                    AddReferencedPackages(targetSpecificDependencies, allPackageNames);
                 }
             }
 
             var universalDependencies = (JArray)projectFileDependencyGroups[""];
             if (universalDependencies != null)
             {
-                AddReferencedPackages(universalDependencies);
+                AddReferencedPackages(universalDependencies, allPackageNames);
             }
         }
 
-        private void AddReferencedPackages(JArray packageDependencies)
+        /// <summary>
+        /// Returns the set of all the package names (not including version numbers)
+        /// in the "libraries" section of the assets/lock file. Note that this includes
+        /// only proper packages; projects are specifically excluded.
+        /// </summary>
+        private static SortedSet<string> GetAllPackageNames(JObject lockFile)
+        {
+            var allPackageNames = new SortedSet<string>();
+            var libraries = (JObject)lockFile["libraries"];
+            foreach (var library in libraries)
+            {
+                var libraryObject = (JObject)library.Value;
+                string type = (string)libraryObject["type"];
+                if (type != null &&
+                    type.Equals("project", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                SplitPackageName(library.Key, out string name, out string version);
+                allPackageNames.Add(name);
+            }
+
+            return allPackageNames;
+        }
+
+        /// <summary>
+        /// Given a set of dependencies, identities the packages and adds their names to <see cref="_referencedPackages"/>.
+        /// </summary>
+        private void AddReferencedPackages(JArray packageDependencies, SortedSet<string> allPackageNames)
         {
             foreach (var packageDependency in packageDependencies.Select(v => (string)v))
             {
@@ -881,7 +911,10 @@ namespace Microsoft.NuGet.Build.Tasks
                     ? packageDependency.Substring(0, firstSpace)
                     : packageDependency;
 
-                _referencedPackages.Add(new TaskItem(packageName));
+                if (allPackageNames.Contains(packageName))
+                {
+                    _referencedPackages.Add(new TaskItem(packageName));
+                }
             }
         }
 
@@ -906,9 +939,7 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             foreach (var package in target)
             {
-                var nameParts = package.Key.Split('/');
-                var id = nameParts[0];
-                var version = nameParts[1];
+                SplitPackageName(package.Key, out string id, out string version);
 
                 var libraryObject = (JObject)lockFile["libraries"][package.Key];
 
@@ -931,6 +962,13 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 yield return new NuGetPackageObject(id, version, fullPackagePathGenerator, (JObject)package.Value, libraryObject);
             }
+        }
+
+        private static void SplitPackageName(string key, out string id, out string version)
+        {
+            var nameParts = key.Split('/');
+            id = nameParts[0];
+            version = nameParts[1];
         }
 
         private string GetAbsolutePathFromProjectRelativePath(string path)

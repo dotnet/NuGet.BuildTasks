@@ -85,6 +85,7 @@
     <None Include="Json\Win10.json" />
     <None Include="Json\Win10.xunit.json" />
     <None Include="project.json" />
+    <None Include="Json\ProjectDependency.assets.json" />
     <None Include="ProjectReferences\LockFileMissingMSBuildProjectThatProvidesAssets.json" />
     <None Include="ProjectReferences\LockFileWithCSProjReference.json" />
   </ItemGroup>

@@ -233,6 +233,35 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         
         /// <summary>
         ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5.2&quot;: {
+        ///      &quot;log4net/2.0.7&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45-full/log4net.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45-full/log4net.dll&quot;: {}
+        ///        }
+        ///      },
+        ///      &quot;Newtonsoft.Json/9.0.1&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///       [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ProjectDependency {
+            get {
+                return ResourceManager.GetString("ProjectDependency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
         ///  &quot;locked&quot;: false,
         ///  &quot;version&quot;: -9996,
         ///  &quot;targets&quot;: {
