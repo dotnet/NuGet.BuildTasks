@@ -264,6 +264,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <PropertyGroup>
       <_PackagingOutputsIncludesFramework Condition="'%(PackagingOutputs.FileName)%(PackagingOutputs.Extension)' == 'System.Runtime.dll'">true</_PackagingOutputsIncludesFramework>
       <_AppContainsManagedCodeForInjection Condition="'%(PackagingOutputs.Identity)' == '$(_TargetPlatformSdkDir)UnionMetadata\Windows.winmd'">true</_AppContainsManagedCodeForInjection>
+      <_AppContainsManagedCodeForInjection Condition="'%(PackagingOutputs.Identity)' == '$(WindowsSDK_UnionMetadataPath)\Windows.winmd'">true</_AppContainsManagedCodeForInjection>
     </PropertyGroup>
 
     <PropertyGroup>
