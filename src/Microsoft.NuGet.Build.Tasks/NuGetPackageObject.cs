@@ -34,6 +34,7 @@ namespace Microsoft.NuGet.Build.Tasks
 
         public string Id { get; }
         public string Version { get; }
+        public string RelativePackagePath => (string)LibraryObject["path"];
         
         /// <summary>
         /// The JSON object from the "targets" section in the project.lock.json for this package.

@@ -369,7 +369,7 @@ namespace Microsoft.NuGet.Build.Tasks
                         if (Path.GetExtension(file).Equals(".dll", StringComparison.OrdinalIgnoreCase))
                         {
                             string path;
-                            if (TryGetFile(package.Id, package.Version, file, out path))
+                            if (TryGetFile(package.Id, package.Version, package.RelativePackagePath, file, out path))
                             {
                                 var analyzer = new TaskItem(path);
 
@@ -441,16 +441,16 @@ namespace Microsoft.NuGet.Build.Tasks
             }
         }
 
-        private bool TryGetFile(string packageName, string packageVersion, string file, out string path)
+        private bool TryGetFile(string packageName, string packageVersion, string packageRelativePath, string file, out string path)
         {
             if (IsFileValid(file, "C#", "VB"))
             {
-                path = GetPath(packageName, packageVersion, file);
+                path = GetPath(packageName, packageVersion, packageRelativePath, file);
                 return true;
             }
             else if (IsFileValid(file, "VB", "C#"))
             {
-                path = GetPath(packageName, packageVersion, file);
+                path = GetPath(packageName, packageVersion, packageRelativePath, file);
                 return true;
             }
 
@@ -469,9 +469,9 @@ namespace Microsoft.NuGet.Build.Tasks
                             !file.Split('/').Any(x => x.Equals(unExpectedLanguage, StringComparison.OrdinalIgnoreCase)));
         }
 
-        private string GetPath(string packageName, string packageVersion, string file)
+        private string GetPath(string packageName, string packageVersion, string packageRelativePath, string file)
         {
-            return Path.Combine(GetNuGetPackagePath(packageName, packageVersion), file.Replace('/', '\\'));
+            return Path.Combine(GetNuGetPackagePath(packageName, packageVersion, packageRelativePath), file.Replace('/', '\\'));
         }
 
         /// <summary>
@@ -885,17 +885,23 @@ namespace Microsoft.NuGet.Build.Tasks
             }
         }
 
-        private string GetNuGetPackagePath(string packageId, string packageVersion)
+        private string GetNuGetPackagePath(string packageId, string packageVersion, string packageRelativePath)
         {
+            string relativePathToUse = String.IsNullOrEmpty(packageRelativePath)
+                                            ? Path.Combine(packageId, packageVersion)
+                                            : packageRelativePath.Replace('/', Path.DirectorySeparatorChar);
+
+            string hashFileName = $"{packageId.ToLowerInvariant()}.{packageVersion.ToLowerInvariant()}.nupkg.sha512";
+
             foreach (var packagesFolder in _packageFolders)
             {
-                string packagePath = Path.Combine(packagesFolder, packageId, packageVersion);
+                string packageFullPath = Path.Combine(packagesFolder, relativePathToUse);
 
                 // The proper way to check if a package is available is to look for the hash file, since that's the last
                 // file written as a part of the restore process. If it's not there, it means something failed part way through.
-                if (_fileExists(Path.Combine(packagePath, $"{packageId}.{packageVersion}.nupkg.sha512")))
+                if (_fileExists(Path.Combine(packageFullPath, hashFileName)))
                 {
-                    return packagePath;
+                    return packageFullPath;
                 }
             }
 
@@ -926,7 +932,7 @@ namespace Microsoft.NuGet.Build.Tasks
                 }
                 else
                 {
-                    fullPackagePathGenerator = () => GetNuGetPackagePath(id, version);
+                    fullPackagePathGenerator = () => GetNuGetPackagePath(id, version, (string)libraryObject["path"]);
                 }
 
                 yield return new NuGetPackageObject(id, version, fullPackagePathGenerator, (JObject)package.Value, libraryObject);
