@@ -413,5 +413,16 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
             Assert.Contains("FluentAssertions", packageNames);
         }
+
+        [Fact]
+        public static void ProjectsNotIncludedInReferences()
+        {
+            var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Json.Json.ProjectDependency,
+                targetMoniker: ".NETFramework,Version=v4.5.2",
+                runtimeIdentifier: "win");
+
+            Assert.DoesNotContain("ClassLibrary1", result.ReferencedPackages.Select(t => t.ItemSpec));
+        }
     }
 }
