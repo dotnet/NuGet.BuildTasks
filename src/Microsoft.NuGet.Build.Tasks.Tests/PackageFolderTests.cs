@@ -18,7 +18,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 runtimeIdentifier: null,
                 createTemporaryFolderForPackages: false);
 
-            Assert.Equal(@"C:\PackageFolder\Newtonsoft.Json\8.0.3\lib\net45\Newtonsoft.Json.dll", result.References.Single().ItemSpec);
+            Assert.Equal(@"C:\PackageFolder\newtonsoft.json\8.0.3\lib\net45\Newtonsoft.Json.dll", result.References.Single().ItemSpec);
         }
     }
 }
