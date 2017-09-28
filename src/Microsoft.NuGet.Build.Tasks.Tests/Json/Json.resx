@@ -148,4 +148,7 @@
   <data name="ProjectDependency" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ProjectDependency.assets.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="MultipleProjectFileDependencyGroups_CaseMismatch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>multipleprojectfiledependencygroups_casemismatch.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

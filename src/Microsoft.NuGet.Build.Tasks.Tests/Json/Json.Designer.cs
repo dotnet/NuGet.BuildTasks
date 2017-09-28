@@ -19,7 +19,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Json {
@@ -152,7 +152,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         ///  &quot;version&quot;: 2,
         ///  &quot;targets&quot;: {
         ///    &quot;.NETFramework,Version=v4.5&quot;: {
-        ///      &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///      &quot;Newtonsoft.Json/9.0.1&quot;: {
         ///        &quot;type&quot;: &quot;package&quot;,
         ///        &quot;compile&quot;: {
         ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
@@ -164,7 +164,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         ///    }
         ///  },
         ///  &quot;libraries&quot;: {
-        ///    &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///    &quot;Newtonsoft.Json/9.0.1&quot;: {
         ///      &quot;sha512&quot;: &quot;KGsYQdS2zLH+H8x2cZaSI7e+YZ4SFIbyy1YJQYl6GYBWjf5o4H1A68nxyq+WTyVSOJQ4GqS/DiPE+UseUizgMg==&quot;,
         ///      &quot;type&quot;: &quot; [rest of string was truncated]&quot;;.
         /// </summary>
@@ -180,7 +180,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         ///  &quot;version&quot;: 2,
         ///  &quot;targets&quot;: {
         ///    &quot;.NETFramework,Version=v4.5&quot;: {
-        ///      &quot;Newtonsoft.Json/8.0.3&quot;: {
+        ///      &quot;Newtonsoft.Json/9.0.1&quot;: {
         ///        &quot;type&quot;: &quot;package&quot;,
         ///        &quot;compile&quot;: {
         ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
@@ -201,6 +201,36 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         internal static string MultipleProjectFileDependencyGroups {
             get {
                 return ResourceManager.GetString("MultipleProjectFileDependencyGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;locked&quot;: false,
+        ///  &quot;version&quot;: 2,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.5&quot;: {
+        ///      &quot;Newtonsoft.Json/9.0.1&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;compile&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        },
+        ///        &quot;runtime&quot;: {
+        ///          &quot;lib/net45/Newtonsoft.Json.dll&quot;: {}
+        ///        }
+        ///      }
+        ///    },
+        ///    &quot;.NETFramework,Version=v4.6&quot;: {
+        ///      &quot;FluentAssertions/3.4.1&quot;: {
+        ///        &quot;frameworkAssemblies&quot;: [
+        ///          &quot;System.Xml&quot;,
+        ///          &quot;System.Xml.Linq&quot;
+        ///        ],
+        ///        [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MultipleProjectFileDependencyGroups_CaseMismatch {
+            get {
+                return ResourceManager.GetString("MultipleProjectFileDependencyGroups_CaseMismatch", resourceCulture);
             }
         }
         

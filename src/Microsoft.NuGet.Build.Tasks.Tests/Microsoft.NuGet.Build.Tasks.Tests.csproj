@@ -76,6 +76,7 @@
     <None Include="Json\analyzers.json" />
     <None Include="Json\FluentAssertions.lock.json" />
     <None Include="Json\FluentAssertionsAndWin10.lock.json" />
+    <None Include="Json\MultipleProjectFileDependencyGroups_CaseMismatch.json" />
     <None Include="Json\MultipleProjectFileDependencyGroups.json" />
     <None Include="Json\nativeWinMD.json" />
     <None Include="Json\LockFileWithWithSpecifiedPackageFolders.json" />
