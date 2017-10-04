@@ -414,6 +414,33 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             Assert.Contains("FluentAssertions", packageNames);
         }
 
+        // Regression test for https://devdiv.visualstudio.com/DevDiv/_workitems?id=500532&_a=edit
+        [Fact]
+        public static void MultipleProjectFileDependencyGroups_MismatchedCases()
+        {
+            var resultFor45 = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Json.Json.MultipleProjectFileDependencyGroups_CaseMismatch,
+                targetMoniker: ".NETFramework,Version=v4.5",
+                runtimeIdentifier: "win",
+                allowFallbackOnTargetSelection: true);
+
+            var packageNames = resultFor45.ReferencedPackages.Select(t => t.ItemSpec);
+
+            Assert.Equal("Newtonsoft.Json", packageNames.Single(), ignoreCase: true);
+
+            var resultFor46 = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                Json.Json.MultipleProjectFileDependencyGroups,
+                targetMoniker: ".NETFramework,Version=v4.6",
+                runtimeIdentifier: "win",
+                allowFallbackOnTargetSelection: true);
+
+            AssertHelpers.AssertCountOf(1, resultFor46.ReferencedPackages);
+
+            packageNames = resultFor46.ReferencedPackages.Select(t => t.ItemSpec);
+
+            Assert.Equal("FluentAssertions", packageNames.Single(), ignoreCase: true);
+        }
+
         [Fact]
         public static void ProjectsNotIncludedInReferences()
         {

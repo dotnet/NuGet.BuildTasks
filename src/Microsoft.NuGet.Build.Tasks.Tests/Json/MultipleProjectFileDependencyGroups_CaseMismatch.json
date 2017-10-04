@@ -136,10 +136,10 @@
   "projectFileDependencyGroups": {
     "": [],
     ".NETFramework,Version=v4.5": [
-        "Newtonsoft.Json >= 8.0.1"
+        "newtonsoft.json >= 8.0.1"
     ],
     ".NETFramework,Version=v4.6": [
-        "FluentAssertions >= 3.4.1"
+        "fluentassertions >= 3.4.1"
     ]
   },
   "tools": {},

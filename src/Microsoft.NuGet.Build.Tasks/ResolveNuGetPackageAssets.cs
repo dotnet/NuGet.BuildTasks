@@ -879,7 +879,7 @@ namespace Microsoft.NuGet.Build.Tasks
         /// </summary>
         private static SortedSet<string> GetAllPackageNames(JObject lockFile)
         {
-            var allPackageNames = new SortedSet<string>();
+            var allPackageNames = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
             var libraries = (JObject)lockFile["libraries"];
             foreach (var library in libraries)
             {

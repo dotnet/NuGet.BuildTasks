@@ -34,8 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build.Framework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.Build.Utilities.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +76,7 @@
     <None Include="Json\analyzers.json" />
     <None Include="Json\FluentAssertions.lock.json" />
     <None Include="Json\FluentAssertionsAndWin10.lock.json" />
+    <None Include="Json\MultipleProjectFileDependencyGroups_CaseMismatch.json" />
     <None Include="Json\MultipleProjectFileDependencyGroups.json" />
     <None Include="Json\nativeWinMD.json" />
     <None Include="Json\LockFileWithWithSpecifiedPackageFolders.json" />
