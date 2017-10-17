@@ -231,6 +231,8 @@ Copyright (c) .NET Foundation. All rights reserved.
     </CreateItem>
   </Target>
 
+  <Target Name="CollectReferencedNuGetPackages" Returns="@( ReferencedNuGetPackages)"/>
+
   <Target Name="RuntimeImplementationProjectOutputGroup"
           Returns="@(RuntimeImplementationProjectOutputGroupOutput)"
           Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')">
