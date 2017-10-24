@@ -14,10 +14,4 @@ Copyright (c) .NET Foundation. All rights reserved.
     <NuGetTargets Condition="'$(NuGetTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\NuGet\$(VisualStudioVersion)\Microsoft.NuGet.targets</NuGetTargets>
   </PropertyGroup>
   <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' != 'true'" Project="$(NuGetTargets)" />
-
-  <!-- Import NuGet.targets for Restore -->
-  <PropertyGroup>
-    <NuGetRestoreTargets Condition="'$(NuGetRestoreTargets)'==''">$(MSBuildExtensionsPath)\..\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets</NuGetRestoreTargets>
-  </PropertyGroup>
-  <Import Condition="Exists('$(NuGetRestoreTargets)')" Project="$(NuGetRestoreTargets)" />
 </Project>
