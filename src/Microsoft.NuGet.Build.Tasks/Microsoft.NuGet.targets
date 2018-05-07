@@ -159,7 +159,9 @@ Copyright (c) .NET Foundation. All rights reserved.
     ============================================================
                                         ResolveNuGetPackageAssets
 
-    Resolve assets from consumed NuGet packages listed in the project.lock.json
+    Resolve assets from consumed NuGet packages listed in the project.lock.json.
+
+    Any changes made here must also be made to ResolveNuGetPackageAssetsNonAOT, below.
 
         [OUT]
         @(Analyzer) - Paths to build-time diagnostic analyzers
@@ -231,28 +233,91 @@ Copyright (c) .NET Foundation. All rights reserved.
     </CreateItem>
   </Target>
 
-  <Target Name="CollectReferencedNuGetPackages" Returns="@(ReferencedNuGetPackages)"/>
+<!--
+    ============================================================
+                                        ResolveNuGetPackageAssetsNonAOT
 
-  <Target Name="RuntimeImplementationProjectOutputGroup"
-          Returns="@(RuntimeImplementationProjectOutputGroupOutput)"
+    Resolve assets from consumed NuGet packages listed in the project.lock.json.
+
+    To support scenarios involving the XAML designer, always uses the non-AOT
+    version of the RuntimeIdentifier.
+
+    Any changes made here must also be made to ResolveNuGetPackageAssets, above.
+
+        [OUT]
+        @(Analyzer) - Paths to build-time diagnostic analyzers
+        @(Reference) - Paths to build-time NuGet dependencies
+        @(ReferenceCopyLocalPaths) - Paths to run-time dependencies to copy
+    ============================================================
+  -->
+
+  <PropertyGroup>
+    <_HandlePackageFileConflictsAfter>$(_HandlePackageFileConflictsAfter);ResolveNuGetPackageAssetsNonAOT</_HandlePackageFileConflictsAfter>
+  </PropertyGroup>
+
+  <Target Name="ResolveNuGetPackageAssetsNonAOT"
+          DependsOnTargets="$(ResolveNuGetPackageAssetsDependsOn)"
           Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')">
 
-    <!-- This output group must contain the implementation assemblies for the host (i.e. design time) environment, not the
-         target environment. Thus, we explicitly pass the RuntimeIdentifier that doesn't have the -aot suffix -->
     <ResolveNuGetPackageAssets AllowFallbackOnTargetSelection="$(DesignTimeBuild)"
+                               ContinueOnError="$(ContinueOnError)"
+                               IncludeFrameworkReferences="$(IncludeFrameworkReferencesFromNuGet)"
                                NuGetPackagesDirectory="$(NuGetPackagesDirectory)"
                                RuntimeIdentifier="$(_NuGetRuntimeIdentifierWithoutAot)"
                                ProjectLanguage="$(Language)"
                                ProjectLockFile="$(ProjectLockFile)"
+                               ContentPreprocessorValues="@(NuGetPreprocessorValue)"
+                               ContentPreprocessorOutputDirectory="$(IntermediateOutputPath)\NuGet"
                                TargetMonikers="$(NuGetTargetMoniker);$(_NuGetTargetFallbackMoniker)">
 
-      <Output TaskParameter="ResolvedCopyLocalItems" ItemName="NonAheadOfTimeRuntimeImplementations" />
+      <Output TaskParameter="ResolvedAnalyzers" ItemName="Analyzer" />
+      <Output TaskParameter="ResolvedCopyLocalItems" ItemName="ReferenceCopyLocalPaths" />
+      <Output TaskParameter="ResolvedReferences" ItemName="_ReferencesFromNuGetPackages" />
+      <Output TaskParameter="ReferencedPackages" ItemName="ReferencedNuGetPackages" />
+      <Output TaskParameter="ContentItems" ItemName="_NuGetContentItems" />
+      <Output TaskParameter="FileWrites" ItemName="FileWrites" />
     </ResolveNuGetPackageAssets>
 
     <ItemGroup>
-      <RuntimeImplementationProjectOutputGroupOutput Include="%(NonAheadOfTimeRuntimeImplementations.Identity)">
-        <FinalOutputPath>%(NonAheadOfTimeRuntimeImplementations.FullPath)</FinalOutputPath>
-        <TargetPath>%(NonAheadOfTimeRuntimeImplementations.FullPath)</TargetPath>
+      <!-- Remove exact references, such as if a package had a framework reference to 'System' that we already have -->
+      <Reference Remove="@(_ReferencesFromNuGetPackages)" />
+
+      <!-- Remove simple name references that are already implicitly added -->
+      <_ReferencesFromNuGetPackages Remove="%(ReferencePath.FileName)" Condition="'%(ReferencePath.ResolvedFrom)' == 'ImplicitlyExpandTargetFramework'" />
+
+      <!-- Include NuGet references in the proper groups. Project-to-project references must go in the
+           _ResolvedProjectReferencePaths group which matches the behavior of the ResolveProjectReferences
+           target. This ensures that even if the assembly is missing on disk, it still makes it to the compiler. -->
+      <Reference Include="@(_ReferencesFromNuGetPackages)" Condition="'%(_ReferencesFromNuGetPackages.NuGetSourceType)' != 'Project'" />
+      <_ResolvedProjectReferencePaths Include="@(_ReferencesFromNuGetPackages)" Condition="'%(_ReferencesFromNuGetPackages.NuGetSourceType)' == 'Project'" />
+
+      <!-- Remove simple name references if we're directly providing a reference assembly to the compiler. For example,
+           consider a project with an Reference Include="System", and some NuGet package is providing System.dll -->
+      <Reference Remove="%(_ReferencesFromNuGetPackages.FileName)" Condition="'%(_ReferencesFromNuGetPackages.NuGetIsFrameworkReference)' == 'false'"/>
+    </ItemGroup>
+
+    <PropertyGroup Condition=" '$(AutoUnifyAssemblyReferences)' == 'true' ">
+      <!-- Normally Design Time Assembly Resolution (DTAR) won't consider these references.
+           Put DTAR in a mode where it will prefer the output of RAR and unify. -->
+      <DTARUseReferencesFromProject>true</DTARUseReferencesFromProject>
+    </PropertyGroup>
+
+    <!-- The items in _NuGetContentItems need to go into the appropriately-named item group, but the names depend upon the items
+         themselves. Split it apart. -->
+    <CreateItem Include="@(_NuGetContentItems)" Condition="'@(_NuGetContentItems)' != ''">
+      <Output TaskParameter="Include" ItemName="%(_NuGetContentItems.NuGetItemType)" />
+    </CreateItem>
+  </Target>
+  
+  <Target Name="RuntimeImplementationProjectOutputGroup"
+          Returns="@(RuntimeImplementationProjectOutputGroupOutput)"
+          Condition="'$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')"
+          DependsOnTargets="ResolveNuGetPackageAssetsNonAOT">
+
+    <ItemGroup>
+      <RuntimeImplementationProjectOutputGroupOutput Include="%(ReferenceCopyLocalPaths.Identity)">
+        <FinalOutputPath>%(ReferenceCopyLocalPaths.FullPath)</FinalOutputPath>
+        <TargetPath>%(ReferenceCopyLocalPaths.FullPath)</TargetPath>
       </RuntimeImplementationProjectOutputGroupOutput>
     </ItemGroup>
   </Target>
@@ -264,7 +329,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   -->
   <PropertyGroup>
     <NuGetTargetFrameworkMonikerToInject Condition="'$(NuGetTargetFrameworkMonikerToInject)' == ''">.NETCore,Version=v5.0</NuGetTargetFrameworkMonikerToInject>
-    <NuGetTargetMonikerToInject Condition="$(DotNetNativeVersion.StartsWith('2.0')) and '$(NuGetTargetMonikerToInject)' == ''">UAP,Version=v10.0.15138</NuGetTargetMonikerToInject>
+    <NuGetTargetMonikerToInject Condition="$(DotNetNativeVersion.StartsWith('2.')) and '$(NuGetTargetMonikerToInject)' == ''">UAP,Version=v10.0.15138</NuGetTargetMonikerToInject>
     <NuGetTargetMonikerToInject Condition="'$(NuGetTargetMonikerToInject)' == ''">.NETCore,Version=v5.0</NuGetTargetMonikerToInject>
     <_ComputeNetCoreFrameworkInjectionParametersBeforeTargets Condition="'$(AppxPackage)' == 'true' and '$(TargetPlatformIdentifier)' == 'UAP'">BeforeGenerateProjectPriFile</_ComputeNetCoreFrameworkInjectionParametersBeforeTargets>
   </PropertyGroup>
@@ -298,14 +363,14 @@ Copyright (c) .NET Foundation. All rights reserved.
 
     <PropertyGroup>
       <FrameworkInjectionLockFile Condition="'$(FrameworkInjectionLockFile)' == '' and $(DotNetNativeVersion.StartsWith('1.7'))">@(_NuGetInjectionSourceDirectories->'%(Identity)\RS2.project.lock.json')</FrameworkInjectionLockFile>
-      <FrameworkInjectionLockFile Condition="'$(FrameworkInjectionLockFile)' == '' and $(DotNetNativeVersion.StartsWith('2.0'))">@(_NuGetInjectionSourceDirectories->'%(Identity)\RS3.project.lock.json')</FrameworkInjectionLockFile>
+      <FrameworkInjectionLockFile Condition="'$(FrameworkInjectionLockFile)' == '' and $(DotNetNativeVersion.StartsWith('2.'))">@(_NuGetInjectionSourceDirectories->'%(Identity)\RS3.project.lock.json')</FrameworkInjectionLockFile>
       <FrameworkInjectionLockFile Condition="'$(FrameworkInjectionLockFile)' == ''">@(_NuGetInjectionSourceDirectories->'%(Identity)\project.lock.json')</FrameworkInjectionLockFile>
 
       <!-- If the file doesn't exist try to fall back to 5.2.2 file -->
       <NuGetTargetMonikerToInject Condition="!Exists('$(FrameworkInjectionLockFile)')">.NETCore,Version=v5.0</NuGetTargetMonikerToInject>
       <FrameworkInjectionLockFile Condition="!Exists('$(FrameworkInjectionLockFile)')">@(_NuGetInjectionSourceDirectories->'%(Identity)\project.lock.json')</FrameworkInjectionLockFile>
 
-      <FrameworkInjectionPackagesDirectory Condition="'$(FrameworkInjectionPackagesDirectory)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NuGet\Repository', 'NETCoreSDK', null, RegistryView.Registry32, RegistryView.Default))</FrameworkInjectionPackagesDirectory>
+      <FrameworkInjectionPackagesDirectory Condition="'$(FrameworkInjectionPackagesDirectory)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NuGet\Repository', 'UWPNugetPackages', null, RegistryView.Registry32, RegistryView.Default))</FrameworkInjectionPackagesDirectory>
     </PropertyGroup>
 
     <ResolveNuGetPackageAssets Condition="Exists('$(FrameworkInjectionLockFile)')"
