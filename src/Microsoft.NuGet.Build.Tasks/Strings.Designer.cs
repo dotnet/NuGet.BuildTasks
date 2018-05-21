@@ -19,7 +19,7 @@ namespace Microsoft.NuGet.Build.Tasks {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -115,6 +115,15 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your project csproj file doesn&apos;t have the &quot;RuntimeIdentifiers&quot; property. You should add &apos;{0}&apos; to your project csproj file and then re-run NuGet restore..
+        /// </summary>
+        internal static string MissingRuntimeIdentifiers {
+            get {
+                return ResourceManager.GetString("MissingRuntimeIdentifiers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your project.json doesn&apos;t list &apos;{0}&apos; as a targeted runtime. You should add &apos;{1}&apos; inside your &quot;runtimes&quot; section in your project.json, and then re-run NuGet restore..
         /// </summary>
         internal static string MissingRuntimeInRuntimesSection {
@@ -129,6 +138,15 @@ namespace Microsoft.NuGet.Build.Tasks {
         internal static string MissingRuntimesSection {
             get {
                 return ResourceManager.GetString("MissingRuntimesSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your project csproj file doesn&apos;t list &apos;{0}&apos; as a targeted runtime. You should add &apos;{1}&apos; to the &quot;RuntimeIdentifiers&quot; property in your project csproj file and then re-run NuGet restore..
+        /// </summary>
+        internal static string MissingSpecificRuntimeIdentifier {
+            get {
+                return ResourceManager.GetString("MissingSpecificRuntimeIdentifier", resourceCulture);
             }
         }
         
