@@ -36,6 +36,8 @@ namespace Microsoft.NuGet.Build.Tasks
         internal const string NuGetAssetTypeRuntime = "runtime";
         internal const string NuGetAssetTypeResource = "resource";
 
+        internal const string RuntimeIdentifiersProperty = "RuntimeIdentifiers";
+
         private readonly List<ITaskItem> _analyzers = new List<ITaskItem>();
         private readonly List<ITaskItem> _copyLocalItems = new List<ITaskItem>();
         private readonly List<ITaskItem> _references = new List<ITaskItem>();
@@ -715,7 +717,18 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private void GiveErrorForMissingRuntimeIdentifier()
         {
-            string runtimePiece = '"' + RuntimeIdentifier + "\": { }";
+            var runtimePiece = RuntimeIdentifier;
+            var runtimesSection = $"<{RuntimeIdentifiersProperty}>{RuntimeIdentifier}</{RuntimeIdentifiersProperty}>";
+            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingSpecificRuntimeIdentifier);
+            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifiers);
+
+            if (IsLockFileProjectJsonBased(ProjectLockFile))
+            {
+                runtimePiece = '"' + RuntimeIdentifier + "\": { }";
+                runtimesSection = "\"runtimes\": { " + runtimePiece + " }";
+                missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeInRuntimesSection);
+                missingRuntimesErrorString = nameof(Strings.MissingRuntimesSection);
+            }
 
             bool hasRuntimesSection;
             try
@@ -734,12 +747,11 @@ namespace Microsoft.NuGet.Build.Tasks
 
             if (hasRuntimesSection)
             {
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingRuntimeInRuntimesSection), RuntimeIdentifier, runtimePiece);
+                ThrowExceptionIfNotAllowingFallback(missingRuntimeInRuntimesErrorString, RuntimeIdentifier, runtimePiece);
             }
             else
             {
-                var runtimesSection = "\"runtimes\": { " + runtimePiece + " }";
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingRuntimesSection), runtimesSection);
+                ThrowExceptionIfNotAllowingFallback(missingRuntimesErrorString, runtimesSection);
             }
         }
 
@@ -1026,6 +1038,11 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 return String.Empty;
             }
+        }
+
+        private static bool IsLockFileProjectJsonBased(string lockFilePath)
+        {
+            return lockFilePath.EndsWith("lock.json", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

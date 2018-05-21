@@ -135,11 +135,19 @@
   <data name="MissingProjectReference" xml:space="preserve">
     <value>The project.json is referencing the project '{0}', but an output path was not specified on an item in the {1} property.</value>
   </data>
+  <data name="MissingRuntimeIdentifiers" xml:space="preserve">
+    <value>Your project csproj file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project csproj file and then re-run NuGet restore.</value>
+    <comment>0 - RID</comment>
+  </data>
   <data name="MissingRuntimeInRuntimesSection" xml:space="preserve">
     <value>Your project.json doesn't list '{0}' as a targeted runtime. You should add '{1}' inside your "runtimes" section in your project.json, and then re-run NuGet restore.</value>
   </data>
   <data name="MissingRuntimesSection" xml:space="preserve">
     <value>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</value>
+  </data>
+  <data name="MissingSpecificRuntimeIdentifier" xml:space="preserve">
+    <value>Your project csproj file doesn't list '{0}' as a targeted runtime. You should add '{1}' to the "RuntimeIdentifiers" property in your project csproj file and then re-run NuGet restore.</value>
+    <comment>0/1 - RID</comment>
   </data>
   <data name="NoTargetsInLockFile" xml:space="preserve">
     <value>No targets could be found in the lock file. Make sure you have a supports or runtimes section i your project.json file.</value>
