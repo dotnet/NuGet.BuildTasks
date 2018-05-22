@@ -126,9 +126,9 @@ namespace Microsoft.NuGet.Build.Tasks {
         /// <summary>
         ///   Looks up a localized string similar to Your project csproj file doesn&apos;t have the &quot;RuntimeIdentifiers&quot; property. You should add &apos;{0}&apos; to your project csproj file and then re-run NuGet restore..
         /// </summary>
-        internal static string MissingRuntimeIdentifiersInCsproj {
+        internal static string MissingRuntimeIdentifierPropertyInCsproj {
             get {
-                return ResourceManager.GetString("MissingRuntimeIdentifiersInCsproj", resourceCulture);
+                return ResourceManager.GetString("MissingRuntimeIdentifierPropertyInCsproj", resourceCulture);
             }
         }
         

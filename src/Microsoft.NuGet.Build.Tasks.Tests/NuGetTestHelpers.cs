@@ -7,8 +7,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using Microsoft.NuGet.Build.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using Microsoft.NuGet.Build.Tasks.Tests.Helpers;
@@ -21,6 +19,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             string projectLockJsonFileContents,
             string targetMoniker,
             string runtimeIdentifier,
+            bool isLockFileProjectJsonBased = true,
             string projectLanguage = null,
             bool allowFallbackOnTargetSelection = false,
             TryGetRuntimeVersion tryGetRuntimeVersion = null,
@@ -33,7 +32,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             {
                 var projectDirectory = rootDirectory.CreateDirectory();
 
-                var projectLockJsonFile = projectDirectory.CreateFile("project.lock.json");
+                var projectLockJsonFile = projectDirectory.CreateFile(isLockFileProjectJsonBased ? "project.lock.json" : "project.assets.json");
                 projectLockJsonFile.WriteAllText(projectLockJsonFileContents);
 
                 if (projectJsonFileContents != null)
