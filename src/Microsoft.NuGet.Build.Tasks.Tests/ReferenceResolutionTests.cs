@@ -88,7 +88,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
 
-            Assert.Equal(nameof(Strings.MissingRuntimeInRuntimesSection), exception.ResourceName);
+            Assert.Equal(nameof(Strings.MissingRuntimeInProjectJson), exception.ResourceName);
             Assert.Equal(new[] { "missing-runtime-identifier", "\"missing-runtime-identifier\": { }" }, exception.MessageArgs);
         }
 
@@ -103,7 +103,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     allowFallbackOnTargetSelection: false,
                     projectJsonFileContents: "{ }"));
 
-            Assert.Equal(nameof(Strings.MissingRuntimesSection), exception.ResourceName);
+            Assert.Equal(nameof(Strings.MissingRuntimesSectionInProjectJson), exception.ResourceName);
             Assert.Equal(new[] { "\"runtimes\": { \"missing-runtime-identifier\": { } }" }, exception.MessageArgs);
         }
 
@@ -117,7 +117,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false));
 
-            Assert.Equal(nameof(Strings.MissingFramework), exception.ResourceName);
+            Assert.Equal(nameof(Strings.MissingFrameworkInProjectJson), exception.ResourceName);
             Assert.Equal(new[] { "Missing,Version=1.0" }, exception.MessageArgs);
         }
 
