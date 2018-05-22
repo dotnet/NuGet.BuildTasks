@@ -690,7 +690,7 @@ namespace Microsoft.NuGet.Build.Tasks
             }
             else
             {
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingFramework), TargetMonikers.First().ItemSpec);
+                GiveErrorForMissingFramework();
             }
 
             // If we're still here, that means we're allowing fallback, so let's try
@@ -709,25 +709,34 @@ namespace Microsoft.NuGet.Build.Tasks
             var firstTarget = (JObject)enumerableTargets.FirstOrDefault().Value;
             if (firstTarget == null)
             {
-                throw new ExceptionFromResource(nameof(Strings.NoTargetsInLockFile));
+                GiveErrorForNoTargets();
             }
 
             return firstTarget;
+        }
+
+        private void GiveErrorForNoTargets()
+        {
+            var noTargetsInLockFileErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                nameof(Strings.NoTargetsInLockFileForProjectJson) :
+                nameof(Strings.NoTargetsInLockFileForCsproj);
+
+            throw new ExceptionFromResource(noTargetsInLockFileErrorString);
         }
 
         private void GiveErrorForMissingRuntimeIdentifier()
         {
             var runtimePiece = RuntimeIdentifier;
             var runtimesSection = $"<{RuntimeIdentifiersProperty}>{RuntimeIdentifier}</{RuntimeIdentifiersProperty}>";
-            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingSpecificRuntimeIdentifier);
-            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifiers);
+            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierInCsproj);
+            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifiersInCsproj);
 
             if (IsLockFileProjectJsonBased(ProjectLockFile))
             {
                 runtimePiece = '"' + RuntimeIdentifier + "\": { }";
                 runtimesSection = "\"runtimes\": { " + runtimePiece + " }";
-                missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeInRuntimesSection);
-                missingRuntimesErrorString = nameof(Strings.MissingRuntimesSection);
+                missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeInProjectJson);
+                missingRuntimesErrorString = nameof(Strings.MissingRuntimesSectionInProjectJson);
             }
 
             bool hasRuntimesSection;
@@ -753,6 +762,15 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 ThrowExceptionIfNotAllowingFallback(missingRuntimesErrorString, runtimesSection);
             }
+        }
+
+        private void GiveErrorForMissingFramework()
+        {
+            var missingFrameworkErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ? 
+                nameof(Strings.MissingFrameworkInProjectJson) : 
+                nameof(Strings.MissingFrameworkInCsproj);
+
+            ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, TargetMonikers.First().ItemSpec);
         }
 
         private void ThrowExceptionIfNotAllowingFallback(string resourceName, params string[] messageArgs)
