@@ -54,9 +54,9 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Helpers
             return dir;
         }
 
-        public TempFile CreateFile(TempRoot root, string prefix = null, string extension = null, string directory = null, [CallerFilePath]string callerSourcePath = null, [CallerLineNumber]int callerLineNumber = 0)
+        public TempFile CreateFile(string prefix = null, string extension = null, string directory = null, [CallerFilePath]string callerSourcePath = null, [CallerLineNumber]int callerLineNumber = 0)
         {
-            return AddFile(new DisposableFile(root, prefix, extension, directory, callerSourcePath, callerLineNumber));
+            return AddFile(new DisposableFile(this, prefix, extension, directory, callerSourcePath, callerLineNumber));
         }
 
         public DisposableFile AddFile(DisposableFile file)

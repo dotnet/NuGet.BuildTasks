@@ -2,9 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information. 
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Microsoft.NuGet.Build.Tasks;
+using Microsoft.NuGet.Build.Tasks.Tests.Helpers;
+using NuGet.Frameworks;
+using NuGet.LibraryModel;
+using NuGet.Packaging.Core;
+using NuGet.ProjectModel;
+using NuGet.Versioning;
 using Xunit;
 
 namespace Microsoft.NuGet.Build.Tasks.Tests
@@ -108,7 +115,45 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         }
 
         [Fact]
-        public static void TestReferenceResolutionWithMissingTargetMonikerAndNoFallback()
+        public static void TestReferenceResolutionWithMissingRuntimeIDAndNoFallbackInProjectCsproj()
+        {
+            var lockFile = GenerateLockFileWithTarget();
+
+            using (var tempRoot = new TempRoot())
+            using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
+            {
+                new LockFileFormat().Write(disposableFile.Path, lockFile);
+
+                var exception = Assert.Throws<ExceptionFromResource>(() =>
+                NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                    File.ReadAllText(disposableFile.Path),
+                    targetMoniker: ".NETFramework,Version=v4.5",
+                    runtimeIdentifier: "missing-runtime-identifier",
+                    allowFallbackOnTargetSelection: false,
+                    isLockFileProjectJsonBased: false));
+
+                Assert.Equal(nameof(Strings.MissingRuntimeIdentifierInCsproj), exception.ResourceName);
+                Assert.Equal(new[] { "missing-runtime-identifier", "missing-runtime-identifier" }, exception.MessageArgs);
+            }
+        }
+
+        [Fact]
+        public static void TestReferenceResolutionWithMissingRuntimeIDAndNoFallbackAndNoRuntimesSectionInProjectCsproj()
+        {
+            var exception = Assert.Throws<ExceptionFromResource>(() =>
+                NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                    Json.Json.Win10,
+                    targetMoniker: ".NETCore,Version=v5.0",
+                    runtimeIdentifier: "missing-runtime-identifier",
+                    allowFallbackOnTargetSelection: false,
+                    projectJsonFileContents: "{ }"));
+
+            Assert.Equal(nameof(Strings.MissingRuntimesSectionInProjectJson), exception.ResourceName);
+            Assert.Equal(new[] { "\"runtimes\": { \"missing-runtime-identifier\": { } }" }, exception.MessageArgs);
+        }
+
+        [Fact]
+        public static void TestReferenceResolutionWithMissingTargetFrameworkAndNoFallback()
         {
             var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
@@ -119,6 +164,29 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
             Assert.Equal(nameof(Strings.MissingFrameworkInProjectJson), exception.ResourceName);
             Assert.Equal(new[] { "Missing,Version=1.0" }, exception.MessageArgs);
+        }
+
+        [Fact]
+        public static void TestReferenceResolutionWithMissingTargetFrameworkAndNoFallbackInProjectCsproj()
+        {
+            var lockFile = GenerateLockFileWithoutTarget();
+
+            using (var tempRoot = new TempRoot())
+            using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
+            {
+                new LockFileFormat().Write(disposableFile.Path, lockFile);
+
+                var exception = Assert.Throws<ExceptionFromResource>(() =>
+                    NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                        File.ReadAllText(disposableFile.Path),
+                        targetMoniker: "Missing,Version=1.0",
+                        runtimeIdentifier: "missing-runtime-identifier",
+                        allowFallbackOnTargetSelection: false,
+                        isLockFileProjectJsonBased: false));
+
+                Assert.Equal(nameof(Strings.MissingFrameworkInCsproj), exception.ResourceName);
+                Assert.Equal(new[] { "Missing,Version=1.0" }, exception.MessageArgs);
+            }
         }
 
         [Fact]
@@ -133,6 +201,53 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             // We should still have references. Since we have no runtime ID, we should have no copy local items
             AssertHelpers.AssertCountOf(101, result.References);
             AssertHelpers.AssertCountOf(0, result.CopyLocalItems);
+        }
+
+        [Fact]
+        public static void TestReferenceResolutionWithMissingTargetFrameworkAndFallbackInProjectCsproj()
+        {
+            var lockFile = GenerateLockFileWithTarget();
+
+            using (var tempRoot = new TempRoot())
+            using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
+            {
+                new LockFileFormat().Write(disposableFile.Path, lockFile);
+
+                var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                        File.ReadAllText(disposableFile.Path),
+                        targetMoniker: "MissingFrameworkMoniker,Version=v42.0",
+                        runtimeIdentifier: "",
+                        allowFallbackOnTargetSelection: true,
+                        isLockFileProjectJsonBased: false);
+
+                // We should still have references. Since we have no runtime ID, we should have no copy local items
+                AssertHelpers.AssertCountOf(1, result.References);
+                AssertHelpers.AssertCountOf(0, result.CopyLocalItems);
+            }
+        }
+
+        [Theory]
+        [InlineData(true, nameof(Strings.NoTargetsInLockFileForProjectJson))]
+        [InlineData(false, nameof(Strings.NoTargetsInLockFileForCsproj))]
+        public static void TestReferenceResolutionWithMissingTargets(bool isProjectJsonBased, string errorResourceName)
+        {
+            var lockFile = GenerateLockFileWithoutTarget();
+
+            using (var tempRoot = new TempRoot())
+            using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
+            {
+                new LockFileFormat().Write(disposableFile.Path, lockFile);
+
+                var exception = Assert.Throws<ExceptionFromResource>(() =>
+                    NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                            File.ReadAllText(disposableFile.Path),
+                            targetMoniker: "MissingFrameworkMoniker,Version=v42.0",
+                            runtimeIdentifier: "",
+                            allowFallbackOnTargetSelection: true,
+                            isLockFileProjectJsonBased: isProjectJsonBased));
+
+                Assert.Equal(errorResourceName, exception.ResourceName);
+            }
         }
 
         [Fact]
@@ -270,9 +385,9 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
             var key = ResolveNuGetPackageAssets.NuGetIsFrameworkReference;
             var values = result.References.Select(r => r.GetMetadata(key));
-            
+
             Assert.All(result.References, r => Assert.Contains(key, r.MetadataNames.Cast<string>()));
-            Assert.All(values, v => Assert.Contains(v, new [] { "true", "false" }));
+            Assert.All(values, v => Assert.Contains(v, new[] { "true", "false" }));
         }
 
         [Fact]
@@ -312,8 +427,8 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
-            
-            var winmd = result.CopyLocalItems.FirstOrDefault(c => 
+
+            var winmd = result.CopyLocalItems.FirstOrDefault(c =>
                 Path.GetExtension(c.ItemSpec).Equals(".winmd", StringComparison.OrdinalIgnoreCase));
 
             Assert.NotNull(winmd);
@@ -321,7 +436,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             Assert.Equal("true", winmd.GetMetadata("WinMDFile"));
             Assert.Equal("Native", winmd.GetMetadata("WinMDFileType"));
             Assert.False(string.IsNullOrEmpty(winmd.GetMetadata("Implementation")), "implementation should be set for native winmd");
-            Assert.Equal(Path.GetFileNameWithoutExtension(winmd.ItemSpec) + ".dll", winmd.GetMetadata("Implementation"), StringComparer.OrdinalIgnoreCase);           
+            Assert.Equal(Path.GetFileNameWithoutExtension(winmd.ItemSpec) + ".dll", winmd.GetMetadata("Implementation"), StringComparer.OrdinalIgnoreCase);
         }
 
         [Fact]
@@ -334,8 +449,8 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 targetMoniker: ".NETCore,Version=v5.0",
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
-            
-            var winmd = result.CopyLocalItems.FirstOrDefault(c => 
+
+            var winmd = result.CopyLocalItems.FirstOrDefault(c =>
                 Path.GetExtension(c.ItemSpec).Equals(".winmd", StringComparison.OrdinalIgnoreCase));
 
             Assert.NotNull(winmd);
@@ -356,7 +471,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 runtimeIdentifier: "win10-x86",
                 tryGetRuntimeVersion: tryGetRuntimeVersion);
 
-            var winmd = result.CopyLocalItems.FirstOrDefault(c => 
+            var winmd = result.CopyLocalItems.FirstOrDefault(c =>
                 Path.GetExtension(c.ItemSpec).Equals(".winmd", StringComparison.OrdinalIgnoreCase));
 
             Assert.NotNull(winmd);
@@ -450,6 +565,82 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 runtimeIdentifier: "win");
 
             Assert.DoesNotContain("ClassLibrary1", result.ReferencedPackages.Select(t => t.ItemSpec));
+        }
+        private static LockFile GenerateLockFileWithoutTarget()
+        {
+            return new LockFile
+            {
+                Version = 2,
+                PackageSpec = new PackageSpec(new TargetFrameworkInformation[]
+                {
+                    new TargetFrameworkInformation
+                    {
+                        FrameworkName = FrameworkConstants.CommonFrameworks.Net45,
+                        Dependencies = new[]
+                        {
+                            new LibraryDependency
+                            {
+                                LibraryRange = new LibraryRange(
+                                    "System.Text",
+                                    new VersionRange(
+                                        minVersion: new NuGetVersion("4.5.0"),
+                                        originalString: "4.5.0"),
+                                    LibraryDependencyTarget.Package)
+                            }
+                        }
+                    }
+                })
+                {
+                    Version = new NuGetVersion("1.0.0"),
+                    RestoreMetadata = new ProjectRestoreMetadata
+                    {
+                        ProjectUniqueName = @"X:\ProjectPath\ProjectPath.csproj",
+                        ProjectName = "ProjectPath",
+                        ProjectPath = @"X:\ProjectPath\ProjectPath.csproj",
+                        OutputPath = @"X:\ProjectPath\obj\",
+                        ProjectStyle = ProjectStyle.PackageReference,
+                        OriginalTargetFrameworks = new string[] { "net45" },
+                        TargetFrameworks = new List<ProjectRestoreMetadataFrameworkInfo>
+                        {
+                            new ProjectRestoreMetadataFrameworkInfo(NuGetFramework.Parse("net45"))
+                        }
+                    }
+                },
+                Libraries = new LockFileLibrary[]
+                {
+                    new LockFileLibrary()
+                    {
+                        Name = "System.Text",
+                        Version = NuGetVersion.Parse("4.5.0"),
+                        Path = "system.text/4.5.0",
+                        Type = LibraryType.Package
+                    }
+                }
+            };
+        }
+
+        private static LockFile GenerateLockFileWithTarget()
+        {
+            var lockFile = GenerateLockFileWithoutTarget();
+
+            var target = new LockFileTarget()
+            {
+                TargetFramework = FrameworkConstants.CommonFrameworks.Net45
+            };
+
+            var targetLib = new LockFileTargetLibrary()
+            {
+                Name = "System.Text",
+                Version = new NuGetVersion("4.5.0"),
+                Type = LibraryType.Package
+            };
+
+            targetLib.Dependencies.Add(new PackageDependency("System", new VersionRange(NuGetVersion.Parse("4.5.0"))));
+            targetLib.CompileTimeAssemblies.Add(new LockFileItem("ref/net45/System.Text.dll"));
+            target.Libraries.Add(targetLib);
+            lockFile.Targets.Add(target);
+
+            return lockFile;
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved. 
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Security.Cryptography;
 
 namespace Microsoft.NuGet.Build.Tasks
 {
@@ -729,7 +729,7 @@ namespace Microsoft.NuGet.Build.Tasks
             var runtimePiece = RuntimeIdentifier;
             var runtimesSection = $"<{RuntimeIdentifiersProperty}>{RuntimeIdentifier}</{RuntimeIdentifiersProperty}>";
             var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierInCsproj);
-            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifiersInCsproj);
+            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierPropertyInCsproj);
 
             if (IsLockFileProjectJsonBased(ProjectLockFile))
             {
@@ -739,13 +739,17 @@ namespace Microsoft.NuGet.Build.Tasks
                 missingRuntimesErrorString = nameof(Strings.MissingRuntimesSectionInProjectJson);
             }
 
-            bool hasRuntimesSection;
+            bool hasRuntimesSection = true;
             try
             {
-                using (var streamReader = new StreamReader(ProjectLockFile.Replace(".lock.json", ".json")))
+                // try reading the project.json file only of the project is project.json based
+                if (IsLockFileProjectJsonBased(ProjectLockFile))
                 {
-                    var jsonFile = JObject.Load(new JsonTextReader(streamReader));
-                    hasRuntimesSection = jsonFile["runtimes"] != null;
+                    using (var streamReader = new StreamReader(ProjectLockFile.Replace(".lock.json", ".json")))
+                    {
+                        var jsonFile = JObject.Load(new JsonTextReader(streamReader));
+                        hasRuntimesSection = jsonFile["runtimes"] != null;
+                    }
                 }
             }
             catch
@@ -766,8 +770,8 @@ namespace Microsoft.NuGet.Build.Tasks
 
         private void GiveErrorForMissingFramework()
         {
-            var missingFrameworkErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ? 
-                nameof(Strings.MissingFrameworkInProjectJson) : 
+            var missingFrameworkErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                nameof(Strings.MissingFrameworkInProjectJson) :
                 nameof(Strings.MissingFrameworkInCsproj);
 
             ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, TargetMonikers.First().ItemSpec);

@@ -146,7 +146,7 @@
     <value>Your project csproj file doesn't list '{0}' as a targeted runtime. You should add '{1}' to the "RuntimeIdentifiers" property in your project csproj file and then re-run NuGet restore.</value>
     <comment>0 &amp;1 - Runtime Identifier</comment>
   </data>
-  <data name="MissingRuntimeIdentifiersInCsproj" xml:space="preserve">
+  <data name="MissingRuntimeIdentifierPropertyInCsproj" xml:space="preserve">
     <value>Your project csproj file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project csproj file and then re-run NuGet restore.</value>
     <comment>0 - Runtime Identifier</comment>
   </data>
