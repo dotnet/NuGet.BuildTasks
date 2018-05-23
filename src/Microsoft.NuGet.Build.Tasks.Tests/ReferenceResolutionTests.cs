@@ -132,7 +132,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                     allowFallbackOnTargetSelection: false,
                     isLockFileProjectJsonBased: false));
 
-                Assert.Equal(nameof(Strings.MissingRuntimeIdentifierInCsproj), exception.ResourceName);
+                Assert.Equal(nameof(Strings.MissingRuntimeIdentifierInProjectFile), exception.ResourceName);
                 Assert.Equal(new[] { "missing-runtime-identifier", "missing-runtime-identifier" }, exception.MessageArgs);
             }
         }
@@ -184,7 +184,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                         allowFallbackOnTargetSelection: false,
                         isLockFileProjectJsonBased: false));
 
-                Assert.Equal(nameof(Strings.MissingFrameworkInCsproj), exception.ResourceName);
+                Assert.Equal(nameof(Strings.MissingFrameworkInProjectFile), exception.ResourceName);
                 Assert.Equal(new[] { "Missing,Version=1.0" }, exception.MessageArgs);
             }
         }
@@ -228,7 +228,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
         [Theory]
         [InlineData(true, nameof(Strings.NoTargetsInLockFileForProjectJson))]
-        [InlineData(false, nameof(Strings.NoTargetsInLockFileForCsproj))]
+        [InlineData(false, nameof(Strings.NoTargetsInLockFileForProjectFile))]
         public static void TestReferenceResolutionWithMissingTargets(bool isProjectJsonBased, string errorResourceName)
         {
             var lockFile = GenerateLockFileWithoutTarget();
