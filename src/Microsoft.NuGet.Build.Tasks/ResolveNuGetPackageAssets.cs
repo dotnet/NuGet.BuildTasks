@@ -217,7 +217,11 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             if (!_fileExists(ProjectLockFile))
             {
-                throw new ExceptionFromResource(nameof(Strings.LockFileNotFound), ProjectLockFile);
+                var errorMessage = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                    nameof(Strings.LockFileNotFoundForProjectJson) :
+                    nameof(Strings.LockFileNotFoundForProjectFile);
+
+                throw new ExceptionFromResource(errorMessage, ProjectLockFile);
             }
 
             JObject lockFile;
@@ -719,7 +723,7 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             var noTargetsInLockFileErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
                 nameof(Strings.NoTargetsInLockFileForProjectJson) :
-                nameof(Strings.NoTargetsInLockFileForCsproj);
+                nameof(Strings.NoTargetsInLockFileForProjectFile);
 
             throw new ExceptionFromResource(noTargetsInLockFileErrorString);
         }
@@ -728,8 +732,8 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             var runtimePiece = RuntimeIdentifier;
             var runtimesSection = $"<{RuntimeIdentifiersProperty}>{RuntimeIdentifier}</{RuntimeIdentifiersProperty}>";
-            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierInCsproj);
-            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierPropertyInCsproj);
+            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierInProjectFile);
+            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierPropertyInProjectFile);
 
             if (IsLockFileProjectJsonBased(ProjectLockFile))
             {
@@ -772,7 +776,7 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             var missingFrameworkErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
                 nameof(Strings.MissingFrameworkInProjectJson) :
-                nameof(Strings.MissingFrameworkInCsproj);
+                nameof(Strings.MissingFrameworkInProjectFile);
 
             ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, TargetMonikers.First().ItemSpec);
         }
@@ -987,7 +991,11 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 if (libraryObject == null)
                 {
-                    throw new ExceptionFromResource(nameof(Strings.MissingPackageInTargetsSection), package.Key);
+                    var errorMessage = IsLockFileProjectJsonBased(ProjectLockFile) ? 
+                        nameof(Strings.MissingPackageInTargetsForProjectJson) : 
+                        nameof(Strings.MissingPackageInTargetsSectionForProjectFile);
+
+                    throw new ExceptionFromResource(errorMessage, package.Key);
                 }
 
                 // If this is a project then we need to figure out it's relative output path
