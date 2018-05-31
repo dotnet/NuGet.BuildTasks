@@ -19,7 +19,7 @@ namespace Microsoft.NuGet.Build.Tasks {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -70,74 +70,110 @@ namespace Microsoft.NuGet.Build.Tasks {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assets file {0} couldn&apos;t be found. Run a NuGet package restore to generate this file..
+        /// </summary>
+        internal static string LockFileNotFoundForProjectFile {
+            get {
+                return ResourceManager.GetString("LockFileNotFoundForProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lock file {0} couldn&apos;t be found. Run a NuGet package restore to generate this file..
         /// </summary>
-        internal static string LockFileNotFound {
+        internal static string LockFileNotFoundForProjectJson {
             get {
-                return ResourceManager.GetString("LockFileNotFound", resourceCulture);
+                return ResourceManager.GetString("LockFileNotFoundForProjectJson", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your project is not referencing the &quot;{0}&quot; framework. Add a reference to &quot;{0}&quot; in the &quot;frameworks&quot; section of your project.json, and then re-run NuGet restore..
+        ///   Looks up a localized string similar to Your project does not reference &quot;{0}&quot; framework. Add a reference to &quot;{0}&quot; in the &quot;TargetFrameworks&quot; property of your project file and then re-run NuGet restore..
         /// </summary>
-        internal static string MissingFramework {
+        internal static string MissingFrameworkInProjectFile {
             get {
-                return ResourceManager.GetString("MissingFramework", resourceCulture);
+                return ResourceManager.GetString("MissingFrameworkInProjectFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your project is consuming assets from the project &apos;{0}&apos; but no MSBuild project is found in the project.lock.json. Check the project references in your project file, and re-run NuGet restore..
+        ///   Looks up a localized string similar to Your project does not reference &quot;{0}&quot; framework. Add a reference to &quot;{0}&quot; in the &quot;frameworks&quot; section of your project.json and then re-run NuGet restore..
         /// </summary>
-        internal static string MissingMSBuildPathInProjectPackage {
+        internal static string MissingFrameworkInProjectJson {
             get {
-                return ResourceManager.GetString("MissingMSBuildPathInProjectPackage", resourceCulture);
+                return ResourceManager.GetString("MissingFrameworkInProjectJson", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The package &apos;{0}&apos; could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted..
         /// </summary>
-        internal static string MissingPackageInTargetsSection {
+        internal static string MissingPackageInTargetsForProjectJson {
             get {
-                return ResourceManager.GetString("MissingPackageInTargetsSection", resourceCulture);
+                return ResourceManager.GetString("MissingPackageInTargetsForProjectJson", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The project.json is referencing the project &apos;{0}&apos;, but an output path was not specified on an item in the {1} property..
+        ///   Looks up a localized string similar to The package &apos;{0}&apos; could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted..
         /// </summary>
-        internal static string MissingProjectReference {
+        internal static string MissingPackageInTargetsSectionForProjectFile {
             get {
-                return ResourceManager.GetString("MissingProjectReference", resourceCulture);
+                return ResourceManager.GetString("MissingPackageInTargetsSectionForProjectFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your project.json doesn&apos;t list &apos;{0}&apos; as a targeted runtime. You should add &apos;{1}&apos; inside your &quot;runtimes&quot; section in your project.json, and then re-run NuGet restore..
+        ///   Looks up a localized string similar to Your project file doesn&apos;t list &apos;{0}&apos; as a &quot;RuntimeIdentifier&quot;. You should add &apos;{1}&apos; to the &quot;RuntimeIdentifiers&quot; property in your project file and then re-run NuGet restore..
         /// </summary>
-        internal static string MissingRuntimeInRuntimesSection {
+        internal static string MissingRuntimeIdentifierInProjectFile {
             get {
-                return ResourceManager.GetString("MissingRuntimeInRuntimesSection", resourceCulture);
+                return ResourceManager.GetString("MissingRuntimeIdentifierInProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your project file doesn&apos;t have the &quot;RuntimeIdentifiers&quot; property. You should add &apos;{0}&apos; to your project file and then re-run NuGet restore..
+        /// </summary>
+        internal static string MissingRuntimeIdentifierPropertyInProjectFile {
+            get {
+                return ResourceManager.GetString("MissingRuntimeIdentifierPropertyInProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your project.json doesn&apos;t list &apos;{0}&apos; as a &quot;RuntimeIdentifier&quot;. You should add &apos;{1}&apos; inside your &quot;runtimes&quot; section in your project.json and then re-run NuGet restore..
+        /// </summary>
+        internal static string MissingRuntimeInProjectJson {
+            get {
+                return ResourceManager.GetString("MissingRuntimeInProjectJson", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Your project.json doesn&apos;t have a runtimes section. You should add &apos;{0}&apos; to your project.json and then re-run NuGet restore..
         /// </summary>
-        internal static string MissingRuntimesSection {
+        internal static string MissingRuntimesSectionInProjectJson {
             get {
-                return ResourceManager.GetString("MissingRuntimesSection", resourceCulture);
+                return ResourceManager.GetString("MissingRuntimesSectionInProjectJson", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No targets could be found in the lock file. Make sure you have a supports or runtimes section i your project.json file..
+        ///   Looks up a localized string similar to No targets could be found in the assets file. Make sure you have &quot;RuntimeIdentifiers&quot; property in your project file..
         /// </summary>
-        internal static string NoTargetsInLockFile {
+        internal static string NoTargetsInLockFileForProjectFile {
             get {
-                return ResourceManager.GetString("NoTargetsInLockFile", resourceCulture);
+                return ResourceManager.GetString("NoTargetsInLockFileForProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file..
+        /// </summary>
+        internal static string NoTargetsInLockFileForProjectJson {
+            get {
+                return ResourceManager.GetString("NoTargetsInLockFileForProjectJson", resourceCulture);
             }
         }
         
