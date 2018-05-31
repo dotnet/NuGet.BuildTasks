@@ -1,16 +1,16 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved. 
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Security.Cryptography;
 
 namespace Microsoft.NuGet.Build.Tasks
 {
@@ -35,6 +35,8 @@ namespace Microsoft.NuGet.Build.Tasks
         internal const string NuGetAssetTypeNative = "native";
         internal const string NuGetAssetTypeRuntime = "runtime";
         internal const string NuGetAssetTypeResource = "resource";
+
+        internal const string RuntimeIdentifiersProperty = "RuntimeIdentifiers";
 
         private readonly List<ITaskItem> _analyzers = new List<ITaskItem>();
         private readonly List<ITaskItem> _copyLocalItems = new List<ITaskItem>();
@@ -215,7 +217,11 @@ namespace Microsoft.NuGet.Build.Tasks
         {
             if (!_fileExists(ProjectLockFile))
             {
-                throw new ExceptionFromResource(nameof(Strings.LockFileNotFound), ProjectLockFile);
+                var errorMessage = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                    nameof(Strings.LockFileNotFoundForProjectJson) :
+                    nameof(Strings.LockFileNotFoundForProjectFile);
+
+                throw new ExceptionFromResource(errorMessage, ProjectLockFile);
             }
 
             JObject lockFile;
@@ -688,7 +694,7 @@ namespace Microsoft.NuGet.Build.Tasks
             }
             else
             {
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingFramework), TargetMonikers.First().ItemSpec);
+                GiveErrorForMissingFramework();
             }
 
             // If we're still here, that means we're allowing fallback, so let's try
@@ -707,23 +713,47 @@ namespace Microsoft.NuGet.Build.Tasks
             var firstTarget = (JObject)enumerableTargets.FirstOrDefault().Value;
             if (firstTarget == null)
             {
-                throw new ExceptionFromResource(nameof(Strings.NoTargetsInLockFile));
+                GiveErrorForNoTargets();
             }
 
             return firstTarget;
         }
 
+        private void GiveErrorForNoTargets()
+        {
+            var noTargetsInLockFileErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                nameof(Strings.NoTargetsInLockFileForProjectJson) :
+                nameof(Strings.NoTargetsInLockFileForProjectFile);
+
+            throw new ExceptionFromResource(noTargetsInLockFileErrorString);
+        }
+
         private void GiveErrorForMissingRuntimeIdentifier()
         {
-            string runtimePiece = '"' + RuntimeIdentifier + "\": { }";
+            var runtimePiece = RuntimeIdentifier;
+            var runtimesSection = $"<{RuntimeIdentifiersProperty}>{RuntimeIdentifier}</{RuntimeIdentifiersProperty}>";
+            var missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierInProjectFile);
+            var missingRuntimesErrorString = nameof(Strings.MissingRuntimeIdentifierPropertyInProjectFile);
 
-            bool hasRuntimesSection;
+            if (IsLockFileProjectJsonBased(ProjectLockFile))
+            {
+                runtimePiece = '"' + RuntimeIdentifier + "\": { }";
+                runtimesSection = "\"runtimes\": { " + runtimePiece + " }";
+                missingRuntimeInRuntimesErrorString = nameof(Strings.MissingRuntimeInProjectJson);
+                missingRuntimesErrorString = nameof(Strings.MissingRuntimesSectionInProjectJson);
+            }
+
+            bool hasRuntimesSection = true;
             try
             {
-                using (var streamReader = new StreamReader(ProjectLockFile.Replace(".lock.json", ".json")))
+                // try reading the project.json file only of the project is project.json based
+                if (IsLockFileProjectJsonBased(ProjectLockFile))
                 {
-                    var jsonFile = JObject.Load(new JsonTextReader(streamReader));
-                    hasRuntimesSection = jsonFile["runtimes"] != null;
+                    using (var streamReader = new StreamReader(ProjectLockFile.Replace(".lock.json", ".json")))
+                    {
+                        var jsonFile = JObject.Load(new JsonTextReader(streamReader));
+                        hasRuntimesSection = jsonFile["runtimes"] != null;
+                    }
                 }
             }
             catch
@@ -734,13 +764,21 @@ namespace Microsoft.NuGet.Build.Tasks
 
             if (hasRuntimesSection)
             {
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingRuntimeInRuntimesSection), RuntimeIdentifier, runtimePiece);
+                ThrowExceptionIfNotAllowingFallback(missingRuntimeInRuntimesErrorString, RuntimeIdentifier, runtimePiece);
             }
             else
             {
-                var runtimesSection = "\"runtimes\": { " + runtimePiece + " }";
-                ThrowExceptionIfNotAllowingFallback(nameof(Strings.MissingRuntimesSection), runtimesSection);
+                ThrowExceptionIfNotAllowingFallback(missingRuntimesErrorString, runtimesSection);
             }
+        }
+
+        private void GiveErrorForMissingFramework()
+        {
+            var missingFrameworkErrorString = IsLockFileProjectJsonBased(ProjectLockFile) ?
+                nameof(Strings.MissingFrameworkInProjectJson) :
+                nameof(Strings.MissingFrameworkInProjectFile);
+
+            ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, TargetMonikers.First().ItemSpec);
         }
 
         private void ThrowExceptionIfNotAllowingFallback(string resourceName, params string[] messageArgs)
@@ -953,7 +991,11 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 if (libraryObject == null)
                 {
-                    throw new ExceptionFromResource(nameof(Strings.MissingPackageInTargetsSection), package.Key);
+                    var errorMessage = IsLockFileProjectJsonBased(ProjectLockFile) ? 
+                        nameof(Strings.MissingPackageInTargetsForProjectJson) : 
+                        nameof(Strings.MissingPackageInTargetsSectionForProjectFile);
+
+                    throw new ExceptionFromResource(errorMessage, package.Key);
                 }
 
                 // If this is a project then we need to figure out it's relative output path
@@ -1026,6 +1068,11 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 return String.Empty;
             }
+        }
+
+        private static bool IsLockFileProjectJsonBased(string lockFilePath)
+        {
+            return lockFilePath.EndsWith("lock.json", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

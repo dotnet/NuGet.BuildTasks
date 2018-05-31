@@ -119,38 +119,67 @@
   </resheader>
   <data name="DuplicatePreprocessorToken" xml:space="preserve">
     <value>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</value>
+    <comment>0 token 
+1 - chosen value</comment>
   </data>
-  <data name="LockFileNotFound" xml:space="preserve">
+  <data name="LockFileNotFoundForProjectFile" xml:space="preserve">
+    <value>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</value>
+    <comment>0 - assets file path</comment>
+  </data>
+  <data name="LockFileNotFoundForProjectJson" xml:space="preserve">
     <value>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</value>
+    <comment>0 - lock file path</comment>
   </data>
-  <data name="MissingFramework" xml:space="preserve">
-    <value>Your project is not referencing the "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json, and then re-run NuGet restore.</value>
+  <data name="MissingFrameworkInProjectFile" xml:space="preserve">
+    <value>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</value>
+    <comment>0 - target framework</comment>
   </data>
-  <data name="MissingMSBuildPathInProjectPackage" xml:space="preserve">
-    <value>Your project is consuming assets from the project '{0}' but no MSBuild project is found in the project.lock.json. Check the project references in your project file, and re-run NuGet restore.</value>
+  <data name="MissingFrameworkInProjectJson" xml:space="preserve">
+    <value>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</value>
+    <comment>0 - target framework</comment>
   </data>
-  <data name="MissingPackageInTargetsSection" xml:space="preserve">
+  <data name="MissingPackageInTargetsForProjectJson" xml:space="preserve">
     <value>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</value>
+    <comment>0 package id</comment>
   </data>
-  <data name="MissingProjectReference" xml:space="preserve">
-    <value>The project.json is referencing the project '{0}', but an output path was not specified on an item in the {1} property.</value>
+  <data name="MissingPackageInTargetsSectionForProjectFile" xml:space="preserve">
+    <value>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</value>
+    <comment>0 package id</comment>
   </data>
-  <data name="MissingRuntimeInRuntimesSection" xml:space="preserve">
-    <value>Your project.json doesn't list '{0}' as a targeted runtime. You should add '{1}' inside your "runtimes" section in your project.json, and then re-run NuGet restore.</value>
+  <data name="MissingRuntimeIdentifierInProjectFile" xml:space="preserve">
+    <value>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</value>
+    <comment>0 &amp;1 - Runtime Identifier</comment>
   </data>
-  <data name="MissingRuntimesSection" xml:space="preserve">
+  <data name="MissingRuntimeIdentifierPropertyInProjectFile" xml:space="preserve">
+    <value>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</value>
+    <comment>0 - Runtime Identifier</comment>
+  </data>
+  <data name="MissingRuntimeInProjectJson" xml:space="preserve">
+    <value>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</value>
+    <comment>0 - Runtime Identifier</comment>
+  </data>
+  <data name="MissingRuntimesSectionInProjectJson" xml:space="preserve">
     <value>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</value>
+    <comment>0 - Runtime Identifier</comment>
   </data>
-  <data name="NoTargetsInLockFile" xml:space="preserve">
-    <value>No targets could be found in the lock file. Make sure you have a supports or runtimes section i your project.json file.</value>
+  <data name="NoTargetsInLockFileForProjectFile" xml:space="preserve">
+    <value>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</value>
+  </data>
+  <data name="NoTargetsInLockFileForProjectJson" xml:space="preserve">
+    <value>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</value>
   </data>
   <data name="PackageFolderNotFound" xml:space="preserve">
     <value>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</value>
+    <comment>0 - package id
+1 - package version 
+2 - package folder path</comment>
   </data>
   <data name="PreprocessedDirectoryNotSet" xml:space="preserve">
     <value>The {0} property must be set in order to consume preprocessed content.</value>
+    <comment>0 - directory path</comment>
   </data>
   <data name="UnspecifiedToken" xml:space="preserve">
     <value>The token '{0}' is unrecognized.</value>
+    <comment>0 - token</comment>
   </data>
 </root>
