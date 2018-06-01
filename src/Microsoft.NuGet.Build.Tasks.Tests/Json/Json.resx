@@ -151,4 +151,10 @@
   <data name="MultipleProjectFileDependencyGroups_CaseMismatch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>multipleprojectfiledependencygroups_casemismatch.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="WithoutTargets_assets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>WithoutTargets.assets.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="WithTargets_assets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>WithTargets.assets.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
