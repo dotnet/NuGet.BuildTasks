@@ -2,16 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information. 
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Microsoft.NuGet.Build.Tasks.Tests.Helpers;
-using NuGet.Frameworks;
-using NuGet.LibraryModel;
-using NuGet.Packaging.Core;
-using NuGet.ProjectModel;
-using NuGet.Versioning;
 using Xunit;
 
 namespace Microsoft.NuGet.Build.Tasks.Tests
@@ -117,16 +111,12 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         [Fact]
         public static void TestReferenceResolutionWithMissingRuntimeIDAndNoFallbackInProjectCsproj()
         {
-            var lockFile = GenerateLockFileWithTarget();
-
             using (var tempRoot = new TempRoot())
             using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
             {
-                new LockFileFormat().Write(disposableFile.Path, lockFile);
-
                 var exception = Assert.Throws<ExceptionFromResource>(() =>
                 NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                    File.ReadAllText(disposableFile.Path),
+                    Encoding.UTF8.GetString(Json.Json.WithTargets_assets, 0, Json.Json.WithTargets_assets.Length),
                     targetMoniker: ".NETFramework,Version=v4.5",
                     runtimeIdentifier: "missing-runtime-identifier",
                     allowFallbackOnTargetSelection: false,
@@ -169,16 +159,12 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         [Fact]
         public static void TestReferenceResolutionWithMissingTargetFrameworkAndNoFallbackInProjectCsproj()
         {
-            var lockFile = GenerateLockFileWithoutTarget();
-
             using (var tempRoot = new TempRoot())
             using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
             {
-                new LockFileFormat().Write(disposableFile.Path, lockFile);
-
                 var exception = Assert.Throws<ExceptionFromResource>(() =>
                     NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                        File.ReadAllText(disposableFile.Path),
+                        Encoding.UTF8.GetString(Json.Json.WithoutTargets_assets, 0, Json.Json.WithoutTargets_assets.Length),
                         targetMoniker: "Missing,Version=1.0",
                         runtimeIdentifier: "missing-runtime-identifier",
                         allowFallbackOnTargetSelection: false,
@@ -206,15 +192,11 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         [Fact]
         public static void TestReferenceResolutionWithMissingTargetFrameworkAndFallbackInProjectCsproj()
         {
-            var lockFile = GenerateLockFileWithTarget();
-
             using (var tempRoot = new TempRoot())
             using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
             {
-                new LockFileFormat().Write(disposableFile.Path, lockFile);
-
                 var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                        File.ReadAllText(disposableFile.Path),
+                        Encoding.UTF8.GetString(Json.Json.WithTargets_assets, 0, Json.Json.WithTargets_assets.Length),
                         targetMoniker: "MissingFrameworkMoniker,Version=v42.0",
                         runtimeIdentifier: "",
                         allowFallbackOnTargetSelection: true,
@@ -231,16 +213,12 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         [InlineData(false, nameof(Strings.NoTargetsInLockFileForProjectFile))]
         public static void TestReferenceResolutionWithMissingTargets(bool isProjectJsonBased, string errorResourceName)
         {
-            var lockFile = GenerateLockFileWithoutTarget();
-
             using (var tempRoot = new TempRoot())
             using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
             {
-                new LockFileFormat().Write(disposableFile.Path, lockFile);
-
                 var exception = Assert.Throws<ExceptionFromResource>(() =>
                     NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
-                            File.ReadAllText(disposableFile.Path),
+                            Encoding.UTF8.GetString(Json.Json.WithoutTargets_assets, 0, Json.Json.WithoutTargets_assets.Length),
                             targetMoniker: "MissingFrameworkMoniker,Version=v42.0",
                             runtimeIdentifier: "",
                             allowFallbackOnTargetSelection: true,
@@ -565,82 +543,6 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 runtimeIdentifier: "win");
 
             Assert.DoesNotContain("ClassLibrary1", result.ReferencedPackages.Select(t => t.ItemSpec));
-        }
-        private static LockFile GenerateLockFileWithoutTarget()
-        {
-            return new LockFile
-            {
-                Version = 2,
-                PackageSpec = new PackageSpec(new TargetFrameworkInformation[]
-                {
-                    new TargetFrameworkInformation
-                    {
-                        FrameworkName = FrameworkConstants.CommonFrameworks.Net45,
-                        Dependencies = new[]
-                        {
-                            new LibraryDependency
-                            {
-                                LibraryRange = new LibraryRange(
-                                    "System.Text",
-                                    new VersionRange(
-                                        minVersion: new NuGetVersion("4.5.0"),
-                                        originalString: "4.5.0"),
-                                    LibraryDependencyTarget.Package)
-                            }
-                        }
-                    }
-                })
-                {
-                    Version = new NuGetVersion("1.0.0"),
-                    RestoreMetadata = new ProjectRestoreMetadata
-                    {
-                        ProjectUniqueName = @"X:\ProjectPath\ProjectPath.csproj",
-                        ProjectName = "ProjectPath",
-                        ProjectPath = @"X:\ProjectPath\ProjectPath.csproj",
-                        OutputPath = @"X:\ProjectPath\obj\",
-                        ProjectStyle = ProjectStyle.PackageReference,
-                        OriginalTargetFrameworks = new string[] { "net45" },
-                        TargetFrameworks = new List<ProjectRestoreMetadataFrameworkInfo>
-                        {
-                            new ProjectRestoreMetadataFrameworkInfo(NuGetFramework.Parse("net45"))
-                        }
-                    }
-                },
-                Libraries = new LockFileLibrary[]
-                {
-                    new LockFileLibrary()
-                    {
-                        Name = "System.Text",
-                        Version = NuGetVersion.Parse("4.5.0"),
-                        Path = "system.text/4.5.0",
-                        Type = LibraryType.Package
-                    }
-                }
-            };
-        }
-
-        private static LockFile GenerateLockFileWithTarget()
-        {
-            var lockFile = GenerateLockFileWithoutTarget();
-
-            var target = new LockFileTarget()
-            {
-                TargetFramework = FrameworkConstants.CommonFrameworks.Net45
-            };
-
-            var targetLib = new LockFileTargetLibrary()
-            {
-                Name = "System.Text",
-                Version = new NuGetVersion("4.5.0"),
-                Type = LibraryType.Package
-            };
-
-            targetLib.Dependencies.Add(new PackageDependency("System", new VersionRange(NuGetVersion.Parse("4.5.0"))));
-            targetLib.CompileTimeAssemblies.Add(new LockFileItem("ref/net45/System.Text.dll"));
-            target.Libraries.Add(targetLib);
-            lockFile.Targets.Add(target);
-
-            return lockFile;
         }
     }
 }
