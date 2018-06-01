@@ -358,5 +358,25 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
                 return ResourceManager.GetString("Win10_xunit", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WithoutTargets_assets {
+            get {
+                object obj = ResourceManager.GetObject("WithoutTargets_assets", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WithTargets_assets {
+            get {
+                object obj = ResourceManager.GetObject("WithTargets_assets", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
