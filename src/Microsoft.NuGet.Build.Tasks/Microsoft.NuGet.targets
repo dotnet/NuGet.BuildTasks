@@ -68,7 +68,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   </PropertyGroup>
 
   <PropertyGroup>
-    <ResolveNuGetPackages Condition="'$(ResolveNuGetPackages)' == '' and '$(MSBuildProjectExtension)' != '.xproj'">true</ResolveNuGetPackages>
+    <ResolveNuGetPackages Condition="'$(ResolveNuGetPackages)' == '' and '$(MSBuildProjectExtension)' != '.xproj' and '$(MSBuildProjectExtension)' != '.vcxproj'">true</ResolveNuGetPackages>
 
     <!-- 
     if BaseNuGetRuntimeIdentifier is defined then simply use it as RuntimeIdentifier, otherwise
