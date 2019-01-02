@@ -220,6 +220,11 @@ Copyright (c) .NET Foundation. All rights reserved.
       <Reference Remove="%(_ReferencesFromNuGetPackages.FileName)" Condition="'%(_ReferencesFromNuGetPackages.NuGetIsFrameworkReference)' == 'false'"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <!-- Add copy local references with a destination subdirectory to satellite references-->
+      <ReferenceSatellitePaths Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.DestinationSubDirectory)' != ''" />
+    </ItemGroup>
+
     <PropertyGroup Condition=" '$(AutoUnifyAssemblyReferences)' == 'true' ">
       <!-- Normally Design Time Assembly Resolution (DTAR) won't consider these references.
            Put DTAR in a mode where it will prefer the output of RAR and unify. -->
