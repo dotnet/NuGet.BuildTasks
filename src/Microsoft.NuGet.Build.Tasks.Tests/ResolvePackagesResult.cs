@@ -20,22 +20,24 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
         public ResolvePackagesResult(
             ITaskItem[] analyzers,
             ITaskItem[] copyLocalItems,
+            ITaskItem[] contentItems,
             ITaskItem[] references,
             ITaskItem[] referencedPackages,
             string referenceTemporaryPath)
         {
             Analyzers = analyzers ?? new ITaskItem[] { };
             CopyLocalItems = copyLocalItems ?? new ITaskItem[] { };
+            ContentItems = contentItems ?? new ITaskItem[] { };
             References = references ?? new ITaskItem[] { };
             ReferencedPackages = referencedPackages ?? new ITaskItem[] { };
             ReferenceTemporaryPath = referenceTemporaryPath;
         }
 
         public ITaskItem[] Analyzers { get; }
+        public ITaskItem[] ContentItems { get; }
         public ITaskItem[] CopyLocalItems { get; }
         public ITaskItem[] References { get; }
         public ITaskItem[] ReferencedPackages { get; }
-
 
         /// <summary>
         /// Gets the temporary path created during testing process

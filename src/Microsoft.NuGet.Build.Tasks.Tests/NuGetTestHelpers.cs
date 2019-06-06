@@ -87,10 +87,11 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
                 var analyzers = task.ResolvedAnalyzers;
                 var copyLocalItems = task.ResolvedCopyLocalItems;
+                var contentItems = task.ContentItems;
                 var references = task.ResolvedReferences;
                 var referencedPackages = task.ReferencedPackages;
 
-                return new ResolvePackagesResult(analyzers, copyLocalItems, references, referencedPackages, rootDirectory.Root);
+                return new ResolvePackagesResult(analyzers, copyLocalItems, contentItems, references, referencedPackages, rootDirectory.Root);
             }
         }
 
