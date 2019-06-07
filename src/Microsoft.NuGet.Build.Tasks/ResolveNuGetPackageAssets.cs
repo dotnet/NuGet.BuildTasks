@@ -542,25 +542,9 @@ namespace Microsoft.NuGet.Build.Tasks
                 var contentFiles = package.TargetObject["contentFiles"] as JObject;
                 if (contentFiles != null)
                 {
-                    // Is there an asset with our exact language? If so, we use that. Otherwise we'll simply collect "any" assets.
-                    string codeLanguageToSelect;
-
-                    if (string.IsNullOrEmpty(ProjectLanguage))
-                    {
-                        codeLanguageToSelect = "any";
-                    }
-                    else
-                    {
-                        string nuGetLanguageName = GetNuGetLanguageName(ProjectLanguage);
-                        if (contentFiles.Properties().Any(a => (string)a.Value["codeLanguage"] == nuGetLanguageName))
-                        {
-                            codeLanguageToSelect = nuGetLanguageName;
-                        }
-                        else
-                        {
-                            codeLanguageToSelect = "any";
-                        }
-                    }
+                    string codeLanguageToSelect = string.IsNullOrEmpty(ProjectLanguage)
+                        ? "any"
+                        : GetNuGetLanguageName(ProjectLanguage);
 
                     foreach (var contentFile in contentFiles.Properties())
                     {
@@ -569,7 +553,10 @@ namespace Microsoft.NuGet.Build.Tasks
                         // "any" but then uses _._ to opt some languages out of it
                         if (Path.GetFileName(contentFile.Name) != "_._")
                         {
-                            if ((string)contentFile.Value["codeLanguage"] == codeLanguageToSelect)
+                            // Pull in any content items that match the code language, or are applicable to "any"
+                            // code language.
+                            string contentFileCodeLanguage = (string)contentFile.Value["codeLanguage"];
+                            if (contentFileCodeLanguage == codeLanguageToSelect || contentFileCodeLanguage == "any")
                             {
                                 ProduceContentAsset(package, contentFile, preprocessorValues, valueSpecificPreprocessedOutputDirectory);
                             }
@@ -626,27 +613,24 @@ namespace Microsoft.NuGet.Build.Tasks
 
                 if (outputPath != null)
                 {
-                    var item = CreateItem(package, pathToFinalAsset, targetPath: outputPath);
-                    _copyLocalItems.Add(item);
+                    var copyLocalItem = CreateItem(package, pathToFinalAsset, targetPath: outputPath);
+                    _copyLocalItems.Add(copyLocalItem);
                 }
             }
 
             string buildAction = (string)sharedAsset.Value["buildAction"];
-            if (!string.Equals(buildAction, "none", StringComparison.OrdinalIgnoreCase))
+            var contentItem = CreateItem(package, pathToFinalAsset);
+
+            // We'll put additional metadata on the item so we can convert it back to the real item group in our targets
+            contentItem.SetMetadata("NuGetItemType", buildAction);
+
+            // If this is XAML, the build targets expect Link metadata to construct the relative path
+            if (string.Equals(buildAction, "Page", StringComparison.OrdinalIgnoreCase))
             {
-                var item = CreateItem(package, pathToFinalAsset);
-
-                // We'll put additional metadata on the item so we can convert it back to the real item group in our targets
-                item.SetMetadata("NuGetItemType", buildAction);
-
-                // If this is XAML, the build targets expect Link metadata to construct the relative path
-                if (string.Equals(buildAction, "Page", StringComparison.OrdinalIgnoreCase))
-                {
-                    item.SetMetadata("Link", Path.Combine("NuGet", package.Id, package.Version, Path.GetFileName(sharedAsset.Name)));
-                }
-
-                _contentItems.Add(item);
+                contentItem.SetMetadata("Link", Path.Combine("NuGet", package.Id, package.Version, Path.GetFileName(sharedAsset.Name)));
             }
+
+            _contentItems.Add(contentItem);
         }
 
         /// <summary>

@@ -1,0 +1,174 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.7.2": {
+      "DryIocZero/4.0.0-preview-04": {
+        "type": "package",
+        "contentFiles": {
+          "contentFiles/cs/any/Container.Generated.tt": {
+            "buildAction": "None",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          },
+          "contentFiles/cs/any/Container.cs": {
+            "buildAction": "Compile",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          },
+          "contentFiles/cs/any/ImTools.cs": {
+            "buildAction": "Compile",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          },
+          "contentFiles/cs/any/Registrations.ttinclude": {
+            "buildAction": "None",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          },
+          "contentFiles/vb/any/Container.Generated.tt": {
+            "buildAction": "None",
+            "codeLanguage": "vb",
+            "copyToOutput": false
+          },
+          "contentFiles/vb/any/Container.vb": {
+            "buildAction": "Compile",
+            "codeLanguage": "vb",
+            "copyToOutput": false
+          },
+          "contentFiles/vb/any/ImTools.vb": {
+            "buildAction": "Compile",
+            "codeLanguage": "vb",
+            "copyToOutput": false
+          },
+          "contentFiles/vb/any/Registrations.ttinclude": {
+            "buildAction": "None",
+            "codeLanguage": "vb",
+            "copyToOutput": false
+          },
+          "contentFiles/any/any/MyAwesomeFile.txt": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/cs/net472/Alpha.cs": {
+            "buildAction": "Compile",
+            "codeLanguage": "cs",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net472/AnyNet472.txt": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        },
+        "build": {
+          "build/DryIocZero.props": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DryIocZero/4.0.0-preview-04": {
+      "sha512": "xSuO5cCl+WmKE4cXw58oEyGaxsNV9vrk2zyFUoo5rjPwuEtVFcrdLI59KXe/cCJF9Yrjiz71nyqzeIsrF6j1Tw==",
+      "type": "package",
+      "path": "dryioczero/4.0.0-preview-04",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "build/DryIocZero.props",
+        "content/net45/DryIocZero/AsyncExecutionFlowScopeContext.cs",
+        "content/net45/DryIocZero/Container.Generated.tt",
+        "content/net45/DryIocZero/Container.cs",
+        "content/net45/DryIocZero/ImTools.cs",
+        "content/net45/DryIocZero/Registrations.ttinclude",
+        "content/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Container.Generated.tt",
+        "content/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Container.cs",
+        "content/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/ImTools.cs",
+        "content/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Ported-net45.cs",
+        "content/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Registrations.ttinclude",
+        "content/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Container.Generated.tt",
+        "content/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Container.cs",
+        "content/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/ImTools.cs",
+        "content/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/DryIocZero/Registrations.ttinclude",
+        "content/xamarinmac20/DryIocZero/Container.Generated.tt",
+        "content/xamarinmac20/DryIocZero/Container.cs",
+        "content/xamarinmac20/DryIocZero/ImTools.cs",
+        "content/xamarinmac20/DryIocZero/Registrations.ttinclude",
+        "contentFiles/cs/any/Container.Generated.tt",
+        "contentFiles/cs/any/Container.cs",
+        "contentFiles/cs/any/ImTools.cs",
+        "contentFiles/cs/any/Registrations.ttinclude",
+        "contentFiles/vb/any/Container.Generated.tt",
+        "contentFiles/vb/any/Container.vb",
+        "contentFiles/vb/any/ImTools.vb",
+        "contentFiles/vb/any/Registrations.ttinclude",
+        "contentFiles/any/any/MyAwesomeFile.txt",
+        "contentFiles/cs/net472/Alpha.cs",
+        "contentFiles/any/net472/AnyNet472.txt",
+        "dryioczero.4.0.0-preview-04.nupkg.sha512",
+        "dryioczero.nuspec",
+        "tools/DryIoc.dll.3.0.0/net45/DryIoc.dll",
+        "tools/ExpressionToCodeLib.1.5.4/net40-Client/ExpressionToCodeLib.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.7.2": [
+      "DryIocZero >= 4.0.0-preview-04"
+    ]
+  },
+  "packageFolders": {
+    "C:\\alpha\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\tomescht\\source\\repos\\PackageRefContentFiles\\PackageRefContentFiles\\PackageRefContentFiles.csproj",
+      "projectName": "PackageRefContentFiles",
+      "projectPath": "C:\\Users\\tomescht\\source\\repos\\PackageRefContentFiles\\PackageRefContentFiles\\PackageRefContentFiles.csproj",
+      "packagesPath": "C:\\Users\\tomescht\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tomescht\\source\\repos\\PackageRefContentFiles\\PackageRefContentFiles\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "C:\\Users\\tomescht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net472"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net472": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net472": {
+        "dependencies": {
+          "DryIocZero": {
+            "target": "Package",
+            "version": "[4.0.0-preview-04, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}

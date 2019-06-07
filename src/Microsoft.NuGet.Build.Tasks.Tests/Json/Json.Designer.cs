@@ -19,7 +19,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Json {
@@ -87,6 +87,31 @@ namespace Microsoft.NuGet.Build.Tasks.Tests.Json {
         internal static string analyzers {
             get {
                 return ResourceManager.GetString("analyzers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;version&quot;: 3,
+        ///  &quot;targets&quot;: {
+        ///    &quot;.NETFramework,Version=v4.7.2&quot;: {
+        ///      &quot;DryIocZero/4.0.0-preview-04&quot;: {
+        ///        &quot;type&quot;: &quot;package&quot;,
+        ///        &quot;contentFiles&quot;: {
+        ///          &quot;contentFiles/cs/any/Container.Generated.tt&quot;: {
+        ///            &quot;buildAction&quot;: &quot;None&quot;,
+        ///            &quot;codeLanguage&quot;: &quot;cs&quot;,
+        ///            &quot;copyToOutput&quot;: false
+        ///          },
+        ///          &quot;contentFiles/cs/any/Container.cs&quot;: {
+        ///            &quot;buildAction&quot;: &quot;Compile&quot;,
+        ///            &quot;codeLanguage&quot;: &quot;cs&quot;,
+        ///            &quot;copyToOutput&quot;: false
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ContentFiles_assets {
+            get {
+                return ResourceManager.GetString("ContentFiles_assets", resourceCulture);
             }
         }
         

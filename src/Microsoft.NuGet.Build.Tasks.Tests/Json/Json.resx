@@ -121,6 +121,9 @@
   <data name="analyzers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>analyzers.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ContentFiles_assets" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ContentFiles.assets.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Win10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Win10.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
