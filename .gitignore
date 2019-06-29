@@ -1,6 +1,8 @@
 .vs
 bin/
 obj/
+artifacts/
+.dotnet/
 *.user
 project.lock.json
 *.nuget.props
