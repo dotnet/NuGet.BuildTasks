@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="zh-Hans" original="../Strings.resx">
+    <body>
+      <trans-unit id="DuplicatePreprocessorToken">
+        <source>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</source>
+        <target state="new">The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</target>
+        <note>0 token 
+1 - chosen value</note>
+      </trans-unit>
+      <trans-unit id="LockFileNotFoundForProjectFile">
+        <source>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
+        <target state="new">Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
+        <note>0 - assets file path</note>
+      </trans-unit>
+      <trans-unit id="LockFileNotFoundForProjectJson">
+        <source>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
+        <target state="new">Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
+        <note>0 - lock file path</note>
+      </trans-unit>
+      <trans-unit id="MissingFrameworkInProjectFile">
+        <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</source>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</target>
+        <note>0 - target framework</note>
+      </trans-unit>
+      <trans-unit id="MissingFrameworkInProjectJson">
+        <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</source>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</target>
+        <note>0 - target framework</note>
+      </trans-unit>
+      <trans-unit id="MissingPackageInTargetsForProjectJson">
+        <source>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</source>
+        <target state="new">The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</target>
+        <note>0 package id</note>
+      </trans-unit>
+      <trans-unit id="MissingPackageInTargetsSectionForProjectFile">
+        <source>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</source>
+        <target state="new">The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</target>
+        <note>0 package id</note>
+      </trans-unit>
+      <trans-unit id="MissingRuntimeIdentifierInProjectFile">
+        <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
+        <target state="new">Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</target>
+        <note>0 &amp;1 - Runtime Identifier</note>
+      </trans-unit>
+      <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
+        <source>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</source>
+        <target state="new">Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</target>
+        <note>0 - Runtime Identifier</note>
+      </trans-unit>
+      <trans-unit id="MissingRuntimeInProjectJson">
+        <source>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</source>
+        <target state="new">Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</target>
+        <note>0 - Runtime Identifier</note>
+      </trans-unit>
+      <trans-unit id="MissingRuntimesSectionInProjectJson">
+        <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
+        <target state="new">Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</target>
+        <note>0 - Runtime Identifier</note>
+      </trans-unit>
+      <trans-unit id="NoTargetsInLockFileForProjectFile">
+        <source>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</source>
+        <target state="new">No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="NoTargetsInLockFileForProjectJson">
+        <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
+        <target state="new">No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="PackageFolderNotFound">
+        <source>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</source>
+        <target state="new">The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</target>
+        <note>0 - package id
+1 - package version 
+2 - package folder path</note>
+      </trans-unit>
+      <trans-unit id="PreprocessedDirectoryNotSet">
+        <source>The {0} property must be set in order to consume preprocessed content.</source>
+        <target state="new">The {0} property must be set in order to consume preprocessed content.</target>
+        <note>0 - directory path</note>
+      </trans-unit>
+      <trans-unit id="UnspecifiedToken">
+        <source>The token '{0}' is unrecognized.</source>
+        <target state="new">The token '{0}' is unrecognized.</target>
+        <note>0 - token</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
