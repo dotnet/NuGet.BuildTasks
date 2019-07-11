@@ -1,60 +1,61 @@
-variables:
-  - name: Build.Repository.Clean
-    value: true
-  - name: _HelixType
-    value: build/product
-  - name: _HelixSource
-    value: pr/NuGet/NuGet.BuildTasks/$(Build.SourceBranch)
-  - name: _HelixTestType
-    value: test/product/
-  - name: _XUnitProject
-    value: $(Build.SourcesDirectory)/src/Microsoft.NuGet.Build.Tasks.Tests/Microsoft.NuGet.Build.Tasks.Tests.csproj
-  - name: _XUnitTargetFramework
-    value: netcoreapp2.0
-  - name: _XUnitRunnerVersion
-    value: 2.4.1
-  - name: _DotNetCliPackageType
-    value: sdk
-  - name: _DotNetCliVersion
-    value: 2.1.403
-  - name: _HelixAccessToken
-    value: ''
-
-# CI and PR triggers
+# Branches that trigger a build on commit
 trigger:
 - arcade
 
+# Branches that trigger builds on PR
 pr:
 - arcade
 
 jobs:
-- template: /eng/common/templates/job/job.yml
-  parameters:
-    name: Windows_NT
-    enableTelemetry: true
-    enablePublishBuildArtifacts: true
-    helixRepo: dotnet/arcade-minimalci-sample
-    pool:
-      name: NetCorePublic-Pool
-      queue: BuildPool.Windows.10.Amd64.VS2017.Open
-    strategy:
-      matrix:
-        debug_configuration:
-          _BuildConfig: Debug
-        release_configuration:
-          _BuildConfig: Release
-    steps:
-    - script: eng\common\cibuild.cmd
-        -configuration $(_BuildConfig)
-        -prepareMachine
-      name: Build
-      displayName: Build
-      condition: succeeded()
+- job: Visual_Studio
+  pool:
+    name: NetCorePublic-Pool
+    queue: buildpool.windows.10.amd64.vs2019.pre.open
+  strategy:
+    maxParallel: 2
+    matrix:
+      Debug:
+        _configuration: Debug
+      Release:
+        _configuration: Release
+  timeoutInMinutes: 60
+  steps:
+    - script: $(Build.SourcesDirectory)\build\IntegrationCIBuild.cmd -configuration $(_configuration) -prepareMachine
     - task: PublishBuildArtifacts@1
-      displayName: Publish Logs to VSTS
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)/artifacts/log/$(_BuildConfig)'
-        PublishLocation: Container
-        ArtifactName: $(Agent.Os)_$(Agent.JobName)
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\log'
+        ArtifactName: '$(_configuration) unit test logs'
+        publishLocation: Container
+      continueOnError: true
+      condition: failed()
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\bin'
+        ArtifactName: '$(_configuration) bin folder'
+        publishLocation: Container
+      continueOnError: true
+      condition: failed()
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\VSSetup'
+        ArtifactName: '$(_configuration) VSSetup folder'
+        publishLocation: Container
+      continueOnError: true
+      condition: failed()
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\TestResults'
+        ArtifactName: '$(_configuration) Test Result Logs'
+        publishLocation: Container
+      continueOnError: true
+      condition: failed()
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: 'xUnit'
+        testResultsFiles: '**/*.xml' 
+        searchFolder: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\TestResults'
+        configuration: '$(_configuration)'
+        publishRunAttachments: true
+        failTaskOnFailedTests: true
       continueOnError: true
       condition: always()
