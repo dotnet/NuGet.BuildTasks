@@ -23,28 +23,28 @@ jobs:
     - script: $(Build.SourcesDirectory)\build.cmd -configuration $(_configuration) -prepareMachine -test
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\log'
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(_configuration)'
         ArtifactName: '$(_configuration) unit test logs'
         publishLocation: Container
       continueOnError: true
       condition: failed()
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\bin'
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\bin\$(_configuration)'
         ArtifactName: '$(_configuration) bin folder'
         publishLocation: Container
       continueOnError: true
       condition: failed()
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\VSSetup'
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\VSSetup\$(_configuration)'
         ArtifactName: '$(_configuration) VSSetup folder'
         publishLocation: Container
       continueOnError: true
       condition: failed()
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\TestResults'
+        PathtoPublish: '$(Build.SourcesDirectory)\artifacts\TestResults\$(_configuration)'
         ArtifactName: '$(_configuration) Test Result Logs'
         publishLocation: Container
       continueOnError: true
@@ -52,8 +52,8 @@ jobs:
     - task: PublishTestResults@2
       inputs:
         testRunner: 'xUnit'
-        testResultsFiles: '**/*.xml' 
-        searchFolder: '$(Build.SourcesDirectory)\artifacts\$(_configuration)\TestResults'
+        testResultsFiles: '*.xml' 
+        searchFolder: '$(Build.SourcesDirectory)\artifacts\TestResults\$(_configuration)'
         configuration: '$(_configuration)'
         publishRunAttachments: true
         failTaskOnFailedTests: true
