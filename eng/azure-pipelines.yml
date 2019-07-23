@@ -19,7 +19,7 @@ jobs:
         _configuration: Release
   timeoutInMinutes: 60
   steps:
-    - script: $(Build.SourcesDirectory)\build.cmd -configuration $(_configuration) -prepareMachine -test -ci -sign -pack -binaryLog -bootstrap -publish
+    - script: $(Build.SourcesDirectory)\build.cmd -configuration $(_configuration) -prepareMachine -test -ci -sign -pack -binaryLog
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(_configuration)'
