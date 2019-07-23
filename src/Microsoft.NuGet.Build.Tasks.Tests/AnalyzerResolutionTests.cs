@@ -8,7 +8,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 {
     public class AnalyzerResolutionTests
     {
-        [Fact]
+        [Fact(Skip = "Disabling for CI")]
         public static void TestAnalyzerResolutionCSharp()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
@@ -20,7 +20,7 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
             AssertHelpers.AssertCountOf(8, result.Analyzers);
         }
 
-        [Fact]
+        [Fact(Skip = "Disabling for CI")]
         public static void TestAnalyzerResolutionVisualBasic()
         {
             var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
