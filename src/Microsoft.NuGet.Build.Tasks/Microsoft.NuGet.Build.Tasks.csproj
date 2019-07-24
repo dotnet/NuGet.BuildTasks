@@ -5,6 +5,17 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+
+    <IsPackable>true</IsPackable>
+    <NuspecPackageId>Microsoft.NuGet.Build.Tasks</NuspecPackageId>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <PackageDescription>
+      Nuget.Build.Tasks package
+    </PackageDescription>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
