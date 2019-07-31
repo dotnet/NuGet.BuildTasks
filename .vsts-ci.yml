@@ -6,7 +6,7 @@ queue:
   demands: Cmd
 variables:
   BuildConfiguration: Release
-  TeamName: DotNet-Project-System
+  TeamName: DotNet-NuGet-BuildTasks
   BuildPlatform: any cpu
   DropRoot: \\cpvsbuild\drops\Roslyn
   
@@ -19,17 +19,22 @@ steps:
     
 - task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
   displayName: Install Swix Plugin
+
+- task: ms-vseng.MicroBuildTasks.965C8DC6-1483-45C9-B384-5AC75DA1F1A4.MicroBuildOptProfPlugin@1
+  inputs:
+    skipRunOptimize: true
+  displayName: 'Install OptProf Plugin'
   
 - task: NuGetRestore@1
   displayName: Restore internal toolset
   inputs:
-    solution: 'build\Internal\Toolset.csproj'
+    solution: 'eng\common\internal\Toolset.csproj'
     feed: '8f470c7e-ac49-4afe-a6ee-cf784e438b93'
 
 - task: BatchScript@1
   displayName: Run script CIBuild.cmd
   inputs:
-    filename: 'build\CIBuild.cmd'
+    filename: 'eng\common\CIBuild.cmd'
     arguments: '-configuration $(BuildConfiguration) -optimize -sign'
     modifyEnvironment: false
     
