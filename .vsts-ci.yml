@@ -1,5 +1,4 @@
 variables:
-- group: DotNet-Blob-Feed
 - name: SignType
   value: real
 - name: VisualStudioDropName
