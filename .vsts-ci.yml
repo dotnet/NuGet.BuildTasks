@@ -9,7 +9,7 @@ queue:
 variables:
   BuildConfiguration: Release
   BuildPlatform: any cpu
-  TeamName: Roslyn-SDK
+  TeamName: NuGet-BuildTasks
   SignType: real
   DropRoot: \\cpvsbuild\drops\Roslyn
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
