@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <!-- VS Insertion -->
-    <VisualStudioInsertionComponent>Templates.Editorconfig.Setup</VisualStudioInsertionComponent>
+    <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
     
     <IsPackable>true</IsPackable>
     <NuspecPackageId>Microsoft.NuGet.Build.Tasks</NuspecPackageId>
