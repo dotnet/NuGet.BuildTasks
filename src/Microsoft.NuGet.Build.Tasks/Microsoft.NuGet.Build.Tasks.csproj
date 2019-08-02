@@ -1,13 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
-
+    <!-- VS Insertion -->
+    <VisualStudioInsertionComponent>Templates.Editorconfig.Setup</VisualStudioInsertionComponent>
+    
     <IsPackable>true</IsPackable>
     <NuspecPackageId>Microsoft.NuGet.Build.Tasks</NuspecPackageId>
     <IncludeBuildOutput>false</IncludeBuildOutput>
@@ -21,10 +17,15 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <InternalsVisibleTo Include="Microsoft.NuGet.Build.Tasks.Tests" />
   </ItemGroup>
+  <ItemGroup>
+    <SwrProperty Include="Version=$(VsixVersion)" />
+    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />
+  </ItemGroup>
+  <ItemGroup>
+    <SwrFile Include="*.swr" />
+  </ItemGroup>
   <PropertyGroup>
     <ProjectGuid>{6912FE54-B273-471C-A839-59A45DBC9305}</ProjectGuid>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\Users\dmon\.nuget\packages\microsoft.dotnet.arcade.sdk\1.0.0-beta.19277.1\tools\snk/35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    
   </PropertyGroup>
 </Project>
