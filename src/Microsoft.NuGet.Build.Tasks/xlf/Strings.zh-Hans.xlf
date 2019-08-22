@@ -1,88 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en" target-language="zh-Hans" original="../Strings.resx">
+  <file datatype="xml" source-language="en" target-language="zh-HANS" original="../Strings.resx">
     <body>
       <trans-unit id="DuplicatePreprocessorToken">
         <source>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</source>
-        <target state="new">The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</target>
+        <target state="translated">已向预处理器标记“{0}”提供多个值。选择“{1}”作为值。</target>
         <note>0 token 
 1 - chosen value</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectFile">
         <source>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="new">Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
+        <target state="translated">找不到资产文件“{0}”。请运行 NuGet 包还原以生成此文件。</target>
         <note>0 - assets file path</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectJson">
         <source>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="new">Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
+        <target state="translated">找不到锁定文件 {0}。请运行 NuGet 包还原以生成此文件。</target>
         <note>0 - lock file path</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectFile">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</source>
-        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</target>
+        <target state="translated">项目未引用“{0}”框架。请在项目文件的 "TargetFrameworks" 属性中添加对“{0}”的引用，然后重新运行 NuGet 还原。</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectJson">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</source>
-        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</target>
+        <target state="translated">项目未引用“{0}”框架。请在 project.json 的“框架”部分中添加对“{0}”的引用，然后重新运行 NuGet 还原。</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsForProjectJson">
         <source>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</source>
-        <target state="new">The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</target>
+        <target state="translated">在锁定文件的“库”部分找不到包“{0}”。这可能说明锁定文件已损坏。</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsSectionForProjectFile">
         <source>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</source>
-        <target state="new">The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</target>
+        <target state="translated">在资产文件的“库”部分找不到包“{0}”。这可能说明锁定文件已损坏。</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierInProjectFile">
         <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
-        <target state="new">Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</target>
+        <target state="translated">项目文件未将“{0}”列为 "RuntimeIdentifier"。应在项目文件的 "RuntimeIdentifiers" 属性中添加“{1}”，然后重新运行 NuGet 还原。</target>
         <note>0 &amp;1 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
         <source>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</source>
-        <target state="new">Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</target>
+        <target state="translated">项目文件没有 "RuntimeIdentifiers" 属性。应将“{0}”添加到项目文件，然后重新运行 NuGet 还原。</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeInProjectJson">
         <source>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</source>
-        <target state="new">Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</target>
+        <target state="translated">project.json 未将“{0}”列为 "RuntimeIdentifier"。应在 project.json 的“运行时”部分添加“{1}”，然后重新运行 NuGet 还原。</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimesSectionInProjectJson">
         <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
-        <target state="new">Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</target>
+        <target state="translated">project.json 没有“运行时”部分。应将“{0}”添加到 project.json，然后重新运行 NuGet 还原。</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectFile">
         <source>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</source>
-        <target state="new">No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</target>
+        <target state="translated">在资产文件中找不到任何目标。请确保项目文件中具有 "RuntimeIdentifiers" 属性。</target>
         <note />
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectJson">
         <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
-        <target state="new">No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</target>
+        <target state="translated">在锁定文件中找不到任何目标。请确保 project.json 文件中具有“支持”或“运行时”部分。</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageFolderNotFound">
         <source>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</source>
-        <target state="new">The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</target>
+        <target state="translated">在 {2} 中找不到版本 {1} 的包 {0}。请运行 NuGet 包还原以下载该包。</target>
         <note>0 - package id
 1 - package version 
 2 - package folder path</note>
       </trans-unit>
       <trans-unit id="PreprocessedDirectoryNotSet">
         <source>The {0} property must be set in order to consume preprocessed content.</source>
-        <target state="new">The {0} property must be set in order to consume preprocessed content.</target>
+        <target state="translated">必须设置 {0} 属性才能使用预处理过的内容。</target>
         <note>0 - directory path</note>
       </trans-unit>
       <trans-unit id="UnspecifiedToken">
         <source>The token '{0}' is unrecognized.</source>
-        <target state="new">The token '{0}' is unrecognized.</target>
+        <target state="translated">无法识别令牌“{0}”。</target>
         <note>0 - token</note>
       </trans-unit>
     </body>
