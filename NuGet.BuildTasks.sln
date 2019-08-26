@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.NuGet.Build.Tasks
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.NuGet.Build.Tasks.Tests", "src\Microsoft.NuGet.Build.Tasks.Tests\Microsoft.NuGet.Build.Tasks.Tests.csproj", "{61443D47-85B6-4519-96C1-2704BDF604BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.NuGet.Build.Tasks.Setup", "setup\Microsoft.NuGet.Build.Tasks.Setup\Microsoft.NuGet.Build.Tasks.Setup.csproj", "{B0894928-23E2-4346-A661-945C4C1A279E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{61443D47-85B6-4519-96C1-2704BDF604BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61443D47-85B6-4519-96C1-2704BDF604BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61443D47-85B6-4519-96C1-2704BDF604BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0894928-23E2-4346-A661-945C4C1A279E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0894928-23E2-4346-A661-945C4C1A279E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0894928-23E2-4346-A661-945C4C1A279E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0894928-23E2-4346-A661-945C4C1A279E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

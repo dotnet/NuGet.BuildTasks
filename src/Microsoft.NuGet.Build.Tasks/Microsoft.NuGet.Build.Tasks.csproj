@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    <!-- VS Insertion -->
-    <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
     
     <IsPackable>true</IsPackable>
     <NuspecPackageId>Microsoft.NuGet.Build.Tasks</NuspecPackageId>
@@ -17,15 +15,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <InternalsVisibleTo Include="Microsoft.NuGet.Build.Tasks.Tests" />
   </ItemGroup>
-  <ItemGroup>
-    <SwrProperty Include="Version=$(VsixVersion)" />
-    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />
-  </ItemGroup>
-  <ItemGroup>
-    <SwrFile Include="*.swr" />
-  </ItemGroup>
-  <PropertyGroup>
-    <ProjectGuid>{6912FE54-B273-471C-A839-59A45DBC9305}</ProjectGuid>
-    
-  </PropertyGroup>
 </Project>

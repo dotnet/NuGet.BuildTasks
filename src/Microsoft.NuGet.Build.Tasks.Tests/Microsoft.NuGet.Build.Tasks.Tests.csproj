@@ -4,11 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-	<ProjectReference Include="..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj">
-      <Project>{6912fe54-b273-471c-a839-59a45dbc9305}</Project>
-      <Name>Microsoft.NuGet.Build.Tasks</Name>
-    </ProjectReference>
+	<ProjectReference Include="..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj"/>
   </ItemGroup>
 </Project>
