@@ -3,6 +3,7 @@ bin/
 obj/
 artifacts/
 .dotnet/
+.packages
 *.user
 project.lock.json
 *.nuget.props
