@@ -55,7 +55,7 @@
       </trans-unit>
       <trans-unit id="MissingRuntimesSectionInProjectJson">
         <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
-        <target state="translated">Seu project.json não tem uma seção de tempos de execução. Você deve adicionar '{0}' ao project.json e, em seguida, executar novamente a restauração do NuGet.</target>
+        <target state="translated">Seu project.json não tem uma seção de runtimes. Você deve adicionar '{0}' ao project.json e, em seguida, executar novamente a restauração do NuGet.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectFile">
@@ -65,7 +65,7 @@
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectJson">
         <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
-        <target state="translated">Nenhum destino foi localizado no arquivo de bloqueio. Verifique se você tem uma seção de suporte ou de tempo de execução no seu arquivo project.json.</target>
+        <target state="translated">Nenhum destino foi localizado no arquivo de bloqueio. Verifique se você tem uma seção de suporte ou de runtime no seu arquivo project.json.</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageFolderNotFound">
