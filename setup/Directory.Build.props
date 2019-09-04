@@ -7,21 +7,12 @@
     <EnableXlfLocalization>false</EnableXlfLocalization>
     <SetupRootFolder>$(MSBuildThisFileDirectory)</SetupRootFolder>
     <SetupResourcesDirectory>$(SetupRootFolder)resources</SetupResourcesDirectory>
-    <BinariesDir>$(SetupRootFolder)..\artifacts\bin</BinariesDir>
+    <BinariesDir>$(ArtifactsDir)\bin</BinariesDir>
     <OutputPath>$(ArtifactsDir)\VSSetup\$(Configuration)</OutputPath>
     <IntermediateOutputPath>$(ArtifactsDir)\VSSetup.obj\$(Configuration)\$(MSBuildProjectName)</IntermediateOutputPath>
-    <VsixBuildLocation>$(SetupRootFolder)..\artifacts\VSSetup\$(Configuration)</VsixBuildLocation>
-    <InsertionDir>$(SetupRootFolder)..\artifacts\VSSetup\$(Configuration)\Insertion</InsertionDir>
+    <VsixBuildLocation>$(ArtifactsDir)\VSSetup\$(Configuration)</VsixBuildLocation>
+    <InsertionDir>$(ArtifactsDir)\VSSetup\$(Configuration)\Insertion</InsertionDir>
     <ExcludeFromSourceBuild>true</ExcludeFromSourceBuild>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks.Setup</VisualStudioInsertionComponent>
-    <OutputArchitecture>neutral</OutputArchitecture>
-    <OutputLocalized>false</OutputLocalized>
-    <OutputType>vsix</OutputType>
-    <IsPackage>true</IsPackage>
-    <BinariesFolder>$(ArtifactsBinDir)</BinariesFolder>
   </PropertyGroup>
 
 </Project>
