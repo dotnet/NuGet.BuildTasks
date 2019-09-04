@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.NuGet.Build.Tasks
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.NuGet.Build.Tasks.Tests", "src\Microsoft.NuGet.Build.Tasks.Tests\Microsoft.NuGet.Build.Tasks.Tests.csproj", "{61443D47-85B6-4519-96C1-2704BDF604BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.NuGet.Build.Tasks.Setup", "setup\Microsoft.NuGet.Build.Tasks.Setup\Microsoft.NuGet.Build.Tasks.Setup.csproj", "{B0894928-23E2-4346-A661-945C4C1A279E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.NuGet.Build.Tasks.Setup", "setup\Swix\Microsoft.NuGet.Build.Tasks.Setup\Microsoft.NuGet.Build.Tasks.Setup.csproj", "{B0894928-23E2-4346-A661-945C4C1A279E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
