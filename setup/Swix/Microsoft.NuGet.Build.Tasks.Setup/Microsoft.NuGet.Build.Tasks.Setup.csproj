@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">	
+  <PropertyGroup>	
+    <OutputArchitecture>neutral</OutputArchitecture>	
+    <OutputLocalized>false</OutputLocalized>	
+    <OutputType>vsix</OutputType>	
+  </PropertyGroup>	
+
+  <PropertyGroup>	
+    <TargetFramework>net46</TargetFramework>	
+  </PropertyGroup>	
+
+  <PropertyGroup>	
+    <BinariesFolder>$(ArtifactsBinDir)</BinariesFolder>	
+  </PropertyGroup>	
+
+  <ItemGroup>	
+    <BinaryProjectReference Include="..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />	
+  </ItemGroup>	
+
+  <ItemGroup>	
+    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />	
+    <SwrProperty Include="VsixVersion=$(VsixVersion)" />	
+  </ItemGroup>	
+
+
+  <ItemGroup>	
+    <SwrFile Include="files.swr" />	
+  </ItemGroup>	
+
+</Project> 
