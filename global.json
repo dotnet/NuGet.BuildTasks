@@ -1,10 +1,7 @@
 {
   "tools": {
-    "dotnet": "3.0.100-preview5-011568",
-    "runtimes": {
-      "dotnet": [
-        "2.1.10"
-      ]
+    "vs": {
+      "version" : "16.0"
     }
   },
   "msbuild-sdks": {

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <ItemGroup>
-    <FileSignInfo Include="Microsoft.NuGet.Build.Tasks.dll" CertificateName="None" />
-    <FileSignInfo Include="Microsoft.NuGet.Build.Tasks.Tests.dll" CertificateName="None" />
-    <FileSignInfo Include="Microsoft.Build.Utilities.Core.dll" CertificateName="None" />
-    <FileSignInfo Include="Newtonsoft.Json.dll" CertificateName="None" />
-  </ItemGroup>
-</Project>
