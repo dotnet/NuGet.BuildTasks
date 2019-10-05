@@ -10,7 +10,9 @@
 
   <ItemGroup>	
     <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />	
-    <SwrProperty Include="VsixVersion=$(Version)" />	
+    <SwrProperty Include="VsixVersion=$(VsixVersion)" />	
+    <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />	
+    <SwrProperty Include="Configuration=$(Configuration)" />	
   </ItemGroup>	
 
 
