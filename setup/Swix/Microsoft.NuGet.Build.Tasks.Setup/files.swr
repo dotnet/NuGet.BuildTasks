@@ -1,16 +1,16 @@
-use vs	
+use vs
 
-package name=Microsoft.NuGet.Build.Tasks.Setup	
-        version=$(VsixVersion)	
+package name=Microsoft.NuGet.Build.Tasks.Setup
+        version=$(VsixVersion)
 
-folder "InstallDir:\MSBuild\Current\Imports\Microsoft.Common.Props\ImportBefore"	
-  file source="$(MSBuildProjectDirectory)\..\..\..\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.ImportBefore.props"	
-folder "InstallDir:\MSBuild\Current\Microsoft.Common.Targets\ImportAfter"	
-  file source="$(MSBuildProjectDirectory)\..\..\..\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.ImportAfter.targets"	
-folder "InstallDir:\MSBuild\Current\SolutionFile\ImportAfter"	
-  file source="$(MSBuildProjectDirectory)\..\..\..\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.Solution.ImportAfter.targets"	
-folder "InstallDir:\MSBuild\Microsoft\NuGet\$(VsAssemblyVersionShort)"	
-  file source="$(ArtifactsBinDir)\Microsoft.NuGet.Build.Tasks\$(Configuration)\net46\Microsoft.NuGet.Build.Tasks.dll"	
-  file source="$(PkgNewtonsoft_Json)\lib\net45\Newtonsoft.Json.dll"	
-  file source="$(MSBuildProjectDirectory)\..\..\..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.props"	
-  file source="$(MSBuildProjectDirectory)\..\..\..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.targets" 
+folder "InstallDir:\MSBuild\Current\Imports\Microsoft.Common.Props\ImportBefore"
+  file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.ImportBefore.props"
+folder "InstallDir:\MSBuild\Current\Microsoft.Common.Targets\ImportAfter"
+  file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.ImportAfter.targets"
+folder "InstallDir:\MSBuild\Current\SolutionFile\ImportAfter"
+  file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.Solution.ImportAfter.targets"
+folder "InstallDir:\MSBuild\Microsoft\NuGet\$(VsixVersion)"
+  file source="$(ArtifactsBinDir)\Microsoft.NuGet.Build.Tasks\$(Configuration)\net46\Microsoft.NuGet.Build.Tasks.dll"
+  file source="$(ArtifactsBinDir)\Microsoft.NuGet.Build.Tasks\$(Configuration)\net46\Newtonsoft.Json.dll"
+  file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.props"
+  file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.targets"
