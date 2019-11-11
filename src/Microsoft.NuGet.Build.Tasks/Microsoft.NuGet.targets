@@ -370,7 +370,8 @@ Copyright (c) .NET Foundation. All rights reserved.
       <NuGetTargetMonikerToInject Condition="!Exists('$(FrameworkInjectionLockFile)')">.NETCore,Version=v5.0</NuGetTargetMonikerToInject>
       <FrameworkInjectionLockFile Condition="!Exists('$(FrameworkInjectionLockFile)')">@(_NuGetInjectionSourceDirectories->'%(Identity)\project.lock.json')</FrameworkInjectionLockFile>
 
-      <FrameworkInjectionPackagesDirectory Condition="'$(FrameworkInjectionPackagesDirectory)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NuGet\Repository', 'UWPNugetPackages', null, RegistryView.Registry32, RegistryView.Default))</FrameworkInjectionPackagesDirectory>
+      <FrameworkInjectionPackagesDirectory Condition="'$(FrameworkInjectionPackagesDirectory)' == '' and ($(DotNetNativeVersion.StartsWith('1.7')) or $(DotNetNativeVersion.StartsWith('2.')))">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NuGet\Repository', 'UWPNugetPackages', null, RegistryView.Registry32, RegistryView.Default))</FrameworkInjectionPackagesDirectory>
+      <FrameworkInjectionPackagesDirectory Condition="'$(FrameworkInjectionPackagesDirectory)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\NuGet\Repository', 'NetCoreSDK', null, RegistryView.Registry32, RegistryView.Default))</FrameworkInjectionPackagesDirectory>
     </PropertyGroup>
 
     <ResolveNuGetPackageAssets Condition="Exists('$(FrameworkInjectionLockFile)')"
@@ -384,6 +385,8 @@ Copyright (c) .NET Foundation. All rights reserved.
 
     <PropertyGroup>
       <_CoreRuntimePackageId Condition="'%(_InjectNetCoreFrameworkPayload.FileName)%(_InjectNetCoreFrameworkPayload.Extension)' == 'mscorlib.dll' OR '%(_InjectNetCoreFrameworkPayload.FileName)%(_InjectNetCoreFrameworkPayload.Extension)' == 'mscorlib.ni.dll'">%(_InjectNetCoreFrameworkPayload.NuGetPackageId)</_CoreRuntimePackageId>
+      <!-- When restoring the framework for .NET Native 2.x, all of the assemblies are gathered and placed in the runtime package, so do not identify a package to exclude -->
+      <_CoreRuntimePackageId Condition="$(DotNetNativeVersion.StartsWith('2.'))"></_CoreRuntimePackageId>
     </PropertyGroup>
 
     <ItemGroup>
