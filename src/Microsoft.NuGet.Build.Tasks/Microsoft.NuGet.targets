@@ -79,6 +79,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == '' and '$(TargetPlatformIdentifier)' == 'UAP'">win10</BaseNuGetRuntimeIdentifier>
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == ''">win</BaseNuGetRuntimeIdentifier>
 
+    <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(Language)' == 'C++'">native,Version=v0.0</NuGetTargetMoniker>
     <UseTargetPlatformAsNuGetTargetMoniker Condition="'$(UseTargetPlatformAsNuGetTargetMoniker)' == '' AND '$(TargetFrameworkMoniker)' == '.NETCore,Version=v5.0'">true</UseTargetPlatformAsNuGetTargetMoniker>
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' == 'true'">$(TargetPlatformIdentifier),Version=v$([System.Version]::Parse('$(TargetPlatformMinVersion)').ToString(3))</NuGetTargetMoniker>
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' != 'true'">$(TargetFrameworkMoniker)</NuGetTargetMoniker>
@@ -98,7 +99,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <!-- If RuntimeIdentifiers weren't already specified for non-UAP projects, then generate it -->
   <PropertyGroup Condition="'$(BaseNuGetRuntimeIdentifier)' == 'win' and '$(NuGetRuntimeIdentifier)' != '' and '$(RuntimeIdentifiers)' == '' and '$(RuntimeIdentifier)' == ''">
-    <RuntimeIdentifiers>win;win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win;win-x86;win-x64;win-arm;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
