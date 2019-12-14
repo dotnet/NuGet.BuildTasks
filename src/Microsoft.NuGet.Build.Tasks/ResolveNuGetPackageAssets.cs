@@ -585,6 +585,7 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 case "C#": return "cs";
                 case "F#": return "fs";
+                case "C++": return "cpp";
                 default: return projectLanguage.ToLowerInvariant();
             }
         }
