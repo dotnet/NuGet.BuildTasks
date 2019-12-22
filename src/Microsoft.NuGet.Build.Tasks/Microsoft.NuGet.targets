@@ -67,6 +67,81 @@ Copyright (c) .NET Foundation. All rights reserved.
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
 
+  <!--
+  C++ has different toolsets, such as v140 (VS2015), v141 (VS2017), v142 (VS2019)
+  Earlier versions of the toolset are not compatible with each other, and VS2015 and later can be upward compatible.
+  -->
+  <Choose>
+    <When Condition="'$(Language)' == 'C++'">
+      <Choose>
+        <When Condition="'$(PlatformToolsetVersion)' == '142'">
+          <!--VS2019-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.2</NuGetTargetMoniker>
+            <!--Compatible 2017 2015-->
+            <_NuGetTargetFallbackMoniker>native,Version=v14.1;native,Version=v14.0;native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.2</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '141'">
+          <!--VS2017-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.1</NuGetTargetMoniker>
+            <!--Compatible 2015-->
+            <_NuGetTargetFallbackMoniker>native,Version=v14.0;native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.1</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '140'">
+          <!--VS2015-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.0</NuGetTargetMoniker>
+            <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.0</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '120'">
+          <!--VS2013-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v12.0</NuGetTargetMoniker>
+            <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native12.0</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '110'">
+          <!--VS2012-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v11.0</NuGetTargetMoniker>
+            <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native11.0</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '100'">
+          <!--VS2010-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v10.0</NuGetTargetMoniker>
+            <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native10.0</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <When Condition="'$(PlatformToolsetVersion)' == '90'">
+          <!--VS2008-->
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v9.0</NuGetTargetMoniker>
+            <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native9.0</TargetFrameworks>
+          </PropertyGroup>
+        </When>
+        <Otherwise>
+          <PropertyGroup>
+            <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v0.0</NuGetTargetMoniker>
+            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native0.0</TargetFrameworks>
+          </PropertyGroup>
+        </Otherwise>
+      </Choose>
+    </When>
+  </Choose>
+  
   <PropertyGroup>
     <ResolveNuGetPackages Condition="'$(ResolveNuGetPackages)' == '' and '$(MSBuildProjectExtension)' != '.xproj'">true</ResolveNuGetPackages>
 
@@ -79,7 +154,6 @@ Copyright (c) .NET Foundation. All rights reserved.
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == '' and '$(TargetPlatformIdentifier)' == 'UAP'">win10</BaseNuGetRuntimeIdentifier>
     <BaseNuGetRuntimeIdentifier Condition="'$(BaseNuGetRuntimeIdentifier)' == ''">win</BaseNuGetRuntimeIdentifier>
 
-    <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(Language)' == 'C++'">native,Version=v0.0</NuGetTargetMoniker>
     <UseTargetPlatformAsNuGetTargetMoniker Condition="'$(UseTargetPlatformAsNuGetTargetMoniker)' == '' AND '$(TargetFrameworkMoniker)' == '.NETCore,Version=v5.0'">true</UseTargetPlatformAsNuGetTargetMoniker>
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' == 'true'">$(TargetPlatformIdentifier),Version=v$([System.Version]::Parse('$(TargetPlatformMinVersion)').ToString(3))</NuGetTargetMoniker>
     <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' AND '$(UseTargetPlatformAsNuGetTargetMoniker)' != 'true'">$(TargetFrameworkMoniker)</NuGetTargetMoniker>
