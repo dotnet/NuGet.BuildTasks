@@ -80,7 +80,7 @@ Copyright (c) .NET Foundation. All rights reserved.
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.2</NuGetTargetMoniker>
             <!--Compatible 2017 2015-->
             <_NuGetTargetFallbackMoniker>native,Version=v14.1;native,Version=v14.0;native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.2</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native14.2</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '141'">
@@ -89,7 +89,7 @@ Copyright (c) .NET Foundation. All rights reserved.
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.1</NuGetTargetMoniker>
             <!--Compatible 2015-->
             <_NuGetTargetFallbackMoniker>native,Version=v14.0;native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.1</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native14.1</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '140'">
@@ -97,7 +97,7 @@ Copyright (c) .NET Foundation. All rights reserved.
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v14.0</NuGetTargetMoniker>
             <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native14.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native14.0</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '120'">
@@ -105,7 +105,7 @@ Copyright (c) .NET Foundation. All rights reserved.
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v12.0</NuGetTargetMoniker>
             <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native12.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native12.0</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '110'">
@@ -113,7 +113,7 @@ Copyright (c) .NET Foundation. All rights reserved.
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v11.0</NuGetTargetMoniker>
             <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native11.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native11.0</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '100'">
@@ -121,7 +121,7 @@ Copyright (c) .NET Foundation. All rights reserved.
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v10.0</NuGetTargetMoniker>
             <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native10.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native10.0</TargetFramework>
           </PropertyGroup>
         </When>
         <When Condition="'$(PlatformToolsetVersion)' == '90'">
@@ -129,13 +129,13 @@ Copyright (c) .NET Foundation. All rights reserved.
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v9.0</NuGetTargetMoniker>
             <_NuGetTargetFallbackMoniker>native,Version=v0.0</_NuGetTargetFallbackMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native9.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native9.0</TargetFramework>
           </PropertyGroup>
         </When>
         <Otherwise>
           <PropertyGroup>
             <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v0.0</NuGetTargetMoniker>
-            <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">native0.0</TargetFrameworks>
+            <TargetFramework Condition="'$(TargetFramework)' == ''">native0.0</TargetFramework>
           </PropertyGroup>
         </Otherwise>
       </Choose>
