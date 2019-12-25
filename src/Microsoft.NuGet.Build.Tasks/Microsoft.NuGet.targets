@@ -258,7 +258,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
     <!-- The items in _NuGetContentItems need to go into the appropriately-named item group, but the names depend upon the items
          themselves. Split it apart. -->
-    <CreateItem Include="@(_NuGetContentItems)" Condition="'@(_NuGetContentItems)' != ''">
+    <CreateItem Include="@(_NuGetContentItems)" AdditionalMetadata="PrecompiledHeader=NotUsing" Condition="'@(_NuGetContentItems)' != ''">
       <Output TaskParameter="Include" ItemName="%(_NuGetContentItems.NuGetItemType)" />
     </CreateItem>
   </Target>
@@ -334,7 +334,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
     <!-- The items in _NuGetContentItems need to go into the appropriately-named item group, but the names depend upon the items
          themselves. Split it apart. -->
-    <CreateItem Include="@(_NuGetContentItems)" Condition="'@(_NuGetContentItems)' != ''">
+    <CreateItem Include="@(_NuGetContentItems)" AdditionalMetadata="PrecompiledHeader=NotUsing" Condition="'@(_NuGetContentItems)' != ''">
       <Output TaskParameter="Include" ItemName="%(_NuGetContentItems.NuGetItemType)" />
     </CreateItem>
   </Target>
