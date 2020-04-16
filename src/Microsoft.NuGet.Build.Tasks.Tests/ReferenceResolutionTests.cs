@@ -544,5 +544,25 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
 
             Assert.DoesNotContain("ClassLibrary1", result.ReferencedPackages.Select(t => t.ItemSpec));
         }
+
+        [Fact]
+        public static void TestReferenceResolutionWithAliases()
+        {
+            using (var tempRoot = new TempRoot())
+            using (var disposableFile = new DisposableFile(tempRoot.CreateFile(extension: "assets.json").Path))
+            {
+                var result = NuGetTestHelpers.ResolvePackagesWithJsonFileContents(
+                        Encoding.UTF8.GetString(Json.Json.WithTargets_assets, 0, Json.Json.WithTargets_assets.Length),
+                        targetMoniker: ".NETFramework,Version=v4.5",
+                        runtimeIdentifier: "",
+                        allowFallbackOnTargetSelection: true,
+                        isLockFileProjectJsonBased: false);
+
+                // We should still have references. Since we have no runtime ID, we should have no copy local items
+                AssertHelpers.AssertCountOf(1, result.References);
+                Assert.Equal("Core", result.References.Single().GetMetadata("Aliases"));
+            }
+        }
+
     }
 }
