@@ -24,6 +24,7 @@ namespace Microsoft.NuGet.Build.Tasks
         internal const string NuGetIsFrameworkReference = "NuGetIsFrameworkReference";
         internal const string NuGetSourceType = "NuGetSourceType";
         internal const string NuGetSourceType_Package = "Package";
+        internal const string Aliases = "Aliases";
 
         internal const string ReferenceImplementationMetadata = "Implementation";
         internal const string ReferenceImageRuntimeMetadata = "ImageRuntime";
@@ -830,6 +831,11 @@ namespace Microsoft.NuGet.Build.Tasks
                 item.SetMetadata(NuGetIsFrameworkReference, "false");
                 item.SetMetadata(NuGetSourceType, NuGetSourceType_Package);
 
+                string aliases = file.Value["aliases"]?.ToString();
+                if (aliases != null)
+                {
+                    item.SetMetadata(Aliases, aliases);
+                }
                 items.Add(item);
 
                 // If there's a PDB alongside the implementation, we should copy that as well
