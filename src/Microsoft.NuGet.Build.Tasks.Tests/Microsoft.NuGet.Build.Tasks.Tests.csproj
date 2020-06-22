@@ -4,6 +4,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj"/>
+	<ProjectReference Include="..\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Json\Json.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Json.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Json\Json.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Json.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  
 </Project>

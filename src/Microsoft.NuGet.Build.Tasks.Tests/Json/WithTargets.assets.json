@@ -8,7 +8,9 @@
           "System": "4.5.0"
         },
         "compile": {
-          "ref/net45/System.Text.dll": {}
+          "ref/net45/System.Text.dll": {
+            "aliases" :  "Core"
+          }
         }
       }
     }
