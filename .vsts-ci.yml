@@ -3,8 +3,9 @@ resources:
   clean: true
 
 queue:
-  name: VSEng-MicroBuildVS2017
+  name: VSEng-MicroBuildVS2019
   demands: Cmd
+  timeoutInMinutes: 90
 
 variables:
   BuildConfiguration: Release
