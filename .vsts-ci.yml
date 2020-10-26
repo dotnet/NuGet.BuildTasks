@@ -11,7 +11,6 @@ variables:
   BuildPlatform: any cpu
   TeamName: NuGet-BuildTasks
   SignType: real
-  DropRoot: \\cpvsbuild\drops\Roslyn
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
 
 # Branches that trigger a build on commit
