@@ -14,9 +14,8 @@ variables:
   SignType: real
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
 
-# Branches that trigger a build on commit
-trigger:
-- main
+# NOTE: triggers for this build are defined in the Web UI instead of here in the YAML file so they
+#       apply to all branches.
 
 steps:
 - task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
