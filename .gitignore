@@ -8,3 +8,4 @@ artifacts/
 project.lock.json
 *.nuget.props
 *.nuget.targets
+.tools
