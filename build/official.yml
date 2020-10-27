@@ -1,3 +1,5 @@
+# This pipeline is here: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
+
 resources:
 - repo: self
   clean: true
