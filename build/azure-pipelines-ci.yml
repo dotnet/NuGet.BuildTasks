@@ -11,7 +11,7 @@ pr:
 jobs:
 - job: Visual_Studio
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'VSEngSS-MicroBuild2019'
   strategy:
     maxParallel: 2
     matrix:
