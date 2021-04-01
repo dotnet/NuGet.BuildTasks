@@ -1,11 +1,12 @@
 {
   "tools": {
     "vs": {
-      "version": "16.0"
-    }
+      "version": "16.8"
+    },
+    "xcopy-msbuild": "16.8.0-preview2.1"
   },
   "msbuild-sdks": {
-    "Microsoft.DotNet.Arcade.Sdk": "5.0.0-beta.19506.1",
-    "Microsoft.DotNet.Helix.Sdk": "5.0.0-beta.19506.1"
+    "Microsoft.DotNet.Arcade.Sdk": "6.0.0-beta.21167.3",
+    "Microsoft.DotNet.Helix.Sdk": "6.0.0-beta.21167.3"
   }
 }
