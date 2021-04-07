@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">	
   <PropertyGroup>	
-    <TargetFramework>net461</TargetFramework>	
+    <TargetFramework>net48</TargetFramework>	
     <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
   </PropertyGroup>	
 
