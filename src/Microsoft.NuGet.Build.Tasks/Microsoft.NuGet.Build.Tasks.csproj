@@ -4,6 +4,7 @@
     
     <IsPackable>true</IsPackable>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+	<SetupProductArch>neutral</SetupProductArch>
     <NuspecPackageId>Microsoft.NuGet.Build.Tasks</NuspecPackageId>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
