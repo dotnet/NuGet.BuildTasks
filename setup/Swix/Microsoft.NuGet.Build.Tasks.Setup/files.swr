@@ -2,6 +2,7 @@ use vs
 
 package name=Microsoft.NuGet.Build.Tasks.Setup
         version=$(VsixVersion)
+        vs.package.productArch=neutral
 
 folder "InstallDir:\MSBuild\Current\Imports\Microsoft.Common.Props\ImportBefore"
   file source="$(MSBuildProjectDirectory)\..\..\..\src\Microsoft.NuGet.Build.Tasks\ImportBeforeAfter\Microsoft.NuGet.ImportBefore.props"
