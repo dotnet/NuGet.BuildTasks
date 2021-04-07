@@ -2,11 +2,19 @@
 
 # Branches that trigger a build on commit
 trigger:
-- main
+  branches:
+    include:
+    - main
+    - dev*
+    - feature/*
 
 # Branches that trigger builds on PR
 pr:
-- main
+  branches:
+    include:
+    - main
+    - dev*
+    - feature/*
 
 jobs:
 - job: Visual_Studio
