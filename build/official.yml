@@ -35,6 +35,7 @@ steps:
           /p:OfficialBuildId=$(Build.BuildNumber)
           /p:VisualStudioDropName=$(VisualStudioDropName)
           /p:DotNetSignType=$(SignType)
+          /p:PublishToSymbolServer=true
           /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
           /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
   displayName: Build
