@@ -19,8 +19,7 @@ pr:
 jobs:
 - job: Visual_Studio
   pool:
-    name: NetCorePublic-Pool
-    queue: BuildPool.Windows.10.Amd64.VS2019.Pre.Open
+    vmImage: 'vs2017-win2016'
   strategy:
     maxParallel: 2
     matrix:
