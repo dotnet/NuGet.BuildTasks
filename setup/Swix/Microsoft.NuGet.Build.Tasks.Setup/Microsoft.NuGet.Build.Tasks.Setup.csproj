@@ -2,8 +2,7 @@
   <PropertyGroup>	
     <TargetFramework>net461</TargetFramework>	
     <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
-	<SetupProductArch>neutral</SetupProductArch>
-  </PropertyGroup>	
+  </PropertyGroup>
 
   <ItemGroup>	
     <ProjectReference Include="..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />	
