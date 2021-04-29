@@ -5,7 +5,7 @@ resources:
   clean: true
 
 queue:
-  name: VSEng-MicroBuildVS2017
+  name: VSEngSS-MicroBuild2017
   demands: Cmd
   timeoutInMinutes: 90
 
