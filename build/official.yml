@@ -4,8 +4,10 @@ resources:
 - repo: self
   clean: true
 
-pool:
-  vmImage: vs2017-win2016
+queue:
+  name: VSEngSS-MicroBuild2017
+  demands: Cmd
+  timeoutInMinutes: 90
 
 variables:
   BuildConfiguration: Release
@@ -45,7 +47,7 @@ steps:
   inputs:
     DropName: $(VisualStudioDropName)
     DropFolder: 'artifacts\VSSetup\$(BuildConfiguration)\Insertion'
-    condition: succeeded()
+  condition: succeeded()
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Logs
