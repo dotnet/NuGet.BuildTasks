@@ -15,6 +15,8 @@ variables:
   TeamName: NuGet-BuildTasks
   SignType: real
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
+
+variables:
   - name: _DevDivDropAccessToken
     value: $(System.AccessToken)
 
