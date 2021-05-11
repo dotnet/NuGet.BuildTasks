@@ -14,6 +14,8 @@ jobs:
 - template: /eng/common/templates/job/onelocbuild.yml
   parameters:
     CreatePr: false
+    LclSource: lclFilesfromPackage
+    LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
 - job: Build
   pool:
     name: VSEng-MicroBuildVS2017
