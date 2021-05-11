@@ -6,6 +6,7 @@ variables:
   TeamName: NuGet-BuildTasks
   SignType: real
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
+  _DevDivDropAccessToken: $(System.AccessToken)
 
 # NOTE: triggers for this build are defined in the Web UI instead of here in the YAML file so they
 #       apply to all branches.
@@ -18,7 +19,7 @@ jobs:
     LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
 - job: Build
   pool:
-    name: VSEng-MicroBuildVS2017
+    name: VSEngSS-MicroBuild2017
     demands: Cmd
     timeoutInMinutes: 90
   steps:
@@ -51,6 +52,7 @@ jobs:
     inputs:
       DropName: $(VisualStudioDropName)
       DropFolder: 'artifacts\VSSetup\$(BuildConfiguration)\Insertion'
+      AccessToken: $(_DevDivDropAccessToken)
       condition: succeeded()
 
   - task: PublishBuildArtifacts@1
