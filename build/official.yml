@@ -12,11 +12,12 @@ variables:
 #       apply to all branches.
 
 jobs:
-- template: /eng/common/templates/job/onelocbuild.yml
-  parameters:
-    CreatePr: false
-    LclSource: lclFilesfromPackage
-    LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+  - template: /eng/common/templates/job/onelocbuild.yml
+    parameters:
+      MirrorRepo: NuGet.BuildTasks
+      LclSource: lclFilesfromPackage
+      LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
 - job: Build
   pool:
     name: VSEngSS-MicroBuild2017
