@@ -4,85 +4,85 @@
     <body>
       <trans-unit id="DuplicatePreprocessorToken">
         <source>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</source>
-        <target state="translated">전처리기 토큰 '{0}'의 값이 두 개 이상 지정되었습니다. '{1}'을(를) 값으로 선택합니다.</target>
+        <target state="new">The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</target>
         <note>0 token 
 1 - chosen value</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectFile">
         <source>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">자산 파일 {0}을(를) 찾을 수 없습니다. NuGet 패키지 복원을 실행하여 이 파일을 생성하세요.</target>
+        <target state="new">Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - assets file path</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectJson">
         <source>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">잠금 파일 {0}을(를) 찾을 수 없습니다. NuGet 패키지 복원을 실행하여 이 파일을 생성하세요.</target>
+        <target state="new">Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - lock file path</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectFile">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</source>
-        <target state="translated">프로젝트가 "{0}" 프레임워크를 참조하지 않습니다. 프로젝트 파일의 "TargetFrameworks" 속성에 "{0}"에 대한 참조를 추가한 후 NuGet 복원을 다시 실행하세요.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectJson">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</source>
-        <target state="translated">프로젝트가 "{0}" 프레임워크를 참조하지 않습니다. project.json의 "frameworks" 섹션에 "{0}"에 대한 참조를 추가한 후 NuGet 복원을 다시 실행하세요.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsForProjectJson">
         <source>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</source>
-        <target state="translated">잠금 파일의 libraries 섹션에서 '{0}' 패키지를 찾을 수 없습니다. 잠금 파일이 손상되었다는 의미일 수 있습니다.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsSectionForProjectFile">
         <source>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</source>
-        <target state="translated">자산 파일의 libraries 섹션에서 '{0}' 패키지를 찾을 수 없습니다. 자산 파일이 손상되었다는 의미일 수 있습니다.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierInProjectFile">
         <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
-        <target state="translated">프로젝트 파일에 '{0}'이(가) "RuntimeIdentifier"로 나열되지 않습니다. 프로젝트 파일의 "RuntimeIdentifiers" 속성에 '{1}'을(를) 추가한 후 NuGet 복원을 다시 실행해야 합니다.</target>
+        <target state="new">Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</target>
         <note>0 &amp;1 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
         <source>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</source>
-        <target state="translated">프로젝트 파일에 "RuntimeIdentifiers" 속성이 없습니다. 프로젝트 파일에 '{0}'을(를) 추가한 후 NuGet 복원을 다시 실행해야 합니다.</target>
+        <target state="new">Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeInProjectJson">
         <source>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</source>
-        <target state="translated">project.json에 '{0}'이(가) "RuntimeIdentifier"로 나열되지 않습니다. project.json의 "runtimes" 섹션 내에 '{1}'을(를) 추가한 후 NuGet 복원을 다시 실행해야 합니다.</target>
+        <target state="new">Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimesSectionInProjectJson">
         <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
-        <target state="translated">project.json에 runtimes 섹션이 없습니다. project.json에 '{0}'을(를) 추가한 후 NuGet 복원을 다시 실행해야 합니다.</target>
+        <target state="new">Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectFile">
         <source>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</source>
-        <target state="translated">자산 파일에서 대상을 찾을 수 없습니다. 프로젝트 파일에 "RuntimeIdentifiers" 속성이 있는지 확인하세요.</target>
+        <target state="new">No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</target>
         <note />
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectJson">
         <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
-        <target state="translated">잠금 파일에서 대상을 찾을 수 없습니다. project.json 파일에 supports 또는 runtimes 섹션이 있는지 확인하세요.</target>
+        <target state="new">No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageFolderNotFound">
         <source>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</source>
-        <target state="translated">{2}에서 {1} 버전의 {0} 패키지를 찾을 수 없습니다. NuGet 패키지 복원을 실행하여 패키지를 다운로드하세요.</target>
+        <target state="new">The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</target>
         <note>0 - package id
 1 - package version 
 2 - package folder path</note>
       </trans-unit>
       <trans-unit id="PreprocessedDirectoryNotSet">
         <source>The {0} property must be set in order to consume preprocessed content.</source>
-        <target state="translated">전처리된 콘텐츠를 사용하려면 {0} 속성을 설정해야 합니다.</target>
+        <target state="new">The {0} property must be set in order to consume preprocessed content.</target>
         <note>0 - directory path</note>
       </trans-unit>
       <trans-unit id="UnspecifiedToken">
         <source>The token '{0}' is unrecognized.</source>
-        <target state="translated">'{0}' 토큰을 인식할 수 없습니다.</target>
+        <target state="new">The token '{0}' is unrecognized.</target>
         <note>0 - token</note>
       </trans-unit>
     </body>

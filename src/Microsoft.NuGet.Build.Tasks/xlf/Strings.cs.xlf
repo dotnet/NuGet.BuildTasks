@@ -4,85 +4,85 @@
     <body>
       <trans-unit id="DuplicatePreprocessorToken">
         <source>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</source>
-        <target state="translated">Token preprocesoru {0} získal více než jednu hodnotu. Volí se hodnota {1}.</target>
+        <target state="new">The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</target>
         <note>0 token 
 1 - chosen value</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectFile">
         <source>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">Nebyl nalezen soubor prostředků {0}. Pokud chcete tento soubor vygenerovat, spusťte obnovení balíčku NuGet.</target>
+        <target state="new">Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - assets file path</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectJson">
         <source>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">Nebyl nalezen soubor zámku {0}. Pokud chcete tento soubor vygenerovat, spusťte obnovení balíčku NuGet.</target>
+        <target state="new">Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - lock file path</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectFile">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</source>
-        <target state="translated">Váš projekt neobsahuje referenci na architekturu {0}. Přidejte referenci na {0} do vlastnosti TargetFrameworks v souboru projektu a pak znovu spusťte obnovení balíčku NuGet.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectJson">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</source>
-        <target state="translated">Váš projekt neobsahuje referenci na architekturu {0}. Přidejte referenci na {0} do oddílu frameworks v souboru project.json a pak znovu spusťte obnovení balíčku NuGet.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsForProjectJson">
         <source>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</source>
-        <target state="translated">V oddílu libraries v souboru zámku nebyl nalezen balíček {0}. To může znamenat, že je soubor zámku poškozený.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsSectionForProjectFile">
         <source>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</source>
-        <target state="translated">V oddílu libraries v souboru prostředků nebyl nalezen balíček {0}. To může znamenat, že je soubor prostředků poškozený.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierInProjectFile">
         <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
-        <target state="translated">Váš soubor projektu neuvádí {0} jako identifikátor RuntimeIdentifier. Měli byste přidat {1} do vlastnosti RuntimeIdentifiers v souboru projektu a pak byste měli znovu spustit obnovení balíčku NuGet.</target>
+        <target state="new">Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</target>
         <note>0 &amp;1 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
         <source>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</source>
-        <target state="translated">Váš soubor projektu neobsahuje vlastnost RuntimeIdentifiers. Do souboru projektu byste měli přidat {0} a pak byste měli znovu spustit obnovení balíčku NuGet.</target>
+        <target state="new">Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeInProjectJson">
         <source>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</source>
-        <target state="translated">Váš soubor projektu neuvádí {0} jako identifikátor RuntimeIdentifier. Měli byste přidat {1} do oddílu runtimes v souboru project.json a pak byste měli znovu spustit obnovení balíčku NuGet.</target>
+        <target state="new">Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimesSectionInProjectJson">
         <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
-        <target state="translated">Váš soubor project.json neobsahuje oddíl runtimes. Do souboru project.json byste měli přidat {0} a pak byste měli znovu spustit obnovení balíčku NuGet.</target>
+        <target state="new">Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectFile">
         <source>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</source>
-        <target state="translated">V souboru prostředků nebyly nalezeny žádné cíle. Ujistěte se, že váš soubor projektu obsahuje vlastnost RuntimeIdentifiers.</target>
+        <target state="new">No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</target>
         <note />
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectJson">
         <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
-        <target state="translated">V souboru zámku nebyly nalezeny žádné cíle. Ujistěte se, že váš soubor project.json obsahuje oddíl supports nebo oddíl runtimes.</target>
+        <target state="new">No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageFolderNotFound">
         <source>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</source>
-        <target state="translated">V {2} nebyl nalezen balíček {0} s verzí {1}. Spuštěním obnovení balíčku NuGet tento balíček stáhněte.</target>
+        <target state="new">The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</target>
         <note>0 - package id
 1 - package version 
 2 - package folder path</note>
       </trans-unit>
       <trans-unit id="PreprocessedDirectoryNotSet">
         <source>The {0} property must be set in order to consume preprocessed content.</source>
-        <target state="translated">Aby bylo možné používat předem zpracovaný obsah, musí být nastavena vlastnost {0}.</target>
+        <target state="new">The {0} property must be set in order to consume preprocessed content.</target>
         <note>0 - directory path</note>
       </trans-unit>
       <trans-unit id="UnspecifiedToken">
         <source>The token '{0}' is unrecognized.</source>
-        <target state="translated">Token {0} nebyl rozpoznán.</target>
+        <target state="new">The token '{0}' is unrecognized.</target>
         <note>0 - token</note>
       </trans-unit>
     </body>
