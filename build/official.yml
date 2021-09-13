@@ -1,14 +1,5 @@
 # This pipeline is here: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
 
-resources:
-- repo: self
-  clean: true
-
-queue:
-  name: VSEngSS-MicroBuild2017
-  demands: Cmd
-  timeoutInMinutes: 90
-
 variables:
   BuildConfiguration: Release
   BuildPlatform: any cpu
@@ -20,70 +11,83 @@ variables:
 # NOTE: triggers for this build are defined in the Web UI instead of here in the YAML file so they
 #       apply to all branches.
 
-steps:
-- task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
-  displayName: Install Signing Plugin
-  inputs:
-    signType: $(SignType)
-    esrpSigning: true
-  condition: and(succeeded(), ne(variables['SignType'], ''))
+jobs:
+- template: /eng/common/templates/job/onelocbuild.yml
+  parameters:
+    CreatePr: false
+    LclSource: lclFilesfromPackage
+    LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
+- job: Build
+  pool:
+    name: VSEngSS-MicroBuild2017
+    demands: Cmd
+    timeoutInMinutes: 90
+  steps:
+  - checkout: self
+    clean: true
+  - task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
+    displayName: Install Signing Plugin
+    inputs:
+      signType: $(SignType)
+      esrpSigning: true
+    condition: and(succeeded(), ne(variables['SignType'], ''))
 
-- task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
-  displayName: Install Swix Plugin
+  - task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
+    displayName: Install Swix Plugin
 
-- script: eng\common\CIBuild.cmd 
-          -configuration $(BuildConfiguration)
-          /p:OfficialBuildId=$(Build.BuildNumber)
-          /p:VisualStudioDropName=$(VisualStudioDropName)
-          /p:DotNetSignType=$(SignType)
-          /p:PublishToSymbolServer=true
-          /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
-          /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
-  displayName: Build
+  - script: eng\common\CIBuild.cmd 
+            -configuration $(BuildConfiguration)
+            /p:OfficialBuildId=$(Build.BuildNumber)
+            /p:VisualStudioDropName=$(VisualStudioDropName)
+            /p:DotNetSignType=$(SignType)
+            /p:PublishToSymbolServer=true
+            /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
+            /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
+    displayName: Build
 
-# Publishes setup VSIXes to a drop.
-# Note: The insertion tool looks for the display name of this task in the logs.
-- task: ms-vseng.MicroBuildTasks.4305a8de-ba66-4d8b-b2d1-0dc4ecbbf5e8.MicroBuildUploadVstsDropFolder@1
-  displayName: Upload VSTS Drop
-  inputs:
-    DropName: $(VisualStudioDropName)
-    DropFolder: 'artifacts\VSSetup\$(BuildConfiguration)\Insertion'
-    AccessToken: $(_DevDivDropAccessToken)
-  condition: succeeded()
+  # Publishes setup VSIXes to a drop.
+  # Note: The insertion tool looks for the display name of this task in the logs.
+  - task: ms-vseng.MicroBuildTasks.4305a8de-ba66-4d8b-b2d1-0dc4ecbbf5e8.MicroBuildUploadVstsDropFolder@1
+    displayName: Upload VSTS Drop
+    inputs:
+      DropName: $(VisualStudioDropName)
+      DropFolder: 'artifacts\VSSetup\$(BuildConfiguration)\Insertion'
+      AccessToken: $(_DevDivDropAccessToken)
+      condition: succeeded()
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish Logs
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(BuildConfiguration)'
-    ArtifactName: 'Logs'
-  continueOnError: true
-  condition: not(succeeded())
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Logs
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(BuildConfiguration)'
+      ArtifactName: 'Logs'
+    continueOnError: true
+    condition: not(succeeded())
 
-- task: PublishTestResults@1
-  displayName: Publish Test Results
-  inputs:
-    testRunner: XUnit
-    testResultsFiles: 'artifacts/TestResults/$(BuildConfiguration)/*.xml'
-    mergeTestResults: true
-    testRunTitle: 'Unit Tests'
-  condition: always()
+  - task: PublishTestResults@1
+    displayName: Publish Test Results
+    inputs:
+      testRunner: XUnit
+      testResultsFiles: 'artifacts/TestResults/$(BuildConfiguration)/*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Unit Tests'
+    condition: always()
 
-# Publish an artifact that the RoslynInsertionTool is able to find by its name.
-- task: PublishBuildArtifacts@1
-  displayName: Publish Artifact VSSetup
-  inputs:
-    PathtoPublish: 'artifacts\VSSetup\$(BuildConfiguration)'
-    ArtifactName: 'VSSetup'
-  condition: succeeded()
-    
-# Archive NuGet packages to DevOps.
-- task: PublishBuildArtifacts@1
-  displayName: Publish Artifact Packages
-  inputs:
-    PathtoPublish: 'artifacts\packages\$(BuildConfiguration)'
-    ArtifactName: 'Packages'
-  condition: succeeded()
+  # Publish an artifact that the RoslynInsertionTool is able to find by its name.
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Artifact VSSetup
+    inputs:
+      PathtoPublish: 'artifacts\VSSetup\$(BuildConfiguration)'
+      ArtifactName: 'VSSetup'
+    condition: succeeded()
+      
+  # Archive NuGet packages to DevOps.
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Artifact Packages
+    inputs:
+      PathtoPublish: 'artifacts\packages\$(BuildConfiguration)'
+      ArtifactName: 'Packages'
+    condition: succeeded()
 
-- task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
-  displayName: Cleanup
-  condition: always()
+  - task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
+    displayName: Cleanup
+    condition: always()
