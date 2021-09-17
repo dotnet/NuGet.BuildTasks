@@ -4,85 +4,85 @@
     <body>
       <trans-unit id="DuplicatePreprocessorToken">
         <source>The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</source>
-        <target state="translated">Se han dado varios valores al token de preprocesador "{0}". Se va a elegir "{1}" como valor.</target>
+        <target state="new">The preprocessor token '{0}' has been given more than one value. Choosing '{1}' as the value.</target>
         <note>0 token 
 1 - chosen value</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectFile">
         <source>Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">No se encuentra el archivo de recursos {0}. Ejecute una restauración de paquetes NuGet para generar el archivo.</target>
+        <target state="new">Assets file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - assets file path</note>
       </trans-unit>
       <trans-unit id="LockFileNotFoundForProjectJson">
         <source>Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</source>
-        <target state="translated">No se encuentra el archivo de bloqueo {0}. Ejecute una restauración de paquetes NuGet para generar el archivo.</target>
+        <target state="new">Lock file {0} couldn't be found. Run a NuGet package restore to generate this file.</target>
         <note>0 - lock file path</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectFile">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</source>
-        <target state="translated">El proyecto no hace referencia al marco "{0}". Agregue una referencia a "{0}" en la propiedad "TargetFrameworks" del archivo del proyecto y vuelva a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "TargetFrameworks" property of your project file and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingFrameworkInProjectJson">
         <source>Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</source>
-        <target state="translated">El proyecto no hace referencia al marco "{0}". Agregue una referencia a "{0}" en la sección "frameworks" del archivo project.json y vuelva a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project does not reference "{0}" framework. Add a reference to "{0}" in the "frameworks" section of your project.json and then re-run NuGet restore.</target>
         <note>0 - target framework</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsForProjectJson">
         <source>The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</source>
-        <target state="translated">No se encuentra el paquete "{0}" en la sección libraries del archivo de bloqueo. Esto puede indicar que el archivo de bloqueo está dañado.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the lock file. This may indicate your lock file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingPackageInTargetsSectionForProjectFile">
         <source>The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</source>
-        <target state="translated">No se encuentra el paquete "{0}" en la sección libraries del archivo de recursos. Esto puede indicar que el archivo de recursos está dañado.</target>
+        <target state="new">The package '{0}' could not be found in the libraries section of the assets file. This may indicate your assets file is corrupted.</target>
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierInProjectFile">
         <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
-        <target state="translated">El archivo del proyecto no muestra "{0}" como "RuntimeIdentifier". Debe agregar "{1}" a la propiedad "RuntimeIdentifiers" en el archivo del proyecto y volver a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</target>
         <note>0 &amp;1 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
         <source>Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</source>
-        <target state="translated">El archivo del proyecto no tiene la propiedad "RuntimeIdentifiers". Debe agregar "{0}" al archivo del proyecto y volver a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project file doesn't have the "RuntimeIdentifiers" property. You should add '{0}' to your project file and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeInProjectJson">
         <source>Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</source>
-        <target state="translated">El archivo project.json no muestra "{0}" como "RuntimeIdentifier". Debe agregar "{1}" en la sección "runtimes" del archivo project.json y volver a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project.json doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' inside your "runtimes" section in your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimesSectionInProjectJson">
         <source>Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</source>
-        <target state="translated">El archivo project.json no tiene una sección runtimes. Debe agregar "{0}" al archivo project.json y volver a ejecutar la restauración de paquetes NuGet.</target>
+        <target state="new">Your project.json doesn't have a runtimes section. You should add '{0}' to your project.json and then re-run NuGet restore.</target>
         <note>0 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectFile">
         <source>No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</source>
-        <target state="translated">No se encontró ningún destino en el archivo de recursos. Asegúrese de que está la propiedad "RuntimeIdentifiers" en el archivo del proyecto.</target>
+        <target state="new">No targets could be found in the assets file. Make sure you have "RuntimeIdentifiers" property in your project file.</target>
         <note />
       </trans-unit>
       <trans-unit id="NoTargetsInLockFileForProjectJson">
         <source>No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</source>
-        <target state="translated">No se encontró ningún destino en el archivo de bloqueo. Asegúrese de que hay una sección supports o runtimes en el archivo project.json.</target>
+        <target state="new">No targets could be found in the lock file. Make sure you have a supports or runtimes section in your project.json file.</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageFolderNotFound">
         <source>The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</source>
-        <target state="translated">No se encuentra el paquete {0} con la versión {1} en {2}. Ejecute una restauración de paquetes NuGet para descargar el paquete.</target>
+        <target state="new">The package {0} with version {1} could not be found in {2}. Run a NuGet package restore to download the package.</target>
         <note>0 - package id
 1 - package version 
 2 - package folder path</note>
       </trans-unit>
       <trans-unit id="PreprocessedDirectoryNotSet">
         <source>The {0} property must be set in order to consume preprocessed content.</source>
-        <target state="translated">Debe establecerse la propiedad {0} para poder consumir contenido preprocesado.</target>
+        <target state="new">The {0} property must be set in order to consume preprocessed content.</target>
         <note>0 - directory path</note>
       </trans-unit>
       <trans-unit id="UnspecifiedToken">
         <source>The token '{0}' is unrecognized.</source>
-        <target state="translated">No se reconoce el token "{0}".</target>
+        <target state="new">The token '{0}' is unrecognized.</target>
         <note>0 - token</note>
       </trans-unit>
     </body>
