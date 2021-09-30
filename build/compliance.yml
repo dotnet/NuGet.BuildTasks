@@ -10,7 +10,7 @@
 resources:
 - repo: self
   clean: true
-queue:
+pool:
   name: VSEngSS-MicroBuild2019-1ES
   demands: Cmd
   timeoutInMinutes: 90
@@ -22,95 +22,83 @@ variables:
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 
-jobs:
-- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-  - template: /eng/common/templates/job/onelocbuild.yml
-    parameters:
-      MirrorRepo: NuGet.BuildTasks
-      LclSource: lclFilesfromPackage
-      LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
-- job: Run Compliance Checks
-  pool:
-    name: VSEngSS-MicroBuild2019-1ES
-    demands: Cmd
-    timeoutInMinutes: 90
-  steps:
-  - checkout: self
-    clean: true
-  - task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
-    displayName: Install Signing Plugin
-    inputs:
-      signType: $(SignType)
-      esrpSigning: true
-    condition: and(succeeded(), ne(variables['SignType'], ''))
+steps:
+- checkout: self
+  clean: true
+- task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
+  displayName: Install Signing Plugin
+  inputs:
+    signType: $(SignType)
+    esrpSigning: true
+  condition: and(succeeded(), ne(variables['SignType'], ''))
 
-  - task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
-    displayName: Install Swix Plugin
+- task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
+  displayName: Install Swix Plugin
 
-  - script: eng\common\CIBuild.cmd 
-            -configuration $(BuildConfiguration)
-            /p:OfficialBuildId=$(Build.BuildNumber)
-            /p:VisualStudioDropName=$(VisualStudioDropName)
-            /p:DotNetSignType=$(SignType)
-            /p:PublishToSymbolServer=false
-    displayName: Build
+- script: eng\common\CIBuild.cmd 
+          -configuration $(BuildConfiguration)
+          /p:OfficialBuildId=$(Build.BuildNumber)
+          /p:VisualStudioDropName=$(VisualStudioDropName)
+          /p:DotNetSignType=$(SignType)
+          /p:PublishToSymbolServer=false
+  displayName: Build
 
-  - task: PoliCheck@2
-    # Scan for problematic terminology.
-    displayName: Run PoliCheck
-    inputs:
-      targetType: 'F'                             # Scan a particular file or folder (recursively)
-      targetArgument: '$(Build.SourcesDirectory)' # Path of file/folder to scan
-      result: 'PoliCheck.xml'                     # Name of the output file
-      optionsFC: '1'                              # Enable scanning of comments
-      optionsSEV: '1|2|3'                         # Scan for severity 1, 2, and 3 issues
-    continueOnError: true
+- task: PoliCheck@2
+  # Scan for problematic terminology.
+  displayName: Run PoliCheck
+  inputs:
+    targetType: 'F'                             # Scan a particular file or folder (recursively)
+    targetArgument: '$(Build.SourcesDirectory)' # Path of file/folder to scan
+    result: 'PoliCheck.xml'                     # Name of the output file
+    optionsFC: '1'                              # Enable scanning of comments
+    optionsSEV: '1|2|3'                         # Scan for severity 1, 2, and 3 issues
+  continueOnError: true
 
-  - task: CredScan@3
-    # Scan for credentials accidentally committed to source control.
-    displayName: Run CredScan
-    inputs:
-      outputFormat: 'pre' # Ouput in PREFast format so TSAUpload can consume it
-    continueOnError: true
+- task: CredScan@3
+  # Scan for credentials accidentally committed to source control.
+  displayName: Run CredScan
+  inputs:
+    outputFormat: 'pre' # Ouput in PREFast format so TSAUpload can consume it
+  continueOnError: true
 
-  - task: CopyFiles@2
-    # Copy the product binary in order to limit the work done by APIScan.
-    displayName: Copy DLL for APIScan
-    inputs:
-      SourceFolder: '$(Build.SourcesDirectory)\artifacts\bin\Microsoft.NuGet.Build.Tasks\$(BuildConfiguration)\net46'
-      Contents: Microsoft.NuGet.Build.Tasks.dll
-      TargetFolder: '$(Agent.TempDirectory)\APIScanFiles'
-    continueOnError: true
+- task: CopyFiles@2
+  # Copy the product binary in order to limit the work done by APIScan.
+  displayName: Copy DLL for APIScan
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)\artifacts\bin\Microsoft.NuGet.Build.Tasks\$(BuildConfiguration)\net46'
+    Contents: Microsoft.NuGet.Build.Tasks.dll
+    TargetFolder: '$(Agent.TempDirectory)\APIScanFiles'
+  continueOnError: true
 
-  - task: CopyFiles@2
-    # Copy the product PDB in order to limit the work done by APIScan.
-    displayName: Copy PDB for APIScan
-    inputs:
-      SourceFolder: '$(Build.SourcesDirectory)\artifacts\SymStore\$(BuildConfiguration)\Microsoft.NuGet.Build.Tasks\net46'
-      Contents: Microsoft.NuGet.Build.Tasks.pdb
-      TargetFolder: '$(Agent.TempDirectory)\APIScanFiles'
-    continueOnError: true
+- task: CopyFiles@2
+  # Copy the product PDB in order to limit the work done by APIScan.
+  displayName: Copy PDB for APIScan
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)\artifacts\SymStore\$(BuildConfiguration)\Microsoft.NuGet.Build.Tasks\net46'
+    Contents: Microsoft.NuGet.Build.Tasks.pdb
+    TargetFolder: '$(Agent.TempDirectory)\APIScanFiles'
+  continueOnError: true
 
-  - task: APIScan@2
-    # Scan for the use of undocumented APIs.
-    displayName: Run APIScan
-    inputs:
-      softwareFolder: '$(Agent.TempDirectory)\APIScanFiles' # Only examine the product binaries we previously copied.
-      softwareName: 'Dotnet-NuGet.BuildTasks'
-      softwareVersionNum: '17.0'
-      softwareBuildNum: '$(Build.BuildId)'
-      symbolsFolder: 'SRV*http://symweb'
-    env:
-      AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
-    continueOnError: true
+- task: APIScan@2
+  # Scan for the use of undocumented APIs.
+  displayName: Run APIScan
+  inputs:
+    softwareFolder: '$(Agent.TempDirectory)\APIScanFiles' # Only examine the product binaries we previously copied.
+    softwareName: 'Dotnet-NuGet.BuildTasks'
+    softwareVersionNum: '17.0'
+    softwareBuildNum: '$(Build.BuildId)'
+    symbolsFolder: 'SRV*http://symweb'
+  env:
+    AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
+  continueOnError: true
 
-  - task: TSAUpload@2
-    # Scan the output of previous steps and create bugs for any problems.
-    displayName: Upload results and create bugs
-    inputs:
-      GdnPublishTsaOnboard: true
-      GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\build\ci\TSAConfig.gdntsa'  # All relevant settings are in this file.
+- task: TSAUpload@2
+  # Scan the output of previous steps and create bugs for any problems.
+  displayName: Upload results and create bugs
+  inputs:
+    GdnPublishTsaOnboard: true
+    GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\build\ci\TSAConfig.gdntsa'  # All relevant settings are in this file.
 
-  - task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
-    displayName: Cleanup
-    condition: always()
+- task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
+  displayName: Cleanup
+  condition: always()
