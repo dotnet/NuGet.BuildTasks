@@ -82,7 +82,7 @@ jobs:
       TargetFolder: '$(Agent.TempDirectory)\APIScanFiles'
     continueOnError: true
 
-    - task: CopyFiles@2
+  - task: CopyFiles@2
     # Copy the product PDB in order to limit the work done by APIScan.
     displayName: Copy PDB for APIScan
     inputs:
