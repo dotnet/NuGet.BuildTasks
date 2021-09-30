@@ -37,10 +37,10 @@ steps:
 
 - script: eng\common\CIBuild.cmd 
           -configuration $(BuildConfiguration)
+          -publish false
           /p:OfficialBuildId=$(Build.BuildNumber)
           /p:VisualStudioDropName=$(VisualStudioDropName)
           /p:DotNetSignType=$(SignType)
-          /p:PublishToSymbolServer=false
   displayName: Build
 
 - task: PoliCheck@2
