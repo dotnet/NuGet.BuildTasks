@@ -12,7 +12,8 @@
     <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />	
     <SwrProperty Include="VsixVersion=$(VsixVersion)" />	
     <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />	
-    <SwrProperty Include="Configuration=$(Configuration)" />	
+    <SwrProperty Include="Configuration=$(Configuration)" />
+    <SwrProperty Include="MajorVersion=$(MajorVersion)" />
   </ItemGroup>	
 
 
