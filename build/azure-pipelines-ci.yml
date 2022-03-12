@@ -20,7 +20,7 @@ jobs:
 - job: Visual_Studio
   pool:
     name: NetCore1ESPool-Public
-    demands: ImageOverride -equals Build.Windows.10.Amd64.VS2017.Open
+    demands: ImageOverride -equals Build.Windows.10.Amd64.VS2019.Pre.Open
   strategy:
     maxParallel: 2
     matrix:
