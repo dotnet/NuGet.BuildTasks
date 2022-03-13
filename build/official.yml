@@ -64,10 +64,10 @@ jobs:
     continueOnError: true
     condition: not(succeeded())
 
-  - task: PublishTestResults@1
+  - task: PublishTestResults@2
     displayName: Publish Test Results
     inputs:
-      testRunner: XUnit
+      testResultsFormat: XUnit
       testResultsFiles: 'artifacts/TestResults/$(BuildConfiguration)/*.xml'
       mergeTestResults: true
       testRunTitle: 'Unit Tests'
