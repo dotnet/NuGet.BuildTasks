@@ -46,6 +46,8 @@ jobs:
             /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
     displayName: Build
 
+  - template: ..\eng\common\templates\steps\generate-sbom.yml
+
   # Publishes setup VSIXes to a drop.
   # Note: The insertion tool looks for the display name of this task in the logs.
   - task: ms-vseng.MicroBuildTasks.4305a8de-ba66-4d8b-b2d1-0dc4ecbbf5e8.MicroBuildUploadVstsDropFolder@1
