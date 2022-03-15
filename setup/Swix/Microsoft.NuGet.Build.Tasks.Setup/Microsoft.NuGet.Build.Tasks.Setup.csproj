@@ -1,24 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">	
-  <PropertyGroup>	
-    <TargetFramework>net461</TargetFramework>	
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
     <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
-  </PropertyGroup>	
+  </PropertyGroup>
 
-  <ItemGroup>	
-    <ProjectReference Include="..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />	
-  </ItemGroup>	
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />
+  </ItemGroup>
 
-  <ItemGroup>	
-    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />	
-    <SwrProperty Include="VsixVersion=$(VsixVersion)" />	
-    <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />	
+  <ItemGroup>
+    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />
+    <SwrProperty Include="VsixVersion=$(VsixVersion)" />
+    <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />
     <SwrProperty Include="Configuration=$(Configuration)" />
     <SwrProperty Include="MajorVersion=$(MajorVersion)" />
-  </ItemGroup>	
+  </ItemGroup>
 
+  <ItemGroup>
+    <SwrFile Include="files.swr" />
+  </ItemGroup>
 
-  <ItemGroup>	
-    <SwrFile Include="files.swr" />	
-  </ItemGroup>	
-
-</Project> 
+</Project>
