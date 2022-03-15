@@ -44,6 +44,7 @@ jobs:
             /p:PublishToSymbolServer=true
             /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
             /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
+            /v:normal
     displayName: Build
 
   - template: ..\eng\common\templates\steps\generate-sbom.yml
