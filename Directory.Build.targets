@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <Import Project="Sdk.targets" Sdk="Microsoft.DotNet.Arcade.Sdk" />
-
-  <!-- Updates insertion manifests (json) for creating the vsman files for insertion to include the SPDX SBOM json. -->
-  <Target Name="UpdateManifestJsonForSbom" AfterTargets="SwixBuild">
-    <Exec ContinueOnError="false" Command="powershell -NonInteractive -NoLogo -NoProfile -ExecutionPolicy Unrestricted -Command &quot;. $(MSBuildThisFileDirectory)build\UpdateManifestJsonForSbom.ps1 -manifestJsonPath '$(VisualStudioSetupInsertionPath)$(ManifestJsonName).json' -sbomMetadataPath '$(ArtifactsBinDir)spdx_2.2\manifest.spdx.json'&quot;" />
-  </Target>
 </Project>
