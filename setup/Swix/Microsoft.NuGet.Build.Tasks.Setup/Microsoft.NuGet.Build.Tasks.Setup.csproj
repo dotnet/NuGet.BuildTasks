@@ -1,24 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">	
-  <PropertyGroup>	
-    <TargetFramework>net461</TargetFramework>	
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
     <VisualStudioInsertionComponent>Microsoft.NuGet.Build.Tasks</VisualStudioInsertionComponent>
-  </PropertyGroup>	
+  </PropertyGroup>
 
-  <ItemGroup>	
-    <ProjectReference Include="..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />	
-  </ItemGroup>	
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Microsoft.NuGet.Build.Tasks\Microsoft.NuGet.Build.Tasks.csproj" />
+  </ItemGroup>
 
-  <ItemGroup>	
-    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />	
-    <SwrProperty Include="VsixVersion=$(VsixVersion)" />	
-    <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />	
+  <ItemGroup>
+    <SwrProperty Include="MSBuildProjectDirectory=$(MSBuildProjectDirectory)" />
+    <SwrProperty Include="VsixVersion=$(VsixVersion)" />
+    <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />
     <SwrProperty Include="Configuration=$(Configuration)" />
     <SwrProperty Include="MajorVersion=$(MajorVersion)" />
-  </ItemGroup>	
+  </ItemGroup>
 
+  <ItemGroup>
+    <SwrFile Include="files.swr" />
+  </ItemGroup>
 
-  <ItemGroup>	
-    <SwrFile Include="files.swr" />	
-  </ItemGroup>	
+  <!-- Updates insertion manifests (json) for creating the vsman files for insertion to include the SPDX SBOM json. -->
+  <Target Name="UpdateManifestJsonForSbom" AfterTargets="SwixBuild" Condition="'$(SbomManifestJsonDirectory)' != '' AND '$(SbomMetadataDirectory)' != ''">
+    <Exec ContinueOnError="false" Command="powershell -NonInteractive -NoLogo -NoProfile -ExecutionPolicy Unrestricted -Command &quot;. $(MSBuildThisFileDirectory)..\..\..\build\UpdateManifestJsonForSbom.ps1 -manifestJsonPath '$(SbomManifestJsonDirectory)\Microsoft.NuGet.Build.Tasks.Setup.json' -sbomMetadataPath '$(SbomMetadataDirectory)\spdx_2.2\manifest.spdx.json'&quot;" />
+  </Target>
 
-</Project> 
+</Project>

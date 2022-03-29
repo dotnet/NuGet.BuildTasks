@@ -33,8 +33,18 @@ jobs:
       esrpSigning: true
     condition: and(succeeded(), ne(variables['SignType'], ''))
 
-  - task: ms-vseng.MicroBuildTasks.32f78468-e895-4f47-962c-58a699361df8.MicroBuildSwixPlugin@1
+  - task: MicroBuildSwixPlugin@4
     displayName: Install Swix Plugin
+
+  # Quick build to produce DLLs for SBOM generation only.
+  - task: PowerShell@2
+    displayName: Build (for SBOM)
+    inputs:
+      filePath: eng\common\build.ps1
+      arguments: '-configuration $(BuildConfiguration) -restore -build'
+      failOnStderr: true
+
+  - template: ..\eng\common\templates\steps\generate-sbom.yml
 
   - script: eng\common\CIBuild.cmd 
             -configuration $(BuildConfiguration)
@@ -44,6 +54,9 @@ jobs:
             /p:PublishToSymbolServer=true
             /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
             /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
+            /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)\Insertion
+            /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom
+            /v:normal
     displayName: Build
 
   # Publishes setup VSIXes to a drop.
