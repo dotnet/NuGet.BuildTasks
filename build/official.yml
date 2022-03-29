@@ -36,22 +36,31 @@ jobs:
   - task: MicroBuildSwixPlugin@4
     displayName: Install Swix Plugin
 
-  - script: eng\common\CIBuild.cmd 
-            -configuration $(BuildConfiguration)
-            /p:OfficialBuildId=$(Build.BuildNumber)
-            /p:VisualStudioDropName=$(VisualStudioDropName)
-            /p:DotNetSignType=$(SignType)
-            /p:PublishToSymbolServer=true
-            /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
-            /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
-            /v:normal
+  - task: PowerShell@2
     displayName: Build (for SBOM)
+    inputs:
+      filePath: eng\common\build.ps1
+      arguments: '-configuration $(BuildConfiguration) -restore -build'
+      failOnStderr: true
+
+  # - script: eng\common\CIBuild.cmd 
+  #           -configuration $(BuildConfiguration)
+  #           /p:OfficialBuildId=$(Build.BuildNumber)
+  #           /p:VisualStudioDropName=$(VisualStudioDropName)
+  #           /p:DotNetSignType=$(SignType)
+  #           /p:PublishToSymbolServer=true
+  #           /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
+  #           /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
+  #           /v:normal
+  #   displayName: Build (for SBOM)
 
   - template: ..\eng\common\templates\steps\generate-sbom.yml
 
+  # - script: eng\common\CIBuild.cmd -clean
+  #   displayName: Clean SBOM build artifacts
+
   - script: eng\common\CIBuild.cmd 
             -configuration $(BuildConfiguration)
-            -clean
             /p:OfficialBuildId=$(Build.BuildNumber)
             /p:VisualStudioDropName=$(VisualStudioDropName)
             /p:DotNetSignType=$(SignType)
