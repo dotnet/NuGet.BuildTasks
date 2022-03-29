@@ -45,9 +45,23 @@ jobs:
             /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
             /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
             /v:normal
-    displayName: Build
+    displayName: Build (for SBOM)
 
   - template: ..\eng\common\templates\steps\generate-sbom.yml
+
+  - script: eng\common\CIBuild.cmd 
+            -configuration $(BuildConfiguration)
+            -clean
+            /p:OfficialBuildId=$(Build.BuildNumber)
+            /p:VisualStudioDropName=$(VisualStudioDropName)
+            /p:DotNetSignType=$(SignType)
+            /p:PublishToSymbolServer=true
+            /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
+            /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
+            /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)
+            /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom
+            /v:normal
+    displayName: Build
 
   # Publishes setup VSIXes to a drop.
   # Note: The insertion tool looks for the display name of this task in the logs.
