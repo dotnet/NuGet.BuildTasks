@@ -46,6 +46,9 @@ jobs:
 
   - template: ..\eng\common\templates\steps\generate-sbom.yml
 
+  - script: eng\common\CIBuild.cmd -clean
+    displayName: Clean
+
   - script: eng\common\CIBuild.cmd 
             -configuration $(BuildConfiguration)
             /p:OfficialBuildId=$(Build.BuildNumber)
