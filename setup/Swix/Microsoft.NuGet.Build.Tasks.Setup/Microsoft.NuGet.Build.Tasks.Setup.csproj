@@ -21,9 +21,4 @@
     <SwrFile Include="files.swr" />
   </ItemGroup>
 
-  <!-- Updates insertion manifests (json) for creating the vsman files for insertion to include the SPDX SBOM json. -->
-  <Target Name="UpdateManifestJsonForSbom" AfterTargets="SwixBuild" Condition="'$(SbomManifestJsonDirectory)' != '' AND '$(SbomMetadataDirectory)' != ''">
-    <Exec ContinueOnError="false" Command="powershell -NonInteractive -NoLogo -NoProfile -ExecutionPolicy Unrestricted -Command &quot;. $(MSBuildThisFileDirectory)..\..\..\build\UpdateManifestJsonForSbom.ps1 -manifestJsonPath '$(SbomManifestJsonDirectory)\Microsoft.NuGet.Build.Tasks.Setup.json' -sbomMetadataPath '$(SbomMetadataDirectory)\_manifest\spdx_2.2\manifest.spdx.json'&quot;" />
-  </Target>
-
 </Project>
