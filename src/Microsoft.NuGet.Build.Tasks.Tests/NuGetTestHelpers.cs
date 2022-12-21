@@ -79,7 +79,14 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 task.RuntimeIdentifier = runtimeIdentifier;
                 task.ProjectLockFile = projectLockJsonFile.Path;
                 task.ProjectLanguage = projectLanguage;
-                task.TargetMonikers = new ITaskItem[] { new TaskItem(targetMoniker) };
+                if (targetMoniker != null)
+                {
+                    task.TargetMonikers = new ITaskItem[] { new TaskItem(targetMoniker) };
+                }
+                else
+                {
+                    task.TargetMonikers = Array.Empty<ITaskItem>();
+                }
 
                 // When we create the task for unit-testing purposes, the constructor sets an internal bit which should always
                 // cause task.Execute to throw.

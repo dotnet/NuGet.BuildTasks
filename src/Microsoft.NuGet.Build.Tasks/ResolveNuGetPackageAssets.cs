@@ -665,18 +665,19 @@ namespace Microsoft.NuGet.Build.Tasks
             {
                 var preferredTargetMonikerWithOptionalRuntimeIdentifier = GetTargetMonikerWithOptionalRuntimeIdentifier(preferredTargetMoniker, needsRuntimeIdentifier);
                 var target = (JObject)targets[preferredTargetMonikerWithOptionalRuntimeIdentifier];
-
                 if (target != null)
                 {
                     return target;
                 }
             }
 
-            // If we need a runtime identifier, let's see if we have the framework targeted. If we do,
-            // then we can give a better error message.
-            bool onlyNeedsRuntimeInProjectJson = false;
-            if (needsRuntimeIdentifier)
+            // Allow fallback if Microsoft.NuGet.targets did not set any preferred monikers, which is possible for vcxproj and other non-.NET project types.
+            if (needsRuntimeIdentifier && TargetMonikers.Length > 0)
             {
+                // No fallbacks allowed.
+                // If we need a runtime identifier, let's see if we have the framework targeted. If we do,
+                // then we can give a better error message.
+                bool onlyNeedsRuntimeInProjectJson = false;
                 foreach (var targetMoniker in TargetMonikers)
                 {
                     var targetMonikerWithoutRuntimeIdentifier = GetTargetMonikerWithOptionalRuntimeIdentifier(targetMoniker, needsRuntimeIdentifier: false);
@@ -687,22 +688,21 @@ namespace Microsoft.NuGet.Build.Tasks
                         break;
                     }
                 }
-            }
 
-            if (onlyNeedsRuntimeInProjectJson)
-            {
-                GiveErrorForMissingRuntimeIdentifier();
-            }
-            else
-            {
-                GiveErrorForMissingFramework();
+                if (onlyNeedsRuntimeInProjectJson)
+                {
+                    GiveErrorForMissingRuntimeIdentifier();
+                }
+                else
+                {
+                    GiveErrorForMissingFramework();
+                }
             }
 
             // If we're still here, that means we're allowing fallback, so let's try
             foreach (var fallback in TargetMonikers)
             {
                 var target = (JObject)targets[GetTargetMonikerWithOptionalRuntimeIdentifier(fallback, needsRuntimeIdentifier: false)];
-
                 if (target != null)
                 {
                     return target;
@@ -779,7 +779,8 @@ namespace Microsoft.NuGet.Build.Tasks
                 nameof(Strings.MissingFrameworkInProjectJson) :
                 nameof(Strings.MissingFrameworkInProjectFile);
 
-            ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, TargetMonikers.First().ItemSpec);
+            string itemSpec = TargetMonikers.FirstOrDefault()?.ItemSpec ?? "???";
+            ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, itemSpec);
         }
 
         private void ThrowExceptionIfNotAllowingFallback(string resourceName, params string[] messageArgs)
@@ -992,9 +993,6 @@ namespace Microsoft.NuGet.Build.Tasks
                 SplitPackageName(package.Key, out string id, out string version);
 
                 var libraryObject = (JObject)lockFile["libraries"][package.Key];
-
-                Func<string> fullPackagePathGenerator;
-
                 if (libraryObject == null)
                 {
                     var errorMessage = IsLockFileProjectJsonBased(ProjectLockFile) ? 
@@ -1004,7 +1002,8 @@ namespace Microsoft.NuGet.Build.Tasks
                     throw new ExceptionFromResource(errorMessage, package.Key);
                 }
 
-                // If this is a project then we need to figure out it's relative output path
+                // If this is a project then we need to figure out its relative output path
+                Func<string> fullPackagePathGenerator;
                 if ("project".Equals((string)libraryObject["type"], StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
