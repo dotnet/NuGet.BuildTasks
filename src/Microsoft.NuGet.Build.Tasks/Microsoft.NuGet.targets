@@ -110,7 +110,7 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <!-- If RuntimeIdentifiers weren't already specified for non-UAP projects, then generate it -->
   <PropertyGroup Condition="'$(BaseNuGetRuntimeIdentifier)' == 'win' and '$(NuGetRuntimeIdentifier)' != '' and '$(RuntimeIdentifiers)' == '' and '$(RuntimeIdentifier)' == ''">
-    <RuntimeIdentifiers>win;win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win;win-x86;win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
