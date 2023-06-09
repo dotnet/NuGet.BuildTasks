@@ -39,8 +39,8 @@
         <note>0 package id</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierInProjectFile">
-        <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore.</source>
-        <target state="translated">Il file di progetto non elenca '{0}' come "RuntimeIdentifier". È necessario aggiungere '{1}' alla proprietà "RuntimeIdentifiers" nel file di progetto e quindi eseguire di nuovo il ripristino di NuGet.</target>
+        <source>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file (RuntimeIdentifiers should always be the complete list of RIDs supported by the project, regardless of the current configuration, platform or target. Single unconditioned RuntimeIdentifiers property is recommended) and then re-run NuGet restore.</source>
+        <target state="needs-review-translation">Il file di progetto non elenca '{0}' come "RuntimeIdentifier". È necessario aggiungere '{1}' alla proprietà "RuntimeIdentifiers" nel file di progetto e quindi eseguire di nuovo il ripristino di NuGet.</target>
         <note>0 &amp;1 - Runtime Identifier</note>
       </trans-unit>
       <trans-unit id="MissingRuntimeIdentifierPropertyInProjectFile">
