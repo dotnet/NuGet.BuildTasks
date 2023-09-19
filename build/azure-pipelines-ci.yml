@@ -1,4 +1,4 @@
-# This pipeline is here: https://dev.azure.com/dnceng/public/_build?definitionId=567&_a=summary
+# This pipeline is here: https://dev.azure.com/dnceng-public/public/_build?definitionId=37
 
 # Branches that trigger a build on commit
 trigger:
@@ -19,8 +19,15 @@ pr:
 jobs:
 - job: Visual_Studio
   pool:
-    name: NetCore1ESPool-Public
-    demands: ImageOverride -equals Build.Windows.10.Amd64.VS2019.Pre.Open
+    # The max number of concurrent jobs that can be run in the pool is 820.
+    # https://dnceng-public.visualstudio.com/public/_settings/agentqueues?queueId=13&view=jobs
+    name: NetCore-Public
+    # Demands Docs: https://docs.microsoft.com/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml#manually-entered-demands
+    # ImageOverride is used to select the image. See:
+    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/510/1ES-Hosted-Pools-Migration
+    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/675/1ESManagedPoolsDesign?anchor=1es-managed-images
+    # Image List: https://helix.dot.net/#1esPools
+    demands: ImageOverride -equals Windows.VS2022Preview.Amd64.Open
   strategy:
     maxParallel: 2
     matrix:
