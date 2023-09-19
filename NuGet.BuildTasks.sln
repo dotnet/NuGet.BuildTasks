@@ -9,6 +9,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.NuGet.Build.Tasks
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.NuGet.Build.Tasks.Setup", "setup\Swix\Microsoft.NuGet.Build.Tasks.Setup\Microsoft.NuGet.Build.Tasks.Setup.csproj", "{B0894928-23E2-4346-A661-945C4C1A279E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{5802E42F-3586-4FD4-B08A-8BA1A3B2F690}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		build.cmd = build.cmd
+		build.sh = build.sh
+		CODE-OF-CONDUCT.md = CODE-OF-CONDUCT.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		global.json = global.json
+		LICENSE.txt = LICENSE.txt
+		NuGet.config = NuGet.config
+		README.md = README.md
+		ThirdPartyNotices.txt = ThirdPartyNotices.txt
+		CONTRIBUTING.md = CONTRIBUTING.md
+		SECURITY.md = SECURITY.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
