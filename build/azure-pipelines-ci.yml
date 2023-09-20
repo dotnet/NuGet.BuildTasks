@@ -44,21 +44,21 @@ jobs:
         ArtifactName: '$(_configuration) unit test logs'
         publishLocation: Container
       continueOnError: true
-      condition: failed()
+      condition: always()
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\bin'
         ArtifactName: '$(_configuration) bin folder'
         publishLocation: Container
       continueOnError: true
-      condition: failed()
+      condition: always()
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\TestResults\$(_configuration)'
         ArtifactName: '$(_configuration) Test Result Logs'
         publishLocation: Container
       continueOnError: true
-      condition: failed()
+      condition: always()
     - task: PublishTestResults@2
       inputs:
         testRunner: 'xUnit'
