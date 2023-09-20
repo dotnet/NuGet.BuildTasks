@@ -41,10 +41,10 @@ jobs:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(_configuration)'
-        ArtifactName: '$(_configuration) unit test logs'
+        ArtifactName: '$(_configuration) Logs'
         publishLocation: Container
       continueOnError: true
-      condition: failed()
+      condition: always()
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\bin'
@@ -55,7 +55,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)\artifacts\TestResults\$(_configuration)'
-        ArtifactName: '$(_configuration) Test Result Logs'
+        ArtifactName: '$(_configuration) Test Results'
         publishLocation: Container
       continueOnError: true
       condition: failed()
