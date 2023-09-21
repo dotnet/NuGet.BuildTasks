@@ -20,7 +20,7 @@ jobs:
       LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
 - job: Build
   pool:
-    name: VSEngSS-MicroBuild2019-1ES
+    name: VSEngSS-MicroBuild2022-1ES
     demands: Cmd
     timeoutInMinutes: 90
   steps:
