@@ -1,4 +1,6 @@
-# This pipeline is here: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
+# NuGet.BuildTasks
+# Official pipeline
+# URL: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
 
 variables:
   BuildConfiguration: Release
