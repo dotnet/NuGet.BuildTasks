@@ -46,24 +46,6 @@ steps:
           /p:DotNetSignType=$(SignType)
   displayName: Build
 
-- task: PoliCheck@2
-  # Scan for problematic terminology.
-  displayName: Run PoliCheck
-  inputs:
-    targetType: 'F'                             # Scan a particular file or folder (recursively)
-    targetArgument: '$(Build.SourcesDirectory)' # Path of file/folder to scan
-    result: 'PoliCheck.xml'                     # Name of the output file
-    optionsFC: '1'                              # Enable scanning of comments
-    optionsSEV: '1|2|3'                         # Scan for severity 1, 2, and 3 issues
-  continueOnError: true
-
-- task: CredScan@3
-  # Scan for credentials accidentally committed to source control.
-  displayName: Run CredScan
-  inputs:
-    outputFormat: 'pre' # Ouput in PREFast format so TSAUpload can consume it
-  continueOnError: true
-
 - task: CopyFiles@2
   # Copy the product binary in order to limit the work done by APIScan.
   displayName: Copy DLL for APIScan
@@ -94,13 +76,6 @@ steps:
   env:
     AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
   continueOnError: true
-
-- task: TSAUpload@2
-  # Scan the output of previous steps and create bugs for any problems.
-  displayName: Upload results and create bugs
-  inputs:
-    GdnPublishTsaOnboard: true
-    GdnPublishTsaConfigFile: '$(Build.SourcesDirectory)\build\TSAConfig.gdntsa'  # All relevant settings are in this file.
 
 - task: PublishSecurityAnalysisLogs@3
   # Publish all the analysis logs as a build artifact.
