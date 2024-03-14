@@ -1,9 +1,6 @@
-# This Yaml Document has been converted by ESAI Yaml Pipeline Conversion Tool.
-# Please make sure to check all the converted content, it is your team's responsibility to make sure that the pipeline is still valid and functions as expected.
-# This pipeline will be extended to the MicroBuild template
-# The Task 'PublishBuildArtifacts@1' has been converted to an output named 'Publish Logs' in the templateContext section.
-# The Task 'PublishBuildArtifacts@1' has been converted to an output named 'Publish Artifact VSSetup' in the templateContext section.
-# The Task 'PublishBuildArtifacts@1' has been converted to an output named 'Publish Artifact Packages' in the templateContext section.
+# NuGet.BuildTasks
+# Official pipeline
+# URL: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
 variables:
   BuildConfiguration: Release
   BuildPlatform: any cpu
@@ -25,6 +22,17 @@ extends:
   parameters:
     sdl:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      tsa:
+        enabled: true
+        configFile: $(Build.SourcesDirectory)/build/TSAConfig.gdntsa
+        onboard: true
+      binskim:
+        enabled: true
+        analyzeTargetGlob: $(Build.SourcesDirectory)/artifacts/$(BuildConfiguration)/bin/Dlls/**.dll
+      credscan:
+        enabled: true
+      policheck:
+        enabled: true
     pool:
       name: AzurePipelines-EO
       image: AzurePipelinesWindows2022compliantGPT
@@ -72,7 +80,7 @@ extends:
           - output: microBuildVstsDrop
             dropName: $(VisualStudioDropName)
             dropFolder: artifacts/VSSetup/$(BuildConfiguration)/Insertion
-            dropRetentionDays : 30
+            dropRetentionDays : 60
             accessToken: $(_DevDivDropAccessToken)
             displayName: Upload VSTS Drop
             condition: succeeded()
