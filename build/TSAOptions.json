@@ -15,9 +15,10 @@
     "projectName": "DevDiv",
     "areaPath": "DevDiv\\NET Tools\\Project",
     "iterationPath": "DevDiv",
+    "repositoryName": "Nuget.BuildTasks",
     "tools": [
         "CredScan",
         "PoliCheck",
         "APIScan"
     ]
-}
+ }
