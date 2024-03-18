@@ -64,7 +64,7 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Logs'
             condition: not(succeeded())
-            targetPath: $(Build.SourcesDirectory)/artifacts/log/$(BuildConfiguration)
+            targetPath: $(Build.SourcesDirectory)/artifacts/log/$(BuildConfiguration)@self
             artifactName: 'Logs'
           - output: pipelineArtifact
             displayName: 'Publish Artifact VSSetup'
