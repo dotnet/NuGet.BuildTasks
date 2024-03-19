@@ -1,0 +1,24 @@
+{
+    "tsaVersion": "TsaV2",
+    "codebase": "NewOrUpdate",
+    "codebaseName": "dotnet-nuget.buildtasks",
+    "tsaStamp": "DevDiv",
+    "tsaEnvironment": "PROD",
+    "notificationAliases": [
+        "dotnetdevexproj@microsoft.com"
+    ],
+    "codebaseAdmins": [
+        "REDMOND\\tomescht",
+        "REDMOND\\kvenkatrajan"
+    ],
+    "instanceUrl": "https://devdiv.visualstudio.com",
+    "projectName": "DevDiv",
+    "areaPath": "DevDiv\\NET Tools\\Project",
+    "iterationPath": "DevDiv",
+    "repositoryName": "Nuget.BuildTasks",
+    "tools": [
+        "CredScan",
+        "PoliCheck",
+        "APIScan"
+    ]
+ }
