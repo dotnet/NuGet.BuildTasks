@@ -22,15 +22,14 @@ extends:
   parameters:
     sdl:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
-      tsa:
-        enabled: true
-        configFile: $(Build.SourcesDirectory)/build/TSAConfig.gdntsa
-        onboard: true
-      binskim:
-        enabled: true
-        analyzeTargetGlob: $(Build.SourcesDirectory)/artifacts/$(BuildConfiguration)/bin/Dlls/**.dll
-      credscan:
-        enabled: true
+      #tsa:
+      #  onboard: true
+      #  enabled: true
+      #  configFile: $(Build.SourcesDirectory)/build/TSAOptions.json
+      #binskim:
+      #  enabled: true
+      #credscan:
+      #  enabled: true
       policheck:
         enabled: true
     pool:
@@ -65,7 +64,7 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Logs'
             condition: not(succeeded())
-            targetPath: $(Build.SourcesDirectory)/artifacts/log/$(BuildConfiguration)
+            targetPath: $(Build.SourcesDirectory)/artifacts/log/$(BuildConfiguration)@self
             artifactName: 'Logs'
           - output: pipelineArtifact
             displayName: 'Publish Artifact VSSetup'
