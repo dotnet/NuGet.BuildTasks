@@ -22,14 +22,10 @@ extends:
   parameters:
     sdl:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
-      #tsa:
-      #  onboard: true
-      #  enabled: true
-      #  configFile: $(Build.SourcesDirectory)/build/TSAOptions.json
-      #binskim:
-      #  enabled: true
-      #credscan:
-      #  enabled: true
+      binskim:
+        enabled: true
+      credscan:
+        enabled: true
       policheck:
         enabled: true
     pool:
