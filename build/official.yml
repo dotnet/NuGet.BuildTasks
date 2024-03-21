@@ -24,7 +24,6 @@ extends:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
       binskim:
         enabled: true
-        analyzeTargetGlob: $(Build.SourcesDirectory)\artifacts\DLLs\**.dll
       credscan:
         enabled: true
       policheck:
