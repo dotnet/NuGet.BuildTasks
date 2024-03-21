@@ -110,7 +110,6 @@ extends:
               Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.dll
               Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.pdb
             TargetFolder: '$(Build.SourcesDirectory)\artifacts\DLLs'
-            flattenFolders: true
           continueOnError: true
         - template: /build/analyze-compliance.yml@self
           parameters:
