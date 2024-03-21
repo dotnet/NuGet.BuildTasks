@@ -24,6 +24,7 @@ extends:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
       binskim:
         enabled: true
+        analyzeTargetGlob: $(Build.SourcesDirectory)\artifacts\DLLs\**.dll
       credscan:
         enabled: true
       policheck:
@@ -94,13 +95,18 @@ extends:
             mergeTestResults: true
             testRunTitle: 'Unit Tests'
             condition: always()
-        # Verify the loose DLLs are signed appropriately.
-        # Note: This task takes ~3 minutes only because it is the first Guardian task in this job. So, it installs the Guardian components so the other tasks don't have to.
-        # YAML reference: https://eng.ms/docs/security-compliance-identity-and-management-scim/security/azure-security/cloudai-security-fundamentals-engineering/security-integration/guardian-wiki/sdl-azdo-extension/code-signing-validation-build-task#v1-preview
-        #- task: CodeSign@1
-        #  displayName: Verify Signed DLLs
-        #  inputs:
-        #    Path: $(Build.SourcesDirectory)/artifacts/$(BuildConfiguration)/bin/Dlls/
-        #    # Glob Format: https://dev.azure.com/securitytools/SecurityIntegration/_wiki/wikis/Guardian/1378/Glob-Format
-        #    Targets: '**/Microsoft.NuGet.Build.Tasks*.dll;'
-        #    condition: succeededOrFailed()   
+        - task: CopyFiles@2
+          displayName: Copy DLLs for Compliance checks
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)\artifacts\bin'
+            Contents: |
+              Microsoft.NuGet.Build.Tasks\**\Microsoft.NuGet.Build.Tasks*.dll
+              Microsoft.NuGet.Build.Tasks\**\Microsoft.NuGet.Build.Tasks*.pdb
+              Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.dll
+              Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.pdb
+            TargetFolder: '$(Build.SourcesDirectory)\artifacts\DLLs'
+            flattenFolders: true
+          continueOnError: true
+        - template: analyze-compliance.yml@self
+          parameters:
+            SoftwareVersion: '17.0'
