@@ -59,16 +59,16 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Artifact VSSetup'
             condition: succeeded()
-            targetPath: artifacts/VSSetup/$(BuildConfiguration)
+            targetPath: $(Build.SourcesDirectory)/artifacts/VSSetup/$(BuildConfiguration)
             artifactName: 'VSSetup'
           - output: pipelineArtifact
             displayName: 'Publish Artifact Packages'
             condition: succeeded()
-            targetPath: artifacts/packages/$(BuildConfiguration)
+            targetPath: $(Build.SourcesDirectory)/artifacts/packages/$(BuildConfiguration)
             artifactName: 'Packages'
           - output: microBuildVstsDrop
             dropName: $(VisualStudioDropName)
-            dropFolder: artifacts/VSSetup/$(BuildConfiguration)/Insertion
+            dropFolder: $(Build.SourcesDirectory)/artifacts/VSSetup/$(BuildConfiguration)/Insertion
             dropRetentionDays : 60
             accessToken: $(_DevDivDropAccessToken)
             displayName: Upload VSTS Drop
