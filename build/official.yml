@@ -76,6 +76,7 @@ extends:
             condition: succeeded()
 
         steps:
+        - pwsh: New-Item "$(Build.SourcesDirectory)/artifacts/DLLs" -Type Directory
         - task: PowerShell@2
           displayName: Build (for SBOM)
           inputs:
