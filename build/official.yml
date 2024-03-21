@@ -28,6 +28,8 @@ extends:
         enabled: true
       policheck:
         enabled: true
+      sbom:
+        enabled: false
     pool:
       name: VSEngSS-MicroBuild2022-1ES
     stages:
@@ -71,11 +73,6 @@ extends:
             accessToken: $(_DevDivDropAccessToken)
             displayName: Upload VSTS Drop
             condition: succeeded()
-          - output: pipelineArtifact
-            displayName: Publish Loc Artifacts
-            targetPath: artifacts/$(BuildConfiguration)/bin/Dlls/net472
-            artifact: Loc
-            condition: succeededOrFailed()
 
         steps:
         - task: PowerShell@2
