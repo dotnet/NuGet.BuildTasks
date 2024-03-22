@@ -1,4 +1,6 @@
-# This pipeline is here: https://dev.azure.com/dnceng-public/public/_build?definitionId=37
+# NuGet.BuildTasks
+# Pull request pipeline
+# URL: https://dev.azure.com/dnceng-public/public/_build?definitionId=37
 
 # Branches that trigger a build on commit
 trigger:
