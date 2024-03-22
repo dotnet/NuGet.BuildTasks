@@ -1,110 +1,116 @@
-# This pipeline is here: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
-
+# NuGet.BuildTasks
+# Official pipeline
+# URL: https://devdiv.visualstudio.com/DevDiv/_build?definitionId=11797&_a=summary
 variables:
   BuildConfiguration: Release
   BuildPlatform: any cpu
   TeamName: NuGet-BuildTasks
+  TeamEmail: dotnetdevexproj@microsoft.com
   SignType: real
   VisualStudioDropName: Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)
   _DevDivDropAccessToken: $(System.AccessToken)
 
-# NOTE: triggers for this build are defined in the Web UI instead of here in the YAML file so they
-#       apply to all branches.
+resources:
+  repositories:
+  - repository: MicroBuildTemplate
+    type: git
+    name: 1ESPipelineTemplates/MicroBuildTemplate
+    ref: refs/tags/release
 
-jobs:
-- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-  - template: /eng/common/templates/job/onelocbuild.yml
-    parameters:
-      MirrorRepo: NuGet.BuildTasks
-      LclSource: lclFilesfromPackage
-      LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
-- job: Build
-  pool:
-    name: VSEngSS-MicroBuild2022-1ES
-    demands: Cmd
-    timeoutInMinutes: 90
-  steps:
-  - checkout: self
-    clean: true
-  - task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
-    displayName: Install Signing Plugin
-    inputs:
-      signType: $(SignType)
-      esrpSigning: true
-    condition: and(succeeded(), ne(variables['SignType'], ''))
+extends:
+  template: azure-pipelines/MicroBuild.1ES.Official.yml@MicroBuildTemplate
+  parameters:
+    sdl:
+      sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      binskim:
+        enabled: true
+      credscan:
+        enabled: true
+      policheck:
+        enabled: true
+      sbom:
+        enabled: false
+    pool:
+      name: VSEngSS-MicroBuild2022-1ES
+    stages:
+    - stage: Build
+      displayName: Build
+      variables:
+        # https://devdiv.visualstudio.com/DevDiv/_library?itemType=VariableGroups&view=VariableGroupView&variableGroupId=434&path=DotNet-Project-System
+        # Variables used:
+        # - ApiScanConnectionString
+        - group: DotNet-Project-System
+      jobs:
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+        - template: /eng/common/templates-official/job/onelocbuild.yml@self
+          parameters:
+            MirrorRepo: NuGet.BuildTasks
+            LclSource: lclFilesfromPackage
+            LclPackageId: 'LCL-JUNO-PROD-NBUILDTASKS'
+      - job: Build
+        templateContext:
+          mb:
+            signing:
+              enabled: true
+              signType: $(SignType)
+            swix:
+              enabled: true
+          outputParentDirectory: $(Build.SourcesDirectory)/artifacts
+          outputs:
+          - output: pipelineArtifact
+            displayName: Publish Build Artifacts
+            targetPath: $(Build.SourcesDirectory)/artifacts/
+            artifactName: $(Build.BuildNumber)
+            condition: succeededOrFailed()
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact VSSetup'
+            condition: succeeded()
+            targetPath: $(Build.SourcesDirectory)/artifacts/VSSetup/$(BuildConfiguration)
+            artifactName: 'VSSetup'
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact Packages'
+            condition: succeeded()
+            targetPath: $(Build.SourcesDirectory)/artifacts/packages/$(BuildConfiguration)
+            artifactName: 'Packages'
+          - output: microBuildVstsDrop
+            dropName: $(VisualStudioDropName)
+            dropFolder: $(Build.SourcesDirectory)/artifacts/VSSetup/$(BuildConfiguration)/Insertion
+            dropRetentionDays : 60
+            accessToken: $(_DevDivDropAccessToken)
+            displayName: Upload VSTS Drop
+            condition: succeeded()
 
-  - task: MicroBuildSwixPlugin@4
-    displayName: Install Swix Plugin
-
-  # Quick build to produce DLLs for SBOM generation only.
-  - task: PowerShell@2
-    displayName: Build (for SBOM)
-    inputs:
-      filePath: eng\common\build.ps1
-      arguments: '-configuration $(BuildConfiguration) -restore -build'
-      failOnStderr: true
-
-  - template: ..\eng\common\templates\steps\generate-sbom.yml
-
-  - script: eng\common\CIBuild.cmd -clean
-    displayName: Clean
-
-  - script: eng\common\CIBuild.cmd 
-            -configuration $(BuildConfiguration)
-            /p:OfficialBuildId=$(Build.BuildNumber)
-            /p:VisualStudioDropName=$(VisualStudioDropName)
-            /p:DotNetSignType=$(SignType)
-            /p:PublishToSymbolServer=true
-            /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat)
-            /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat)
-            /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)\Insertion
-            /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom
-            /v:normal
-    displayName: Build
-
-  # Publishes setup VSIXes to a drop.
-  # Note: The insertion tool looks for the display name of this task in the logs.
-  - task: ms-vseng.MicroBuildTasks.4305a8de-ba66-4d8b-b2d1-0dc4ecbbf5e8.MicroBuildUploadVstsDropFolder@1
-    displayName: Upload VSTS Drop
-    inputs:
-      DropName: $(VisualStudioDropName)
-      DropFolder: 'artifacts\VSSetup\$(BuildConfiguration)\Insertion'
-      AccessToken: $(_DevDivDropAccessToken)
-      condition: succeeded()
-
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Logs
-    inputs:
-      PathtoPublish: '$(Build.SourcesDirectory)\artifacts\log\$(BuildConfiguration)'
-      ArtifactName: 'Logs'
-    continueOnError: true
-    condition: not(succeeded())
-
-  - task: PublishTestResults@2
-    displayName: Publish Test Results
-    inputs:
-      testResultsFormat: XUnit
-      testResultsFiles: 'artifacts/TestResults/$(BuildConfiguration)/*.xml'
-      mergeTestResults: true
-      testRunTitle: 'Unit Tests'
-    condition: always()
-
-  # Publish an artifact that the RoslynInsertionTool is able to find by its name.
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Artifact VSSetup
-    inputs:
-      PathtoPublish: 'artifacts\VSSetup\$(BuildConfiguration)'
-      ArtifactName: 'VSSetup'
-    condition: succeeded()
-      
-  # Archive NuGet packages to DevOps.
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Artifact Packages
-    inputs:
-      PathtoPublish: 'artifacts\packages\$(BuildConfiguration)'
-      ArtifactName: 'Packages'
-    condition: succeeded()
-
-  - task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
-    displayName: Cleanup
-    condition: always()
+        steps:
+        - task: PowerShell@2
+          displayName: Build (for SBOM)
+          inputs:
+            filePath: eng\common\build.ps1
+            arguments: '-configuration $(BuildConfiguration) -restore -build'
+            failOnStderr: true
+        - template: /eng/common/templates-official/steps/generate-sbom.yml@self
+        - script: eng\common\CIBuild.cmd -clean
+          displayName: Clean
+        - script: eng\common\CIBuild.cmd -configuration $(BuildConfiguration) /p:OfficialBuildId=$(Build.BuildNumber) /p:VisualStudioDropName=$(VisualStudioDropName) /p:DotNetSignType=$(SignType) /p:PublishToSymbolServer=true /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat) /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat) /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)\Insertion /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom /v:normal
+          displayName: Build
+        - task: PublishTestResults@2
+          displayName: Publish Test Results
+          inputs:
+            testResultsFormat: XUnit
+            testResultsFiles: 'artifacts/TestResults/$(BuildConfiguration)/*.xml'
+            mergeTestResults: true
+            testRunTitle: 'Unit Tests'
+            condition: always()
+        - task: CopyFiles@2
+          displayName: Copy DLLs for Compliance checks
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)\artifacts\bin'
+            Contents: |
+              Microsoft.NuGet.Build.Tasks\**\Microsoft.NuGet.Build.Tasks*.dll
+              Microsoft.NuGet.Build.Tasks\**\Microsoft.NuGet.Build.Tasks*.pdb
+              Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.dll
+              Microsoft.NuGet.Build.Tasks.Setup\**\Microsoft.NuGet.Build.Tasks.Setup*.pdb
+            TargetFolder: '$(Build.SourcesDirectory)\artifacts\DLLs'
+          continueOnError: true
+        - template: /build/analyze-compliance.yml@self
+          parameters:
+            SoftwareVersion: '17.0'
