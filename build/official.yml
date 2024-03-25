@@ -22,6 +22,10 @@ extends:
   parameters:
     sdl:
       sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      tsa:
+        enabled: true
+        onboard: true
+        configFile: $(Build.SourcesDirectory)\build\TSAConfig.gdntsa
       binskim:
         enabled: true
       credscan:

@@ -1,7 +1,7 @@
 {
     "tsaVersion": "TsaV2",
     "codebase": "NewOrUpdate",
-    "codebaseName": "dotnet-nuget.buildtasks",
+    "codebaseName": "dotnet-nugetbuildtasks",
     "tsaStamp": "DevDiv",
     "tsaEnvironment": "PROD",
     "notificationAliases": [
