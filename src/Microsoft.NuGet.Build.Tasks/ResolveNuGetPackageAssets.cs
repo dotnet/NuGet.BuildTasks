@@ -471,7 +471,7 @@ namespace Microsoft.NuGet.Build.Tasks
             expectedLanguage = expectedLanguage == "C#" ? "cs" : expectedLanguage;
             unExpectedLanguage = unExpectedLanguage == "C#" ? "cs" : unExpectedLanguage;
 
-            return (ProjectLanguage.Equals(expectedProjectLanguage, StringComparison.OrdinalIgnoreCase)) &&
+            return (string.Equals(ProjectLanguage, expectedProjectLanguage, StringComparison.OrdinalIgnoreCase)) &&
                             (file.Split('/').Any(x => x.Equals(ProjectLanguage, StringComparison.OrdinalIgnoreCase)) ||
                             !file.Split('/').Any(x => x.Equals(unExpectedLanguage, StringComparison.OrdinalIgnoreCase)));
         }
