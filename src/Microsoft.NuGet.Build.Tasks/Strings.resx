@@ -147,7 +147,7 @@
     <comment>0 package id</comment>
   </data>
   <data name="MissingRuntimeIdentifierInProjectFile" xml:space="preserve">
-    <value>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore. RuntimeIdentifiers should always be the complete list of RIDs supported by the project, regardless of the current configuration, platform or target. A single unconditioned RuntimeIdentifiers property is recommended.</value>
+    <value>Your project file doesn't list '{0}' as a "RuntimeIdentifier". You should add '{1}' to the "RuntimeIdentifiers" property in your project file and then re-run NuGet restore. RuntimeIdentifiers should always be the complete list of RIDs supported by the project, regardless of the current configuration, platform or target. A single RuntimeIdentifiers property with no condition is recommended.</value>
     <comment>0 &amp;1 - Runtime Identifier</comment>
   </data>
   <data name="MissingRuntimeIdentifierPropertyInProjectFile" xml:space="preserve">
