@@ -95,3 +95,26 @@ jobs:
         enablePublishBuildArtifacts: ${{ parameters.enablePublishBuildArtifacts }}
         artifactsPublishingAdditionalParameters: ${{ parameters.artifactsPublishingAdditionalParameters }}
         signingValidationAdditionalParameters: ${{ parameters.signingValidationAdditionalParameters }}
+    
+    - template: ../post-build/post-build.yml
+      parameters:
+        publishingInfraVersion: 3
+        enableSymbolValidation: false
+        enableSourceLinkValidation: false
+        enableNugetValidation: true
+        enableSigningValidation: true
+        SDLValidationParameters:
+          enable: true
+          continueOnError: false
+          params: ' -SourceToolsList @("policheck","credscan")
+          -ArtifactToolsList @("binskim")
+          -BinskimAdditionalRunConfigParams @("IgnorePdbLoadError < True","Recurse < True")
+          -TsaInstanceURL $(_TsaInstanceURL)
+          -TsaProjectName $(_TsaProjectName)
+          -TsaNotificationEmail $(_TsaNotificationEmail)
+          -TsaCodebaseAdmin $(_TsaCodebaseAdmin)
+          -TsaBugAreaPath $(_TsaBugAreaPath)
+          -TsaIterationPath $(_TsaIterationPath)
+          -TsaRepositoryName $(_TsaRepsitoryName)
+          -TsaCodebaseName $(_TsaCodebaseName)
+          -TsaPublish $True'
