@@ -349,8 +349,8 @@ namespace Microsoft.NuGet.Build.Tasks.Tests
                 includeFrameworkReferences: true);
 
             // There should be exactly one reference to System.Xml.dll, and no other references
-            Assert.Single(result.References.Where(r => r.ItemSpec.EndsWith("System.Xml.dll")));
-            Assert.Empty(result.References.Where(r => r.ItemSpec == "System.Xml"));
+            Assert.Single(result.References, r => r.ItemSpec.EndsWith("System.Xml.dll"));
+            Assert.DoesNotContain(result.References, r => r.ItemSpec == "System.Xml");
         }
 
         [Fact(Skip = "Disabling for CI")]
