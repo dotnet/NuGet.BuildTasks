@@ -779,7 +779,7 @@ namespace Microsoft.NuGet.Build.Tasks
                 nameof(Strings.MissingFrameworkInProjectJson) :
                 nameof(Strings.MissingFrameworkInProjectFile);
 
-            string itemSpec = TargetMonikers.FirstOrDefault()?.ItemSpec ?? "???";
+            string itemSpec = TargetMonikers.FirstOrDefault()?.ItemSpec ?? "No target moniker specified";
             ThrowExceptionIfNotAllowingFallback(missingFrameworkErrorString, itemSpec);
         }
 
