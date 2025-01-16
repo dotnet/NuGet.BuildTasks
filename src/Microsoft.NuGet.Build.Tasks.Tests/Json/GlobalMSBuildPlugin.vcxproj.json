@@ -1,0 +1,88 @@
+{
+  "version": 3,
+  "targets": {
+    "native,Version=v0.0": {
+      "Custom.MSBuildPlugin/1.0.0": {
+        "type": "package",
+        "build": {
+          "buildTransitive/Custom.MSBuildPlugin.targets": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultitargeting/Custom.MSBuildPlugin.targets": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Custom.MSBuildPlugin/1.0.0": {
+      "sha512": "YrfgJpLLhkaTNf2pbg1fKk6W5hTts3RejwxWEnj0NQ/ZADzLO5u25wxIA5yPk1PaK/Lw0OL0jOdcJuTQ0Evo4A==",
+      "type": "package",
+      "path": "custom.msbuildplugin/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        "custom.msbuildplugin.1.0.0.nupkg.sha512",
+        "custom.msbuildplugin.nuspec",
+        "build/Custom.MSBuildPlugin.targets",
+        "buildMultitargeting/Custom.MSBuildPlugin.targets",
+        "buildTransitive/Custom.MSBuildPlugin.targets"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "native,Version=v0.0": [
+      "Custom.MSBuildPlugin >= 1.0.0",
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Default\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\src\\Example.vcxproj",
+      "projectName": "Example",
+      "projectPath": "C:\\src\\Example.vcxproj",
+      "packagesPath": "C:\\Users\\Default\\.nuget\\packages\\",
+      "outputPath": "C:\\src\\obj\\",
+      "projectStyle": "PackageReference",
+      "centralPackageVersionsManagementEnabled": true,
+      "configFilePaths": [
+        "C:\\src\\NuGet.Config",
+        "C:\\Users\\Default\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "https://nuget.org": {}
+      },
+      "frameworks": {
+        "native": {
+          "targetAlias": "net7.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "allWarningsAsErrors": true
+      }
+    },
+    "frameworks": {
+      "native": {
+        "targetAlias": "net7.0",
+        "dependencies": {
+          "Custom.MSBuildPlugin": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.0.0, )",
+            "versionCentrallyManaged": true
+          },
+        },
+        "centralPackageVersions": {
+          "Custom.MSBuildPlugin": "[1.0.0, )",
+        }
+      }
+    }
+  }
+}
