@@ -14,7 +14,7 @@
     <SwrProperty Include="VsixVersion=$(VsixVersion)" />
     <SwrProperty Include="ArtifactsBinDir=$(ArtifactsBinDir)" />
     <SwrProperty Include="Configuration=$(Configuration)" />
-    <SwrProperty Include="MajorVersion=$(MajorVersion)" />
+    <SwrProperty Include="VisualStudioVersion=$(VisualStudioVersion)" />
   </ItemGroup>
 
   <ItemGroup>
