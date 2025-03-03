@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <MajorVersion>17</MajorVersion>
-    <MinorVersion>2</MinorVersion>
-    <VersionPrefix>$(MajorVersion).$(MinorVersion).0</VersionPrefix>
+    <VersionPrefix Condition="'$(VersionPrefix)' == ''">17.2.0</VersionPrefix>
+    <MajorVersion>$([System.Version]::Parse($(VersionPrefix)).Major)</MajorVersion>
     <PreReleaseVersionLabel>prerelease</PreReleaseVersionLabel>
     <!-- Opt-in repo features -->
     <UsingToolVSSDK>true</UsingToolVSSDK>
