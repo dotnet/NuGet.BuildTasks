@@ -12,6 +12,8 @@ Copyright (c) .NET Foundation. All rights reserved.
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <NuGetTargets Condition="'$(NuGetTargets)'==''">$(MSBuildExtensionsPath)\Microsoft\NuGet\$(VisualStudioVersion)\Microsoft.NuGet.targets</NuGetTargets>
+    <NuGetPackTargets Condition="'$(NuGetPackTargets)'==''">$(MSBuildExtensionsPath)\..\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.Pack.targets</NuGetPackTargets>
   </PropertyGroup>
   <Import Condition="Exists('$(NuGetTargets)') and '$(SkipImportNuGetBuildTargets)' != 'true'" Project="$(NuGetTargets)" />
+  <Import Condition="Exists('$(NuGetPackTargets)') And '$(SkipImportNuGetPackTargets)' != 'true' and '$(UsingMicrosoftNetSdk)' != 'true'" Project="$(NuGetPackTargets)" />
 </Project>
