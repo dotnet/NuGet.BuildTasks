@@ -2,9 +2,9 @@
   "tools": {
     "dotnet": "9.0.200",
     "vs": {
-      "version": "17.13"
+      "version": "17.14"
     },
-    "xcopy-msbuild": "17.13.0"
+    "xcopy-msbuild": "17.14.16"
   },
   "msbuild-sdks": {
     "Microsoft.DotNet.Arcade.Sdk": "10.0.0-beta.25124.3",
