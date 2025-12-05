@@ -1,13 +1,13 @@
 {
   "tools": {
-    "dotnet": "10.0.100-rc.2.25502.107",
+    "dotnet": "10.0.100",
     "vs": {
       "version": "17.13"
     },
     "xcopy-msbuild": "17.13.0"
   },
   "msbuild-sdks": {
-    "Microsoft.DotNet.Arcade.Sdk": "11.0.0-beta.25603.2",
-    "Microsoft.DotNet.Helix.Sdk": "11.0.0-beta.25603.2"
+    "Microsoft.DotNet.Arcade.Sdk": "11.0.0-beta.25604.3",
+    "Microsoft.DotNet.Helix.Sdk": "11.0.0-beta.25604.3"
   }
 }
