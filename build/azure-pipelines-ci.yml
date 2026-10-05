@@ -29,7 +29,7 @@ jobs:
     # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/510/1ES-Hosted-Pools-Migration
     # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/675/1ESManagedPoolsDesign?anchor=1es-managed-images
     # Image List: https://helix.dot.net/#1esPools
-    demands: ImageOverride -equals Windows.VS2022Preview.Amd64.Open
+    demands: ImageOverride -equals windows.vs2026.amd64.open
   strategy:
     maxParallel: 2
     matrix:
