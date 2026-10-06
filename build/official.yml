@@ -91,7 +91,7 @@ extends:
         - template: /eng/common/templates-official/steps/generate-sbom.yml@self
         - script: eng\common\CIBuild.cmd -clean
           displayName: Clean
-        - script: eng\common\CIBuild.cmd -configuration $(BuildConfiguration) /p:OfficialBuildId=$(Build.BuildNumber) /p:VisualStudioDropName=$(VisualStudioDropName) /p:DotNetSignType=$(SignType) /p:PublishToSymbolServer=true /p:DotNetSymbolServerTokenMsdl=$(microsoft-symbol-server-pat) /p:DotNetSymbolServerTokenSymWeb=$(symweb-symbol-server-pat) /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)\Insertion /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom /v:normal
+        - script: eng\common\CIBuild.cmd -configuration $(BuildConfiguration) /p:OfficialBuildId=$(Build.BuildNumber) /p:VisualStudioDropName=$(VisualStudioDropName) /p:DotNetSignType=$(SignType) /p:SbomManifestJsonDirectory=$(Build.SourcesDirectory)\artifacts\VSSetup\$(BuildConfiguration)\Insertion /p:SbomMetadataDirectory=$(Build.ArtifactStagingDirectory)\sbom /v:normal
           displayName: Build
         - task: PublishTestResults@2
           displayName: Publish Test Results
