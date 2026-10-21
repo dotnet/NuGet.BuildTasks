@@ -21,7 +21,7 @@ extends:
   template: azure-pipelines/MicroBuild.1ES.Official.yml@MicroBuildTemplate
   parameters:
     sdl:
-      sourceAnalysisPool: VSEngSS-MicroBuild2022-1ES
+      sourceAnalysisPool: VSEng-MicroBuildVSStable
       tsa:
         enabled: true
         onboard: true
@@ -35,7 +35,7 @@ extends:
       sbom:
         enabled: false
     pool:
-      name: VSEngSS-MicroBuild2022-1ES
+      name: VSEng-MicroBuildVSStable
     stages:
     - stage: Build
       displayName: Build
