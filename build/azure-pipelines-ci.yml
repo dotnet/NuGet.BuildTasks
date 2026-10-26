@@ -26,8 +26,8 @@ jobs:
     name: NetCore-Public
     # Demands Docs: https://docs.microsoft.com/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml#manually-entered-demands
     # ImageOverride is used to select the image. See:
-    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/510/1ES-Hosted-Pools-Migration
-    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki/675/1ESManagedPoolsDesign?anchor=1es-managed-images
+    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki?pagePath=%2FProjects%20and%20Decisions%2FHelix%2F1esmanagedpoolsdesign
+    # - https://dev.azure.com/dnceng/internal/_wiki/wikis/DNCEng%20Services%20Wiki?pagePath=%2FProjects%20and%20Decisions%2FHelix%2F1esmanagedpoolsdesign&anchor=1es-managed-images
     # Image List: https://helix.dot.net/#1esPools
     demands: ImageOverride -equals windows.vs2026.amd64.open
   strategy:
