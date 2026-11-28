@@ -5,7 +5,7 @@ set -e
 usage()
 {
     echo "Usage: $0 [BuildArch] [CodeName] [lldbx.y] [llvmx[.y]] [--skipunmount] --rootfsdir <directory>]"
-    echo "BuildArch can be: arm(default), arm64, loongarch64, ppc64le, riscv64, s390x, x64, x86"
+    echo "BuildArch can be: arm(default), arm64, loongarch64, ppc64le, riscv64, s390x, x64"
     echo "CodeName - optional, Code name for Linux, can be: xenial(default), zesty, bionic, alpine"
     echo "                               for alpine can be specified with version: alpineX.YY or alpineedge"
     echo "                               for FreeBSD can be: freebsd14, freebsd15"
@@ -78,7 +78,7 @@ __AlpinePackages+=" krb5-dev"
 __AlpinePackages+=" openssl-dev"
 __AlpinePackages+=" zlib-dev"
 
-__FreeBSDBase="14.4-RELEASE"
+__FreeBSDBase="14.5-RELEASE"
 __FreeBSDPkg="2.8.0"
 __FreeBSDABI="14"
 __FreeBSDPackages="libunwind"
@@ -228,12 +228,6 @@ while :; do
             __OpenBSDMachineArch=amd64
             __illumosArch=x86_64
             __HaikuArch=x86_64
-            __UbuntuRepo="https://archive.ubuntu.com/ubuntu/"
-            ;;
-        x86)
-            __BuildArch=x86
-            __UbuntuArch=i386
-            __AlpineArch=x86
             __UbuntuRepo="https://archive.ubuntu.com/ubuntu/"
             ;;
         lldb*)
@@ -457,16 +451,18 @@ case "$__AlpineVersion" in
     3.17) __AlpinePackages+=" llvm15-libs" ;;
     edge) __AlpineLlvmLibsLookup=1 ;;
     *)
+        __AlpineVersionNumber=0
+        if [[ -n "$__AlpineMajorVersion" ]]; then
+            __AlpineVersionNumber=$((10#$__AlpineMajorVersion * 100 + 10#$__AlpineMinorVersion))
+        fi
+
         if [[ "$__AlpineArch" =~ s390x|ppc64le ]]; then
             __AlpineVersion=3.15 # minimum version that supports lldb-dev
             __AlpinePackages+=" llvm12-libs"
-        elif [[ "$__AlpineArch" == "x86" ]]; then
-            __AlpineVersion=3.17 # minimum version that supports lldb-dev
-            __AlpinePackages+=" llvm15-libs"
-        elif [[ "$__AlpineArch" == "loongarch64" ]]; then
+        elif [[ "$__AlpineArch" == "loongarch64" ]] && (( __AlpineVersionNumber <= 321 )); then
             __AlpineVersion=3.21 # minimum version that supports lldb-dev
             __AlpinePackages+=" llvm19-libs"
-        elif [[ "$__AlpineArch" == "riscv64" ]]; then
+        elif [[ "$__AlpineArch" == "riscv64" ]] && (( __AlpineVersionNumber <= 322 )); then
             __AlpineVersion=3.22 # lldb-dev requires 3.21+, but 3.22+ provides the newer linux-headers needed for RISC-V extension probes
             __AlpinePackages+=" llvm20-libs"
         elif [[ -n "$__AlpineMajorVersion" ]]; then
@@ -532,7 +528,7 @@ ensureDownloadTool()
 }
 
 if [[ "$__CodeName" == "alpine" ]]; then
-    __ApkToolsVersion=3.0.8-r0
+    __ApkToolsVersion=3.0.9-r0
     __ApkToolsDir="$(mktemp -d)"
     __ApkKeysDir="$(mktemp -d)"
     arch="$(uname -m)"
@@ -549,9 +545,9 @@ if [[ "$__CodeName" == "alpine" ]]; then
     fi
 
     if [[ "$arch" == "x86_64" ]]; then
-        __ApkToolsSHA512SUM="6ab4f5e521efbfff75a4b0ecc6a028b4df0c22eadc46c18a30fa03faca0f6efd6c546b3682a856e66865f0152993a9cc843c15633a7d01b6e0f9d225b1e31ef8"
+        __ApkToolsSHA512SUM="c97f27bef2940bb6c23323bf9fe0f3c60932a3c676f1cea23d5f5664ee8be27f349bb0c905f5f3e1fe0b04cfd79d6e422829c49b12cacbce21b02d9b2d1fa083"
     elif [[ "$arch" == "aarch64" ]]; then
-        __ApkToolsSHA512SUM="c592bfefe3b3bc73d56fef5293a2c5c27a71d0555df7ca7db638a70c7ac81be6509f6348f28fe7474ae9adbda6f21c00a8c20d8a6ba6d5579f2ffa78d55184d2"
+        __ApkToolsSHA512SUM="121b77c2e1ac3c856e168c335d57887ab9716bf6b704e30309c37cf8d0935f72a1775aa6628ec1f73eeec0ca7282f4b40836887e62dac94063485b496ad460c9"
     else
         >&2 echo "ERROR: Unsupported apk-tools-static host architecture '$arch'."
         exit 1
@@ -615,11 +611,35 @@ elif [[ "$__CodeName" == "freebsd" ]]; then
 
     ensureDownloadTool
 
+    case "${__FreeBSDBase}/${__FreeBSDMachineArch}" in
+        14.5-RELEASE/amd64)
+            __FreeBSDBaseSHA256SUM="d16b68fe0e9e136ce67ab1084042c848bbffecd1eb295f206bd1c6785deb45a4"
+            ;;
+        14.5-RELEASE/aarch64)
+            __FreeBSDBaseSHA256SUM="4b7a61ed4ddbd598b5048d5800898ba0d43dcba4cdb12ba58302e0202eaa26aa"
+            ;;
+        15.1-RELEASE/amd64)
+            __FreeBSDBaseSHA256SUM="3768988b151c20f965679062b065c63a977d6bbb9f47fd83695ec2c40790c18f"
+            ;;
+        15.1-RELEASE/aarch64)
+            __FreeBSDBaseSHA256SUM="5b7a46a0abfbe23a1d4454b5600e2efcfce16b705bc7e9c851c37470c035ef98"
+            ;;
+        *)
+            >&2 echo "ERROR: No known checksum for FreeBSD ${__FreeBSDBase} ${__FreeBSDMachineArch} base.txz."
+            exit 1
+            ;;
+    esac
+
+    __FreeBSDBaseUrl="https://download.freebsd.org/ftp/releases/${__FreeBSDArch}/${__FreeBSDMachineArch}/${__FreeBSDBase}/base.txz"
+    __FreeBSDBasePackage="$__RootfsDir/base.txz"
     if [[ "$__hasWget" == 1 ]]; then
-        wget -O- "https://download.freebsd.org/ftp/releases/${__FreeBSDArch}/${__FreeBSDMachineArch}/${__FreeBSDBase}/base.txz" | tar -C "$__RootfsDir" -Jxf - ./lib ./usr/lib ./usr/libdata ./usr/include ./usr/share/keys ./etc ./bin/freebsd-version
+        wget -O "$__FreeBSDBasePackage" "$__FreeBSDBaseUrl"
     else
-        curl -SL "https://download.freebsd.org/ftp/releases/${__FreeBSDArch}/${__FreeBSDMachineArch}/${__FreeBSDBase}/base.txz" | tar -C "$__RootfsDir" -Jxf - ./lib ./usr/lib ./usr/libdata ./usr/include ./usr/share/keys ./etc ./bin/freebsd-version
+        curl -fSL -o "$__FreeBSDBasePackage" "$__FreeBSDBaseUrl"
     fi
+    echo "$__FreeBSDBaseSHA256SUM $__FreeBSDBasePackage" | sha256sum -c
+    tar -C "$__RootfsDir" -Jxf "$__FreeBSDBasePackage" ./lib ./usr/lib ./usr/libdata ./usr/include ./usr/share/keys ./etc ./bin/freebsd-version
+    rm "$__FreeBSDBasePackage"
     echo "ABI = \"FreeBSD:${__FreeBSDABI}:${__FreeBSDMachineArch}\"; FINGERPRINTS = \"${__RootfsDir}/usr/share/keys\"; REPOS_DIR = [\"${__RootfsDir}/etc/pkg\"]; REPO_AUTOUPDATE = NO; RUN_SCRIPTS = NO;" > "${__RootfsDir}"/usr/local/etc/pkg.conf
     echo "FreeBSD: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/quarterly\", mirror_type: \"srv\", signature_type: \"fingerprints\", fingerprints: \"/usr/share/keys/pkg\", enabled: yes }" > "${__RootfsDir}"/etc/pkg/FreeBSD.conf
     mkdir -p "$__RootfsDir"/tmp
